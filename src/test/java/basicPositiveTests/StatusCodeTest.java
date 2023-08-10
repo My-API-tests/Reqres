@@ -12,7 +12,7 @@ import static org.data.SuiteTags.STATUS_CODE;
 import org.data.Register;
 import org.data.User;
 
-public class ValidateStatusCode extends BaseTest {
+public class StatusCodeTest extends BaseTest {
 
     private void get(String URI) {
         given()
