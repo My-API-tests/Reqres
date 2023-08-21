@@ -16,7 +16,7 @@ import static org.data.SuiteTags.PAYLOAD;
 
 public class JSONStructureTest extends BaseTest {
 
-    private void auxGet(String url, InputStream schema) {
+    private void helper1(String url, InputStream schema) {
 
         assert schema != null;
 
@@ -28,7 +28,7 @@ public class JSONStructureTest extends BaseTest {
                 .body(JsonSchemaValidator.matchesJsonSchema(schema));
     }
 
-    public <T> void modification(Method method, String url, T body, InputStream schema) {
+    public <T> void helper2(Method method, String url, T body, InputStream schema) {
 
         given()
                 .contentType(ContentType.JSON)
@@ -48,7 +48,7 @@ public class JSONStructureTest extends BaseTest {
 
         InputStream schema = getClass().getClassLoader().getResourceAsStream("list-users-json-schema.json");
 
-        auxGet("/api/users?page=2", schema);
+        helper1("/api/users?page=2", schema);
     }
 
     @Test
@@ -58,7 +58,7 @@ public class JSONStructureTest extends BaseTest {
 
         InputStream schema = getClass().getClassLoader().getResourceAsStream("list-users-json-schema.json");
 
-        auxGet("/api/unknown", schema);
+        helper1("/api/unknown", schema);
     }
 
     @Test
@@ -68,7 +68,7 @@ public class JSONStructureTest extends BaseTest {
 
         InputStream schema = getClass().getClassLoader().getResourceAsStream("single-user-json-schema.json");
 
-        auxGet("/api/users/2", schema);
+        helper1("/api/users/2", schema);
     }
 
     @Test
@@ -78,7 +78,7 @@ public class JSONStructureTest extends BaseTest {
 
         InputStream schema = getClass().getClassLoader().getResourceAsStream("single-user-json-schema.json");
 
-        auxGet("/api/unknown/2", schema);
+        helper1("/api/unknown/2", schema);
     }
 
     @Test
@@ -89,7 +89,7 @@ public class JSONStructureTest extends BaseTest {
         InputStream schema = getClass().getClassLoader().getResourceAsStream("create-json-schema.json");
         User user = new User("Pawel", "organist");
 
-        modification(Method.POST, "/api/users", user, schema);
+        helper2(Method.POST, "/api/users", user, schema);
     }
 
 
@@ -102,7 +102,7 @@ public class JSONStructureTest extends BaseTest {
         User user = new User("Andy", "builder");
         InputStream schema = getClass().getClassLoader().getResourceAsStream("create-json-schema.json");
 
-        modification(Method.PUT, "/api/users/3", user, schema);
+        helper2(Method.PUT, "/api/users/3", user, schema);
     }
 
     @Test
@@ -113,7 +113,7 @@ public class JSONStructureTest extends BaseTest {
         User user = new User("Maria", "geologist");
         InputStream schema = getClass().getClassLoader().getResourceAsStream("create-json-schema.json");
 
-        modification(Method.PATCH, "/api/users/4", user, schema);
+        helper2(Method.PATCH, "/api/users/4", user, schema);
     }
 
     @Test
@@ -124,7 +124,7 @@ public class JSONStructureTest extends BaseTest {
         Register register = new Register("eve.holt@reqres.in", "pistol");
         InputStream schema = getClass().getClassLoader().getResourceAsStream("register-json-schema.json");
 
-        modification(Method.POST, "/api/register", register, schema);
+        helper2(Method.POST, "/api/register", register, schema);
     }
 
     @Test
@@ -135,7 +135,16 @@ public class JSONStructureTest extends BaseTest {
         Register register = new Register("eve.holt@reqres.in", "cityslicka");
         InputStream schema = getClass().getClassLoader().getResourceAsStream("login-json-schema.json");
 
-        modification(Method.POST, "/api/login", register, schema);
+        helper2(Method.POST, "/api/login", register, schema);
+    }
 
+    @Test
+    @Tag(PAYLOAD)
+    @DisplayName("The structure of the json file follows the schema")
+    public void delayedResponse() {
+
+        InputStream schema = getClass().getClassLoader().getResourceAsStream("delayed-response-schema.json");
+
+        helper1("/api/users?delay=3", schema);
     }
 }
