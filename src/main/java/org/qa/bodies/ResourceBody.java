@@ -1,13 +1,13 @@
-package org.data;
+package org.qa.bodies;
 
-public class Resource {
+public class ResourceBody {
 
     private final int page;
     private final int perPage;
     private final int total;
     private final int totalPages;
 
-    public Resource(int page, int perPage, int total, int totalPages) {
+    public ResourceBody(int page, int perPage, int total, int totalPages) {
 
         this.page = page;
         this.perPage = perPage;
