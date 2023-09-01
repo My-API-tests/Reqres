@@ -1,4 +1,4 @@
-package org.utils;
+package org.qa.utils;
 
 @FunctionalInterface
 public interface Function<T> {
