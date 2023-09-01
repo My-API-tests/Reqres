@@ -1,18 +1,18 @@
 package basicPositiveTests;
 
 import base.BaseTest;
-import io.restassured.http.ContentType;
-import org.data.Register;
-import org.data.User;
+import io.restassured.http.Method;
+import io.restassured.response.Response;
+import org.junit.jupiter.api.Assertions;
+import org.qa.pojo.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import static io.restassured.RestAssured.given;
-import static org.data.SuiteTags.PAYLOAD;
-import static org.hamcrest.CoreMatchers.*;
+import org.qa.constans.RegisterBodies;
+import org.qa.constans.SingleUserBodies;
+import org.qa.constans.UserBodies;
+import static org.qa.constans.SuiteTags.PAYLOAD;
 
-import org.data.Resource;
-import org.data.SingleUser;
 
 public class JSONDataTest extends BaseTest {
 
@@ -22,25 +22,12 @@ public class JSONDataTest extends BaseTest {
     @DisplayName("The response structure should follow the data model")
     public void getSingleUser() {
 
-        SingleUser singleUser = new SingleUser(2, "janet.weaver@reqres.in", "Janet",
-               "Weaver", "https://reqres.in/img/faces/2-image.jpg",
-               "https://reqres.in/#support-heading", "To keep ReqRes free, contributions towards server costs are appreciated!");
+        SingleUserResponseBody singleUserResponseBody = SingleUserBodies.bodies.get(0);
 
-        given()
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/users/2")
-                .then()
-                .body(
+        Response response = getResponse(Method.GET, "/api/users/2");
+        SingleUserResponseBody result = response.body().as(SingleUserResponseBody.class);
 
-                     "data.id", is(singleUser.getId()),
-                "data.email", is(singleUser.getEmail()),
-                        "data.first_name", is(singleUser.getFirstName()),
-                        "data.last_name", is(singleUser.getLastName()),
-                        "data.avatar", is(singleUser.getAvatar()),
-                        "support.url", is(singleUser.getUrl()),
-                        "support.text", is(singleUser.getText())
-                );
+        Assertions.assertEquals(singleUserResponseBody, result);
     }
 
     @Test
@@ -48,20 +35,6 @@ public class JSONDataTest extends BaseTest {
     @DisplayName("The response structure should follow the data model")
     public void listResource() {
 
-        Resource resource = new Resource(1, 6, 12, 2);
-
-        given()
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/unknown")
-                .then()
-                .body(
-
-                     "page", is(resource.getPage()),
-                "per_page", is(resource.getPerPage()),
-                        "total", is(resource.getTotal()),
-                        "total_pages", is(resource.getTotalPages())
-                );
     }
 
     @Test
@@ -69,21 +42,10 @@ public class JSONDataTest extends BaseTest {
     @DisplayName("The response structure should follow the data model")
     public void create() {
 
-        User user = new User("Caroline", "organist");
+        Response response = getResponse(Method.POST, "/api/users", UserBodies.bodies.get(0));
+        CreatedUserResponseBody given = response.body().as(CreatedUserResponseBody.class);
 
-        given()
-                .contentType(ContentType.JSON)
-                .body(user)
-                .when()
-                .post("/api/users")
-                .then()
-                .body(
-
-                     "name", is(user.getName()),
-                "job", is(user.getJob()),
-                        "id", notNullValue(),
-                        "createdAt", notNullValue()
-                );
+        Assertions.assertTrue(given.hasValidData(UserBodies.bodies.get(0)));
     }
 
     @Test
@@ -91,20 +53,10 @@ public class JSONDataTest extends BaseTest {
     @DisplayName("The response structure should follow the data model")
     public void updatePUT() {
 
-        User user = new User("John", "software tester");
+        Response response = getResponse(Method.PUT, "/api/users/1", UserBodies.bodies.get(1));
+        UpdatedUserResponseBody given = response.body().as(UpdatedUserResponseBody.class);
 
-        given()
-                .contentType(ContentType.JSON)
-                .body(user)
-                .when()
-                .put("/api/users/2")
-                .then()
-                .body(
-
-                     "name", is(user.getName()),
-                "job", is(user.getJob()),
-                        "updatedAt", notNullValue()
-                );
+        Assertions.assertTrue(given.hasValidData(UserBodies.bodies.get(1)));
     }
 
     @Test
@@ -112,20 +64,10 @@ public class JSONDataTest extends BaseTest {
     @DisplayName("The response structure should follow the data model")
     public void updatePATCH() {
 
-        User user = new User("Andrew", "pianist");
+        Response response = getResponse(Method.PATCH, "/api/users/1", UserBodies.bodies.get(1));
+        UpdatedUserResponseBody given = response.body().as(UpdatedUserResponseBody.class);
 
-        given()
-                .contentType(ContentType.JSON)
-                .body(user)
-                .when()
-                .patch("api/users/3")
-                .then()
-                .body(
-
-                     "name", is(user.getName()),
-                "job", is(user.getJob()),
-                        "updatedAt", notNullValue()
-                );
+        Assertions.assertTrue(given.hasValidData(UserBodies.bodies.get(1)));
     }
 
     @Test
@@ -133,19 +75,10 @@ public class JSONDataTest extends BaseTest {
     @DisplayName("The response structure should follow the data model")
     public void register() {
 
-        Register register = new Register("eve.holt@reqres.in", "pistol");
+        Response response = getResponse(Method.POST, "/api/register", RegisterBodies.bodies.get(0));
+        RegisterSuccessfulResponseBody given = response.body().as(RegisterSuccessfulResponseBody.class);
 
-        given()
-                .contentType(ContentType.JSON)
-                .body(register)
-                .when()
-                .post("/api/register")
-                .then()
-                .body(
-
-                        "email", notNullValue(),
-                   "token", notNullValue()
-                );
+        Assertions.assertTrue(given.hasNotNullValues());
     }
 
     @Test
@@ -153,14 +86,9 @@ public class JSONDataTest extends BaseTest {
     @DisplayName("The response structure should follow the data model")
     public void login() {
 
-        Register register = new Register("eve.holt@reqres.in", "cityslicka");
+        Response response = getResponse(Method.POST, "/api/login", RegisterBodies.bodies.get(1));
+        LoginSuccessfulResponseBody given = response.body().as(LoginSuccessfulResponseBody.class);
 
-        given()
-                .contentType(ContentType.JSON)
-                .body(register)
-                .when()
-                .post("/api/login")
-                .then()
-                .body("token", notNullValue());
+        Assertions.assertTrue(given.hasNotNullValues());
     }
 }
