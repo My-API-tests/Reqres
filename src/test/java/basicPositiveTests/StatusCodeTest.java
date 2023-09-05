@@ -7,7 +7,7 @@ import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import static org.qa.constans.SuiteTags.STATUS_CODE;
+import static org.qa.constans.SuiteTags.VALIDATE_STATUS_CODE;
 import org.qa.bodies.RegisterBody;
 import org.qa.bodies.UserBody;
 
@@ -21,7 +21,7 @@ public class StatusCodeTest extends BaseTest {
     }
 
     @Test
-    @Tag(STATUS_CODE)
+    @Tag(VALIDATE_STATUS_CODE)
     @DisplayName("Should return status code 200")
     public void getListUsers() {
 
@@ -29,7 +29,7 @@ public class StatusCodeTest extends BaseTest {
     }
 
     @Test
-    @Tag(STATUS_CODE)
+    @Tag(VALIDATE_STATUS_CODE)
     @DisplayName("Should return status code 200")
     public void getSingleUser() {
 
@@ -37,7 +37,7 @@ public class StatusCodeTest extends BaseTest {
     }
 
     @Test
-    @Tag(STATUS_CODE)
+    @Tag(VALIDATE_STATUS_CODE)
     @DisplayName("Should return status code 200")
     public void getList() {
 
@@ -45,7 +45,7 @@ public class StatusCodeTest extends BaseTest {
     }
 
     @Test
-    @Tag(STATUS_CODE)
+    @Tag(VALIDATE_STATUS_CODE)
     @DisplayName("Should return status code 200")
     public void getSingleResource() {
 
@@ -53,7 +53,7 @@ public class StatusCodeTest extends BaseTest {
     }
 
     @Test
-    @Tag(STATUS_CODE)
+    @Tag(VALIDATE_STATUS_CODE)
     @DisplayName("Should return status code 201")
     public void create() {
 
@@ -61,7 +61,7 @@ public class StatusCodeTest extends BaseTest {
     }
 
     @Test
-    @Tag(STATUS_CODE)
+    @Tag(VALIDATE_STATUS_CODE)
     @DisplayName("Should return status code 200")
     public void updatePUT() {
 
@@ -69,7 +69,7 @@ public class StatusCodeTest extends BaseTest {
     }
 
     @Test
-    @Tag(STATUS_CODE)
+    @Tag(VALIDATE_STATUS_CODE)
     @DisplayName("Should return status code 200")
     public void updatePATCH() {
 
@@ -77,7 +77,7 @@ public class StatusCodeTest extends BaseTest {
     }
 
     @Test
-    @Tag(STATUS_CODE)
+    @Tag(VALIDATE_STATUS_CODE)
     @DisplayName("Should return status code 200")
     public void register() {
 
@@ -85,7 +85,7 @@ public class StatusCodeTest extends BaseTest {
     }
 
     @Test
-    @Tag(STATUS_CODE)
+    @Tag(VALIDATE_STATUS_CODE)
     @DisplayName("Should return status code 200")
     public void login() {
 
@@ -93,7 +93,7 @@ public class StatusCodeTest extends BaseTest {
     }
 
     @Test
-    @Tag(STATUS_CODE)
+    @Tag(VALIDATE_STATUS_CODE)
     @DisplayName("Should return status code 200")
     public void delayedResponse() {
 
@@ -101,7 +101,7 @@ public class StatusCodeTest extends BaseTest {
     }
 
     @Test
-    @Tag(STATUS_CODE)
+    @Tag(VALIDATE_STATUS_CODE)
     @DisplayName("Should return status code 204")
     public void delete() {
 
