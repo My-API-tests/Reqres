@@ -11,14 +11,14 @@ import org.junit.jupiter.api.Test;
 import org.qa.constans.RegisterBodies;
 import org.qa.constans.SingleUserBodies;
 import org.qa.constans.UserBodies;
-import static org.qa.constans.SuiteTags.PAYLOAD;
+import static org.qa.constans.SuiteTags.VALIDATE_PAYLOAD;
 
 
 public class JSONDataTest extends BaseTest {
 
 
     @Test
-    @Tag(PAYLOAD)
+    @Tag(VALIDATE_PAYLOAD)
     @DisplayName("The response structure should follow the data model")
     public void getSingleUser() {
 
@@ -31,14 +31,14 @@ public class JSONDataTest extends BaseTest {
     }
 
     @Test
-    @Tag(PAYLOAD)
+    @Tag(VALIDATE_PAYLOAD)
     @DisplayName("The response structure should follow the data model")
     public void listResource() {
 
     }
 
     @Test
-    @Tag(PAYLOAD)
+    @Tag(VALIDATE_PAYLOAD)
     @DisplayName("The response structure should follow the data model")
     public void create() {
 
@@ -49,7 +49,7 @@ public class JSONDataTest extends BaseTest {
     }
 
     @Test
-    @Tag(PAYLOAD)
+    @Tag(VALIDATE_PAYLOAD)
     @DisplayName("The response structure should follow the data model")
     public void updatePUT() {
 
@@ -60,7 +60,7 @@ public class JSONDataTest extends BaseTest {
     }
 
     @Test
-    @Tag(PAYLOAD)
+    @Tag(VALIDATE_PAYLOAD)
     @DisplayName("The response structure should follow the data model")
     public void updatePATCH() {
 
@@ -71,7 +71,7 @@ public class JSONDataTest extends BaseTest {
     }
 
     @Test
-    @Tag(PAYLOAD)
+    @Tag(VALIDATE_PAYLOAD)
     @DisplayName("The response structure should follow the data model")
     public void register() {
 
@@ -82,7 +82,7 @@ public class JSONDataTest extends BaseTest {
     }
 
     @Test
-    @Tag(PAYLOAD)
+    @Tag(VALIDATE_PAYLOAD)
     @DisplayName("The response structure should follow the data model")
     public void login() {
 
