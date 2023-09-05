@@ -81,7 +81,7 @@ public class HeadersTest extends BaseTest {
     @DisplayName("HTTPS headers are as expected")
     public void updatePOST() {
 
-        check(getResponse(Method.PATCH,"/api/users/4", new UserBody("Carlos", "Worker")), ExpectedHeaders.myHeaders);
+        check(getResponse(Method.PATCH,"/api/users/4", new UserBody("Carlos", "Worker")), ExpectedHeaders.headers);
     }
 
     @Test
