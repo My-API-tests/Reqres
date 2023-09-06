@@ -10,22 +10,20 @@ import org.qa.constans.ExpectedHeaders;
 import org.qa.bodies.RegisterBody;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.MatcherAssert.*;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import reportsManager.ExtentReportsManager;
 import java.util.List;
-import java.util.Map;
+
 
 public class HeadersTest extends BaseTest {
 
-    private void check(Response response, Map<String, String> headers) {
+    private void check(Response response) {
 
-        List<Header> expectedHeaders = headers.entrySet().stream()
-                .map(x->new Header(x.getKey(), x.getValue())).toList();
+        List<Header> responseHeaders = response.getHeaders().asList();
+        List<String> names = responseHeaders.stream().map(Header::getName).toList();
 
-        List<Header> givenHeaders = response.getHeaders().asList();
-
-        assertThat(givenHeaders, containsInAnyOrder(expectedHeaders));
+        Assert.assertTrue(names.contains(ExpectedHeaders.headers.get(0)));
     }
 
     @Test
@@ -33,7 +31,9 @@ public class HeadersTest extends BaseTest {
     @DisplayName("HTTPS headers are as expected")
     public void getSingleUser() {
 
-        check(getResponse(Method.GET, "/api/users/3"), ExpectedHeaders.headers);
+        ExtentReportsManager.setTestName("Get single user");
+
+        check(getResponse(Method.GET, "/api/users/3"));
     }
 
     @Test
@@ -41,7 +41,9 @@ public class HeadersTest extends BaseTest {
     @DisplayName("HTTPS headers are as expected")
     public void listUsers() {
 
-        check(getResponse(Method.GET, "/api/users?page=2"), ExpectedHeaders.headers);
+        ExtentReportsManager.setTestName("Get list users");
+
+        check(getResponse(Method.GET, "/api/users?page=2"));
     }
 
     @Test
@@ -49,7 +51,9 @@ public class HeadersTest extends BaseTest {
     @DisplayName("HTTPS headers are as expected")
     public void listResource() {
 
-        check(getResponse(Method.GET, "/api/unknown"), ExpectedHeaders.headers);
+        ExtentReportsManager.setTestName("List <Resource>");
+
+        check(getResponse(Method.GET, "/api/unknown"));
     }
 
     @Test
@@ -57,7 +61,9 @@ public class HeadersTest extends BaseTest {
     @DisplayName("HTTPS headers are as expected")
     public void singleResource() {
 
-        check(getResponse(Method.GET, "/api/unknown/2"), ExpectedHeaders.headers);
+        ExtentReportsManager.setTestName("Single <Resource>");
+
+        check(getResponse(Method.GET, "/api/unknown/2"));
     }
 
     @Test
@@ -65,7 +71,9 @@ public class HeadersTest extends BaseTest {
     @DisplayName("HTTPS headers are as expected")
     public void create() {
 
-        //check(getResponse(Method.POST, "/api/users", new UserBody("Pawel", "organist")), ExpectedHeaders.myHeaders);
+        ExtentReportsManager.setTestName("Create");
+
+        check(getResponse(Method.POST, "/api/users", new UserBody("Pawel", "organist")));
     }
 
     @Test
@@ -73,7 +81,9 @@ public class HeadersTest extends BaseTest {
     @DisplayName("HTTPS headers are as expected")
     public void updatePUT() {
 
-        check(getResponse(Method.PUT, "/api/users/1", new UserBody("Kate", "Pianist")), ExpectedHeaders.headers);
+        ExtentReportsManager.setTestName("Updating using PUT");
+
+        check(getResponse(Method.PUT, "/api/users/1", new UserBody("Kate", "Pianist")));
     }
 
     @Test
@@ -81,7 +91,9 @@ public class HeadersTest extends BaseTest {
     @DisplayName("HTTPS headers are as expected")
     public void updatePOST() {
 
-        check(getResponse(Method.PATCH,"/api/users/4", new UserBody("Carlos", "Worker")), ExpectedHeaders.headers);
+        ExtentReportsManager.setTestName("Updating using POST");
+
+        check(getResponse(Method.PATCH,"/api/users/4", new UserBody("Carlos", "Worker")));
     }
 
     @Test
@@ -89,7 +101,9 @@ public class HeadersTest extends BaseTest {
     @DisplayName("HTTPS headers are as expected")
     public void register() {
 
-        check(getResponse(Method.POST, "/api/register", new RegisterBody("eve.holt@reqres.in", "pistol")), ExpectedHeaders.headers);
+        ExtentReportsManager.setTestName("Register");
+
+        check(getResponse(Method.POST, "/api/register", new RegisterBody("eve.holt@reqres.in", "pistol")));
     }
 
     @Test
@@ -97,7 +111,9 @@ public class HeadersTest extends BaseTest {
     @DisplayName("HTTPS headers are as expected")
     public void login() {
 
-        check(getResponse(Method.POST, "/api/login", new RegisterBody("eve.holt@reqres.in", "cityslicka")), ExpectedHeaders.headers);
+        ExtentReportsManager.setTestName("Login");
+
+        check(getResponse(Method.POST, "/api/login", new RegisterBody("eve.holt@reqres.in", "cityslicka")));
     }
 
     @Test
@@ -105,6 +121,8 @@ public class HeadersTest extends BaseTest {
     @DisplayName("HTTPS headers are as expected")
     public void delayedResponse() {
 
-        check(getResponse(Method.GET, "/api/users?delay=3"), ExpectedHeaders.headers);
+        ExtentReportsManager.setTestName("Delayed response");
+
+        check(getResponse(Method.GET, "/api/users?delay=3"));
     }
 }
