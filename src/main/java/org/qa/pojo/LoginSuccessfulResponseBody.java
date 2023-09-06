@@ -1,6 +1,6 @@
 package org.qa.pojo;
 
-public class LoginSuccessfulResponseBody {
+public class LoginSuccessfulResponseBody implements BasePojo {
 
     private String token;
 
@@ -9,6 +9,7 @@ public class LoginSuccessfulResponseBody {
         return token;
     }
 
+    @Override
     public boolean hasNotNullValues() {
 
         return token != null;
