@@ -5,7 +5,7 @@ import org.qa.bodies.Data;
 import org.qa.bodies.Support;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SingleUserResponseBody {
+public class SingleUserResponseBody implements BasePojo {
 
     private Data data;
     private Support support;
@@ -29,7 +29,7 @@ public class SingleUserResponseBody {
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean hasValidData(Object object) {
 
         if(this == object) {
 

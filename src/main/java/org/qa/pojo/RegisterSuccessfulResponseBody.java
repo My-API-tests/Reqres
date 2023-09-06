@@ -1,6 +1,6 @@
 package org.qa.pojo;
 
-public class RegisterSuccessfulResponseBody {
+public class RegisterSuccessfulResponseBody implements BasePojo {
 
     private String id;
     private String token;
@@ -15,6 +15,7 @@ public class RegisterSuccessfulResponseBody {
         return token;
     }
 
+    @Override
     public boolean hasNotNullValues() {
 
         return id != null && token != null;
