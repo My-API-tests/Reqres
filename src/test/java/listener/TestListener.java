@@ -16,24 +16,25 @@ public class TestListener implements ITestListener {
     @Override
     public void onFinish(ITestContext iTestContext) {
 
+        ExtentReportsManager.setInfo();
         ExtentReportsManager.flush();
     }
 
     @Override
     public void onTestSuccess(ITestResult iTestResult) {
 
-        ExtentReportsManager.setTestPassed("Test passed: " + iTestResult.getMethod().getMethodName());
+        ExtentReportsManager.setTestPassed(iTestResult.getMethod().getMethodName());
     }
 
     @Override
     public void onTestSkipped(ITestResult iTestResult) {
 
-        ExtentReportsManager.setTestSkipped("Test skipped: " + iTestResult.getMethod().getMethodName());
+        ExtentReportsManager.setTestSkipped(iTestResult.getMethod().getMethodName());
     }
 
     @Override
     public void onTestFailure(ITestResult iTestResult) {
 
-        ExtentReportsManager.setTestFailed("Test failed: " + iTestResult.getMethod().getMethodName() + " " + iTestResult.getThrowable().getMessage());
+        ExtentReportsManager.setTestFailed(iTestResult.getMethod().getMethodName() + " " + iTestResult.getThrowable().getMessage());
     }
 }
