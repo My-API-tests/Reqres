@@ -5,12 +5,12 @@ import io.restassured.http.ContentType;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import org.junit.jupiter.api.BeforeAll;
+import org.testng.annotations.BeforeClass;
 import static io.restassured.RestAssured.given;
 
 public class BaseTest {
 
-    @BeforeAll
+    @BeforeClass
     public static void init() {
 
         RestAssured.baseURI = "https://reqres.in/";
