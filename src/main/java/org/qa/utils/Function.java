@@ -1,7 +1,7 @@
 package org.qa.utils;
 
 @FunctionalInterface
-public interface Function<T> {
+public interface Function<A, B> {
 
-    T getObject();
+    B getObject(A response);
 }
