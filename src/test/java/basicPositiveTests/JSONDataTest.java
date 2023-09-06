@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.qa.pojo.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
 import org.qa.constans.RegisterBodies;
 import org.qa.constans.SingleUserBodies;
 import org.qa.constans.UserBodies;

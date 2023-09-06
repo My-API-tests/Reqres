@@ -6,7 +6,7 @@ import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
 import static org.qa.constans.SuiteTags.VALIDATE_STATUS_CODE;
 import org.qa.bodies.RegisterBody;
 import org.qa.bodies.UserBody;

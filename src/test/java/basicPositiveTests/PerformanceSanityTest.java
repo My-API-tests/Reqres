@@ -7,7 +7,7 @@ import org.qa.bodies.RegisterBody;
 import org.qa.bodies.UserBody;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
 import static org.qa.constans.SuiteTags.PERFORMANCE_SANITY;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 
