@@ -1,13 +1,16 @@
 package org.qa.pojo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class RegisterLoginUnsuccessfulResponseBody implements BasePojo {
 
-    private String message;
+    @JsonProperty("error")
+    private String error;
 
     public RegisterLoginUnsuccessfulResponseBody() { }
     public RegisterLoginUnsuccessfulResponseBody(String error) {
 
-        this.message = error;
+        this.error = error;
     }
 
     @Override
@@ -23,6 +26,6 @@ public class RegisterLoginUnsuccessfulResponseBody implements BasePojo {
             return false;
         }
 
-        return this.message.equals(responseBody.message);
+        return this.error.equals(responseBody.error);
     }
 }
