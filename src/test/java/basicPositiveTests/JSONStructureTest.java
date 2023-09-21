@@ -1,32 +1,17 @@
 package basicPositiveTests;
 
-import base.BaseTest;
+import base.JSONStructureBaseTest;
 import io.restassured.http.Method;
-import io.restassured.module.jsv.JsonSchemaValidator;
-import io.restassured.response.Response;
 import org.qa.bodies.RegisterBody;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.testng.annotations.Test;
 import org.qa.bodies.UserBody;
 import reportsManager.ExtentReportsManager;
-
-import java.io.InputStream;
 import static org.qa.constans.SuiteTags.VALIDATE_PAYLOAD;
 
 
-public class JSONStructureTest extends BaseTest {
-
-    private void check(Response response, String JsonSchema) {
-
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(JsonSchema);
-
-        assert inputStream != null;
-
-        response.then()
-                .assertThat()
-                .body(JsonSchemaValidator.matchesJsonSchema(inputStream));
-    }
+public class JSONStructureTest extends JSONStructureBaseTest {
 
     @Test
     @Tag(VALIDATE_PAYLOAD)
