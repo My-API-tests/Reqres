@@ -1,9 +1,8 @@
 package basicPositiveTests;
 
-import base.BaseTest;
+import base.JSONDataBaseTest;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.Assertions;
 import org.qa.pojo.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -11,25 +10,10 @@ import org.testng.annotations.Test;
 import org.qa.constans.RegisterBodies;
 import org.qa.constans.SingleUserBodies;
 import org.qa.constans.UserBodies;
-import org.qa.utils.Function;
 import static org.qa.constans.SuiteTags.VALIDATE_PAYLOAD;
 
 
-public class JSONDataTest extends BaseTest {
-
-    public <T extends BasePojo, X> void check(Response response, Function<Response, T> function, X expected, boolean comparing) {
-
-        T given = function.getObject(response);
-
-        if (comparing) {
-
-            Assertions.assertTrue(given.hasValidData(expected));
-
-        } else {
-
-            Assertions.assertTrue(given.hasNotNullValues());
-        }
-    }
+public class JSONDataTest extends JSONDataBaseTest {
 
     @Test
     @Tag(VALIDATE_PAYLOAD)

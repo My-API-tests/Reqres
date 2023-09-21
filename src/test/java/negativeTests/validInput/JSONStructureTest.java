@@ -1,26 +1,11 @@
 package negativeTests.validInput;
 
-import base.BaseTest;
+import base.JSONStructureBaseTest;
 import io.restassured.http.Method;
-import io.restassured.module.jsv.JsonSchemaValidator;
-import io.restassured.response.Response;
 import org.qa.bodies.RegisterBody;
 import org.testng.annotations.Test;
 
-import java.io.InputStream;
-
-public class JSONStructureTest extends BaseTest {
-
-    private void check(Response response, String JSONSchema) {
-
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(JSONSchema);
-
-        assert inputStream != null;
-
-        response.then()
-                .assertThat()
-                .body(JsonSchemaValidator.matchesJsonSchema(inputStream));
-    }
+public class JSONStructureTest extends JSONStructureBaseTest {
 
     @Test
     public void getSingleUser() {
