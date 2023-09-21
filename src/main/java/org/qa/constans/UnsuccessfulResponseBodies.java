@@ -9,6 +9,9 @@ public class UnsuccessfulResponseBodies {
 
     public static final List<BasePojo> bodies = List.of(
 
-        new RegisterLoginUnsuccessfulResponseBody("Note: Only defined users succeed registration")
+            new RegisterLoginUnsuccessfulResponseBody("Note: Only defined users succeed registration"),
+            new RegisterLoginUnsuccessfulResponseBody("Missing email or username"),
+            new RegisterLoginUnsuccessfulResponseBody("Missing password"),
+            new RegisterLoginUnsuccessfulResponseBody("user not found")
     );
 }
