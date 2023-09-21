@@ -8,49 +8,49 @@ import org.testng.annotations.Test;
 public class JSONStructureTest extends JSONStructureBaseTest {
 
     @Test
-    public void getSingleUser() {
+    public void GET_SingleUser() {
 
         check(getResponse(Method.GET, "/api/users/250"), "negative-valid-input-empty-body.json");
     }
 
     @Test
-    public void getSingleResource() {
+    public void GET_SingleResource() {
 
         check(getResponse(Method.GET, "/api/unknown/2000"),"negative-valid-input-empty-body.json");
     }
 
     @Test
-    public void registerNotDefinedUser() {
+    public void POST_registerNotDefinedUser() {
 
         check(getResponse(Method.POST, "/api/register", new RegisterBody("eve.holt@req.in", "pistol")),"negative-valid-input-register-login.json");
     }
 
     @Test
-    public void registerMissingEmailOrUsername() {
+    public void POST_registerMissingEmailOrUsername() {
 
         check(getResponse(Method.POST, "/api/register", new RegisterBody("", "pistol")), "negative-valid-input-register-login.json");
     }
 
     @Test
-    public void registerMissingPassword() {
+    public void POST_registerMissingPassword() {
 
         check(getResponse(Method.POST, "/api/register", new RegisterBody("eve.holt@reqres.in", "")), "negative-valid-input-register-login.json");
     }
 
     @Test
-    public void loginIncorrectUsername() {
+    public void POST_loginIncorrectUsername() {
 
         check(getResponse(Method.POST, "/api/login", new RegisterBody("eve.holt@req.in", "pistol")), "negative-valid-input-register-login.json");
     }
 
     @Test
-    public void loginMissingEmailOrUsername() {
+    public void POST_loginMissingEmailOrUsername() {
 
         check(getResponse(Method.POST, "/api/login", new RegisterBody("", "pistol")), "negative-valid-input-register-login.json");
     }
 
     @Test
-    public void loginMissingPassword() {
+    public void POST_loginMissingPassword() {
 
         check(getResponse(Method.POST, "/api/login", new RegisterBody("eve.holt@reqres.in", "")), "negative-valid-input-register-login.json");
     }

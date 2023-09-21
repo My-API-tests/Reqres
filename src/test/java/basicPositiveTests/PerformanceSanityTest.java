@@ -1,37 +1,22 @@
 package basicPositiveTests;
 
-import base.BaseTest;
+import base.PerformanceSanityBaseTest;
 import io.restassured.http.Method;
-import io.restassured.response.Response;
 import org.qa.bodies.RegisterBody;
 import org.qa.bodies.UserBody;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.testng.annotations.Test;
 import static org.qa.constans.SuiteTags.PERFORMANCE_SANITY;
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
 
-public class PerformanceSanityTest extends BaseTest {
 
-    private void check(Response response) {
+public class PerformanceSanityTest extends PerformanceSanityBaseTest {
 
-        response.then()
-                .assertThat()
-                .time(lessThanOrEqualTo(500L));
-    }
 
     @Test
     @Tag(PERFORMANCE_SANITY)
     @DisplayName("Response time is less than or equal to 5000 ms")
-    public void getSingleUser() {
-
-        check(getResponse(Method.GET,"/api/users/4"));
-    }
-
-    @Test
-    @Tag(PERFORMANCE_SANITY)
-    @DisplayName("Response time is less than or equal to 5000 ms")
-    public void listUsers() {
+    public void GET_listUsers() {
 
         check(getResponse(Method.GET, "/api/users?page=2"));
     }
@@ -39,7 +24,16 @@ public class PerformanceSanityTest extends BaseTest {
     @Test
     @Tag(PERFORMANCE_SANITY)
     @DisplayName("Response time is less than or equal to 5000 ms")
-    public void listResource() {
+    public void GET_singleUser() {
+
+        singleUser("4");
+    }
+
+
+    @Test
+    @Tag(PERFORMANCE_SANITY)
+    @DisplayName("Response time is less than or equal to 5000 ms")
+    public void GET_listResource() {
 
         check(getResponse(Method.GET, "/api/unknown"));
     }
@@ -47,15 +41,15 @@ public class PerformanceSanityTest extends BaseTest {
     @Test
     @Tag(PERFORMANCE_SANITY)
     @DisplayName("Response time is less than or equal to 5000 ms")
-    public void singleResource() {
+    public void GET_singleResource() {
 
-        check(getResponse(Method.GET, "/api/unknown/2"));
+        singleResource("2");
     }
 
     @Test
     @Tag(PERFORMANCE_SANITY)
     @DisplayName("Response time is less than or equal to 5000 ms")
-    public void delayedResponse() {
+    public void GET_delayedResponse() {
 
         check(getResponse(Method.GET, "/api/users?delay=3"));
     }
@@ -63,7 +57,7 @@ public class PerformanceSanityTest extends BaseTest {
     @Test
     @Tag(PERFORMANCE_SANITY)
     @DisplayName("Response time is less than or equal to 5000 ms")
-    public void create() {
+    public void POST_create() {
 
         check(getResponse(Method.POST, "/api/users", new UserBody("John", "Medic")));
     }
@@ -71,7 +65,7 @@ public class PerformanceSanityTest extends BaseTest {
     @Test
     @Tag(PERFORMANCE_SANITY)
     @DisplayName("Response time is less than or equal to 5000 ms")
-    public void updatePUT() {
+    public void PUT_update() {
 
         check(getResponse(Method.PUT, "/api/users5", new UserBody("Patrick", "Miner")));
     }
@@ -79,7 +73,7 @@ public class PerformanceSanityTest extends BaseTest {
     @Test
     @Tag(PERFORMANCE_SANITY)
     @DisplayName("Response time is less than or equal to 5000 ms")
-    public void updatePATCH() {
+    public void PATCH_update() {
 
         check(getResponse(Method.PATCH, "/api/users/4", new UserBody("Anna", "Cosmetic")));
     }
@@ -87,16 +81,16 @@ public class PerformanceSanityTest extends BaseTest {
     @Test
     @Tag(PERFORMANCE_SANITY)
     @DisplayName("Response time is less than or equal to 5000 ms")
-    public void register() {
+    public void POST_register() {
 
-        check(getResponse(Method.POST, "/api/register", new RegisterBody("eve.holt@reqres.in", "pistol")));
+        register(new RegisterBody("eve.holt@reqres.in", "pistol"));
     }
 
     @Test
     @Tag(PERFORMANCE_SANITY)
     @DisplayName("Response time is less than or equal to 5000 ms")
-    public void login() {
+    public void POST_login() {
 
-        check(getResponse(Method.POST, "/api/login", new RegisterBody("eve.holt@reqres.in", "pistol")));
+        login(new RegisterBody("eve.holt@reqres.in", "pistol"));
     }
 }

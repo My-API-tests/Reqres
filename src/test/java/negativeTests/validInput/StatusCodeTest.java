@@ -1,86 +1,76 @@
 package negativeTests.validInput;
 
-import base.BaseTest;
-import io.restassured.http.Method;
-import io.restassured.response.Response;
+import base.StatusCodeBaseTest;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.qa.bodies.RegisterBody;
 import org.testng.annotations.Test;
-
 import static org.qa.constans.SuiteTags.VALIDATE_STATUS_CODE;
 
-public class StatusCodeTest extends BaseTest {
+public class StatusCodeTest extends StatusCodeBaseTest {
 
-    private void check(Response response, int expectedStatusCode) {
+    @Test
+    @Tag(VALIDATE_STATUS_CODE)
+    @DisplayName("Should return status code 404")
+    public void GET_singleUser() {
 
-        response.then()
-                .assertThat()
-                .statusCode(expectedStatusCode);
+        singleUser("150", HttpStatus.SC_NOT_FOUND);
     }
 
     @Test
     @Tag(VALIDATE_STATUS_CODE)
-    @DisplayName("Should return status code 200")
-    public void getSingleUser() {
+    @DisplayName("Should return status code 404")
+    public void GET_singleResource() {
 
-        check(getResponse(Method.GET, "/api/users/150"), HttpStatus.SC_NOT_FOUND);
+        singleResource("2000", HttpStatus.SC_NOT_FOUND);
     }
 
     @Test
     @Tag(VALIDATE_STATUS_CODE)
-    @DisplayName("Should return status code 200")
-    public void getSingleResource() {
+    @DisplayName("Should return status code 400")
+    public void POST_registerNotDefinedUser() {
 
-        check(getResponse(Method.GET, "/api/unknown/2000"), HttpStatus.SC_NOT_FOUND);
+        register(new RegisterBody("eve.holt@req.in", "pistol"), HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test
     @Tag(VALIDATE_STATUS_CODE)
-    @DisplayName("Should return status code 200")
-    public void registerNotDefinedUser() {
+    @DisplayName("Should return status code 400")
+    public void POST_registerMissingEmailOrUsername() {
 
-        check(getResponse(Method.POST, "/api/register", new RegisterBody("eve.holt@req.in", "pistol")), HttpStatus.SC_BAD_REQUEST);
+        register(new RegisterBody("", "pistol"), HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test
     @Tag(VALIDATE_STATUS_CODE)
-    @DisplayName("Should return status code 200")
-    public void registerMissingEmailOrUsername() {
+    @DisplayName("Should return status code 400")
+    public void POST_registerMissingPassword() {
 
-        check(getResponse(Method.POST, "/api/register", new RegisterBody("", "pistol")), HttpStatus.SC_BAD_REQUEST);
+        register(new RegisterBody("eve.holt@reqres.in", ""), HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test
     @Tag(VALIDATE_STATUS_CODE)
-    @DisplayName("Should return status code 200")
-    public void registerMissingPassword() {
+    @DisplayName("Should return status code 400")
+    public void POST_loginIncorrectUsername() {
 
-        check(getResponse(Method.POST, "/api/register", new RegisterBody("eve.holt@reqres.in", "")), HttpStatus.SC_BAD_REQUEST);
+        login(new RegisterBody("eve.holt@req.in", "pistol"), HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test
     @Tag(VALIDATE_STATUS_CODE)
-    @DisplayName("Should return status code 200")
-    public void loginIncorrectUsername() {
+    @DisplayName("Should return status code 400")
+    public void POST_loginMissingEmailOrUsername() {
 
-        check(getResponse(Method.POST, "/api/login", new RegisterBody("eve.holt@req.in", "pistol")), HttpStatus.SC_BAD_REQUEST);
+        login(new RegisterBody("", "pistol"), HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test
     @Tag(VALIDATE_STATUS_CODE)
-    @DisplayName("Should return status code 200")
-    public void loginMissingEmailOrUsername() {
+    @DisplayName("Should return status code 400")
+    public void POST_loginMissingPassword() {
 
-        check(getResponse(Method.POST, "/api/login", new RegisterBody("", "pistol")), HttpStatus.SC_BAD_REQUEST);
-    }
-
-    @Test
-    @Tag(VALIDATE_STATUS_CODE)
-    @DisplayName("Should return status code 200")
-    public void loginMissingPassword() {
-
-        check(getResponse(Method.POST, "/api/login", new RegisterBody("eve.holt@reqres.in", "")), HttpStatus.SC_BAD_REQUEST);
+        login(new RegisterBody("eve.holt@reqres.in", ""), HttpStatus.SC_BAD_REQUEST);
     }
 }

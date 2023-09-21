@@ -18,7 +18,7 @@ public class JSONDataTest extends JSONDataBaseTest {
     @Test
     @Tag(VALIDATE_PAYLOAD)
     @DisplayName("The response structure should follow the data model")
-    public void getSingleUser() {
+    public void GET_singleUser() {
 
         check(getResponse(Method.GET, "/api/users/2", SingleUserBodies.bodies.get(0)),
              (Response r)-> r.body().as(SingleUserResponseBody.class),
@@ -28,7 +28,7 @@ public class JSONDataTest extends JSONDataBaseTest {
     @Test
     @Tag(VALIDATE_PAYLOAD)
     @DisplayName("The response structure should follow the data model")
-    public void create() {
+    public void POST_create() {
 
         check(getResponse(Method.POST, "/api/users", UserBodies.bodies.get(0)),
               (Response r)-> r.body().as(CreatedUserResponseBody.class),
@@ -38,7 +38,7 @@ public class JSONDataTest extends JSONDataBaseTest {
     @Test
     @Tag(VALIDATE_PAYLOAD)
     @DisplayName("The response structure should follow the data model")
-    public void updatePUT() {
+    public void PUT_update() {
 
         check(getResponse(Method.PUT, "/api/users/1", UserBodies.bodies.get(1)),
              (Response r)-> r.body().as(UpdatedUserResponseBody.class),
@@ -48,7 +48,7 @@ public class JSONDataTest extends JSONDataBaseTest {
     @Test
     @Tag(VALIDATE_PAYLOAD)
     @DisplayName("The response structure should follow the data model")
-    public void updatePATCH() {
+    public void PATCH_update() {
 
         check(getResponse(Method.PATCH, "/api/users/1", UserBodies.bodies.get(1)),
              (Response r)->r.body().as(UpdatedUserResponseBody.class),
@@ -58,7 +58,7 @@ public class JSONDataTest extends JSONDataBaseTest {
     @Test
     @Tag(VALIDATE_PAYLOAD)
     @DisplayName("The response structure should follow the data model")
-    public void register() {
+    public void POST_register() {
 
         check(getResponse(Method.POST, "/api/register", RegisterBodies.bodies.get(0)),
                 (Response r)->r.body().as(RegisterSuccessfulResponseBody.class),
@@ -68,7 +68,7 @@ public class JSONDataTest extends JSONDataBaseTest {
     @Test
     @Tag(VALIDATE_PAYLOAD)
     @DisplayName("The response structure should follow the data model")
-    public void login() {
+    public void POST_login() {
 
         check(getResponse(Method.POST, "/api/login", RegisterBodies.bodies.get(1)),
                 (Response r)->r.body().as(LoginSuccessfulResponseBody.class),

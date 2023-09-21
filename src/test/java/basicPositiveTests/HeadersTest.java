@@ -29,17 +29,7 @@ public class HeadersTest extends BaseTest {
     @Test
     @Tag(VALIDATE_HEADERS)
     @DisplayName("HTTPS headers are as expected")
-    public void getSingleUser() {
-
-        ExtentReportsManager.setTestName("Get single user");
-
-        check(getResponse(Method.GET, "/api/users/3"));
-    }
-
-    @Test
-    @Tag(VALIDATE_HEADERS)
-    @DisplayName("HTTPS headers are as expected")
-    public void listUsers() {
+    public void GET_listUsers() {
 
         ExtentReportsManager.setTestName("Get list users");
 
@@ -49,7 +39,17 @@ public class HeadersTest extends BaseTest {
     @Test
     @Tag(VALIDATE_HEADERS)
     @DisplayName("HTTPS headers are as expected")
-    public void listResource() {
+    public void GET_singleUser() {
+
+        ExtentReportsManager.setTestName("Get single user");
+
+        check(getResponse(Method.GET, "/api/users/3"));
+    }
+
+    @Test
+    @Tag(VALIDATE_HEADERS)
+    @DisplayName("HTTPS headers are as expected")
+    public void GET_listResource() {
 
         ExtentReportsManager.setTestName("List <Resource>");
 
@@ -59,7 +59,7 @@ public class HeadersTest extends BaseTest {
     @Test
     @Tag(VALIDATE_HEADERS)
     @DisplayName("HTTPS headers are as expected")
-    public void singleResource() {
+    public void GET_singleResource() {
 
         ExtentReportsManager.setTestName("Single <Resource>");
 
@@ -69,7 +69,7 @@ public class HeadersTest extends BaseTest {
     @Test
     @Tag(VALIDATE_HEADERS)
     @DisplayName("HTTPS headers are as expected")
-    public void create() {
+    public void POST_create() {
 
         ExtentReportsManager.setTestName("Create");
 
@@ -79,7 +79,7 @@ public class HeadersTest extends BaseTest {
     @Test
     @Tag(VALIDATE_HEADERS)
     @DisplayName("HTTPS headers are as expected")
-    public void updatePUT() {
+    public void PUT_update() {
 
         ExtentReportsManager.setTestName("Updating using PUT");
 
@@ -89,7 +89,7 @@ public class HeadersTest extends BaseTest {
     @Test
     @Tag(VALIDATE_HEADERS)
     @DisplayName("HTTPS headers are as expected")
-    public void updatePOST() {
+    public void POST_update() {
 
         ExtentReportsManager.setTestName("Updating using POST");
 
@@ -99,7 +99,7 @@ public class HeadersTest extends BaseTest {
     @Test
     @Tag(VALIDATE_HEADERS)
     @DisplayName("HTTPS headers are as expected")
-    public void register() {
+    public void POST_register() {
 
         ExtentReportsManager.setTestName("Register");
 
@@ -109,7 +109,7 @@ public class HeadersTest extends BaseTest {
     @Test
     @Tag(VALIDATE_HEADERS)
     @DisplayName("HTTPS headers are as expected")
-    public void login() {
+    public void POST_login() {
 
         ExtentReportsManager.setTestName("Login");
 
@@ -119,7 +119,7 @@ public class HeadersTest extends BaseTest {
     @Test
     @Tag(VALIDATE_HEADERS)
     @DisplayName("HTTPS headers are as expected")
-    public void delayedResponse() {
+    public void GET_delayedResponse() {
 
         ExtentReportsManager.setTestName("Delayed response");
 

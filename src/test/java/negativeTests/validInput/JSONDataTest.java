@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 public class JSONDataTest extends JSONDataBaseTest {
 
     @Test
-    public void registerNotDefinedUser() {
+    public void POST_registerNotDefinedUser() {
 
         check(getResponse(Method.POST, "/api/register", new RegisterBody("eve.holt@req.in", "pistol")),
               (Response r)->r.body().as(RegisterLoginUnsuccessfulResponseBody.class),
@@ -20,7 +20,7 @@ public class JSONDataTest extends JSONDataBaseTest {
     }
 
     @Test
-    public void registerMissingEmailOrUsername() {
+    public void POST_registerMissingEmailOrUsername() {
 
         check(getResponse(Method.POST, "/api/register", new RegisterBody("", "pistol")),
                 (Response r)->r.body().as(RegisterLoginUnsuccessfulResponseBody.class),
@@ -28,7 +28,7 @@ public class JSONDataTest extends JSONDataBaseTest {
     }
 
     @Test
-    public void registerMissingPassword() {
+    public void POST_registerMissingPassword() {
 
         check(getResponse(Method.POST, "/api/register", new RegisterBody("eve.holt@reqres.in", "")),
                 (Response r)->r.body().as(RegisterLoginUnsuccessfulResponseBody.class),
@@ -36,7 +36,7 @@ public class JSONDataTest extends JSONDataBaseTest {
     }
 
     @Test
-    public void loginIncorrectUsername() {
+    public void POST_loginIncorrectUsername() {
 
         check(getResponse(Method.POST, "/api/login", new RegisterBody("eve.holt@req.in", "pistol")),
                 (Response r)->r.body().as(RegisterLoginUnsuccessfulResponseBody.class),
@@ -44,7 +44,7 @@ public class JSONDataTest extends JSONDataBaseTest {
     }
 
     @Test
-    public void loginMissingEmailOrUsername() {
+    public void POST_loginMissingEmailOrUsername() {
 
         check(getResponse(Method.POST, "/api/login", new RegisterBody("", "pistol")),
                 (Response r)->r.body().as(RegisterLoginUnsuccessfulResponseBody.class),
@@ -52,7 +52,7 @@ public class JSONDataTest extends JSONDataBaseTest {
     }
 
     @Test
-    public void loginMissingPassword() {
+    public void POST_loginMissingPassword() {
 
         check(getResponse(Method.POST, "/api/login", new RegisterBody("eve.holt@reqres.in", "")),
                 (Response r)->r.body().as(RegisterLoginUnsuccessfulResponseBody.class),

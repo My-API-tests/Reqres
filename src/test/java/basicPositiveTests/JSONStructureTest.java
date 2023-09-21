@@ -16,21 +16,11 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     @Test
     @Tag(VALIDATE_PAYLOAD)
     @DisplayName("The structure of the json file follows the schema")
-    public void listUsers() {
+    public void GET_listUsers() {
 
         ExtentReportsManager.setTestName("List users");
 
         check(getResponse(Method.GET, "/api/users?page=2"), "list-users-json-schema.json");
-    }
-
-    @Test
-    @Tag(VALIDATE_PAYLOAD)
-    @DisplayName("The structure of the json file follows the schema")
-    public void listResource() {
-
-        ExtentReportsManager.setTestName("List <Resource>");
-
-        check(getResponse(Method.GET, "/api/unknown"), "list-users-json-schema.json");
     }
 
     @Test
@@ -46,7 +36,17 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     @Test
     @Tag(VALIDATE_PAYLOAD)
     @DisplayName("The structure of the json file follows the schema")
-    public void singleResource() {
+    public void GET_listResource() {
+
+        ExtentReportsManager.setTestName("List <Resource>");
+
+        check(getResponse(Method.GET, "/api/unknown"), "list-users-json-schema.json");
+    }
+
+    @Test
+    @Tag(VALIDATE_PAYLOAD)
+    @DisplayName("The structure of the json file follows the schema")
+    public void GET_singleResource() {
 
         ExtentReportsManager.setTestName("Single <Resource>");
 
@@ -56,7 +56,7 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     @Test
     @Tag(VALIDATE_PAYLOAD)
     @DisplayName("The structure of the json file follows the schema")
-    public void create() {
+    public void POST_create() {
 
         ExtentReportsManager.setTestName("Create");
 
@@ -66,7 +66,7 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     @Test
     @Tag(VALIDATE_PAYLOAD)
     @DisplayName("The structure of the json file follows the schema")
-    public void updatePUT() {
+    public void PUT_update() {
 
         ExtentReportsManager.setTestName("Updating using PUT");
 
@@ -76,7 +76,7 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     @Test
     @Tag(VALIDATE_PAYLOAD)
     @DisplayName("The structure of the json file follows the schema")
-    public void updatePATCH() {
+    public void PATCH_update() {
 
         ExtentReportsManager.setTestName("Updating using PATCH");
 
@@ -86,7 +86,7 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     @Test
     @Tag(VALIDATE_PAYLOAD)
     @DisplayName("The structure of the json file follows the schema")
-    public void register() {
+    public void POST_register() {
 
         ExtentReportsManager.setTestName("Register");
 
@@ -96,7 +96,7 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     @Test
     @Tag(VALIDATE_PAYLOAD)
     @DisplayName("The structure of the json file follows the schema")
-    public void login() {
+    public void POST_login() {
 
         ExtentReportsManager.setTestName("Login");
 
@@ -106,7 +106,7 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     @Test
     @Tag(VALIDATE_PAYLOAD)
     @DisplayName("The structure of the json file follows the schema")
-    public void delayedResponse() {
+    public void GET_delayedResponse() {
 
         ExtentReportsManager.setTestName("Delayed response");
 
