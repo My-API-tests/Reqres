@@ -6,8 +6,8 @@ import io.restassured.response.Response;
 import org.qa.bodies.RegisterBody;
 import org.qa.constans.ExpectedHeaders;
 import org.testng.Assert;
-
 import java.util.List;
+
 
 public class HeaderBaseTest extends BaseTest {
 
