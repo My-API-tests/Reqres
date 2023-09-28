@@ -1,30 +1,17 @@
 package basicPositiveTests;
 
-import base.BaseTest;
 import static org.qa.constans.SuiteTags.VALIDATE_HEADERS;
-import io.restassured.http.Header;
+import base.HeaderBaseTest;
 import io.restassured.http.Method;
-import io.restassured.response.Response;
 import org.qa.bodies.UserBody;
-import org.qa.constans.ExpectedHeaders;
 import org.qa.bodies.RegisterBody;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 import reportsManager.ExtentReportsManager;
-import java.util.List;
 
 
-public class HeadersTest extends BaseTest {
-
-    private void check(Response response) {
-
-        List<Header> responseHeaders = response.getHeaders().asList();
-        List<String> names = responseHeaders.stream().map(Header::getName).toList();
-
-        Assert.assertTrue(names.contains(ExpectedHeaders.headers.get(0)));
-    }
+public class HeadersTest extends HeaderBaseTest {
 
     @Test
     @Tag(VALIDATE_HEADERS)
@@ -43,7 +30,7 @@ public class HeadersTest extends BaseTest {
 
         ExtentReportsManager.setTestName("Get single user");
 
-        check(getResponse(Method.GET, "/api/users/3"));
+        singleUser("2");
     }
 
     @Test
@@ -63,7 +50,7 @@ public class HeadersTest extends BaseTest {
 
         ExtentReportsManager.setTestName("Single <Resource>");
 
-        check(getResponse(Method.GET, "/api/unknown/2"));
+        singleResource("2");
     }
 
     @Test
@@ -103,7 +90,7 @@ public class HeadersTest extends BaseTest {
 
         ExtentReportsManager.setTestName("Register");
 
-        check(getResponse(Method.POST, "/api/register", new RegisterBody("eve.holt@reqres.in", "pistol")));
+        register(new RegisterBody("eve.holt@reqres.in", "pistol"));
     }
 
     @Test
@@ -113,7 +100,7 @@ public class HeadersTest extends BaseTest {
 
         ExtentReportsManager.setTestName("Login");
 
-        check(getResponse(Method.POST, "/api/login", new RegisterBody("eve.holt@reqres.in", "cityslicka")));
+        login(new RegisterBody("eve.holt@reqres.in", "cityslicka"));
     }
 
     @Test
