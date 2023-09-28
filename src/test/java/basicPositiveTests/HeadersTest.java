@@ -1,21 +1,22 @@
 package basicPositiveTests;
 
-import static org.qa.constans.SuiteTags.VALIDATE_HEADERS;
 import base.HeaderBaseTest;
+import io.qameta.allure.*;
 import io.restassured.http.Method;
 import org.qa.bodies.UserBody;
 import org.qa.bodies.RegisterBody;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
 import org.testng.annotations.Test;
 import reportsManager.ExtentReportsManager;
 
 
+@Epic("E2E")
+@Feature("Testing headers")
 public class HeadersTest extends HeaderBaseTest {
 
-    @Test
-    @Tag(VALIDATE_HEADERS)
-    @DisplayName("HTTPS headers are as expected")
+    @Test(priority = 6)
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Checking that HTTPS headers are as expected when receiving a list of users")
+    @Story("Getting the user list")
     public void GET_listUsers() {
 
         ExtentReportsManager.setTestName("Get list users");
@@ -23,9 +24,10 @@ public class HeadersTest extends HeaderBaseTest {
         check(getResponse(Method.GET, "/api/users?page=2"));
     }
 
-    @Test
-    @Tag(VALIDATE_HEADERS)
-    @DisplayName("HTTPS headers are as expected")
+    @Test(priority = 7)
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Checking that HTTPS headers are as expected when receiving single users")
+    @Story("Acquiring a single user")
     public void GET_singleUser() {
 
         ExtentReportsManager.setTestName("Get single user");
@@ -33,9 +35,10 @@ public class HeadersTest extends HeaderBaseTest {
         singleUser("2");
     }
 
-    @Test
-    @Tag(VALIDATE_HEADERS)
-    @DisplayName("HTTPS headers are as expected")
+    @Test(priority = 8)
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Checking that HTTPS headers are as expected when receiving a list of resources")
+    @Story("Getting the list of resource")
     public void GET_listResource() {
 
         ExtentReportsManager.setTestName("List <Resource>");
@@ -43,9 +46,10 @@ public class HeadersTest extends HeaderBaseTest {
         check(getResponse(Method.GET, "/api/unknown"));
     }
 
-    @Test
-    @Tag(VALIDATE_HEADERS)
-    @DisplayName("HTTPS headers are as expected")
+    @Test(priority = 9)
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Checking that HTTPS headers are as expected when receiving a single resource")
+    @Story("Obtaining one resource")
     public void GET_singleResource() {
 
         ExtentReportsManager.setTestName("Single <Resource>");
@@ -53,9 +57,10 @@ public class HeadersTest extends HeaderBaseTest {
         singleResource("2");
     }
 
-    @Test
-    @Tag(VALIDATE_HEADERS)
-    @DisplayName("HTTPS headers are as expected")
+    @Test(priority = 1)
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that HTTPS headers are as expected when creating a new person")
+    @Story("Creating a new person")
     public void POST_create() {
 
         ExtentReportsManager.setTestName("Create");
@@ -63,9 +68,10 @@ public class HeadersTest extends HeaderBaseTest {
         check(getResponse(Method.POST, "/api/users", new UserBody("Pawel", "organist")));
     }
 
-    @Test
-    @Tag(VALIDATE_HEADERS)
-    @DisplayName("HTTPS headers are as expected")
+    @Test(priority = 2)
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that HTTPS headers are as expected when updating a person via PUT")
+    @Story("Account update using the PUT method")
     public void PUT_update() {
 
         ExtentReportsManager.setTestName("Updating using PUT");
@@ -73,9 +79,10 @@ public class HeadersTest extends HeaderBaseTest {
         check(getResponse(Method.PUT, "/api/users/1", new UserBody("Kate", "Pianist")));
     }
 
-    @Test
-    @Tag(VALIDATE_HEADERS)
-    @DisplayName("HTTPS headers are as expected")
+    @Test(priority = 3)
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that HTTPS headers are as expected when updating a person via POST")
+    @Story("Account update using the POST method")
     public void POST_update() {
 
         ExtentReportsManager.setTestName("Updating using POST");
@@ -83,9 +90,10 @@ public class HeadersTest extends HeaderBaseTest {
         check(getResponse(Method.PATCH,"/api/users/4", new UserBody("Carlos", "Worker")));
     }
 
-    @Test
-    @Tag(VALIDATE_HEADERS)
-    @DisplayName("HTTPS headers are as expected")
+    @Test(priority = 4)
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that HTTPS headers are as expected when registering an account")
+    @Story("Account registration")
     public void POST_register() {
 
         ExtentReportsManager.setTestName("Register");
@@ -93,9 +101,10 @@ public class HeadersTest extends HeaderBaseTest {
         register(new RegisterBody("eve.holt@reqres.in", "pistol"));
     }
 
-    @Test
-    @Tag(VALIDATE_HEADERS)
-    @DisplayName("HTTPS headers are as expected")
+    @Test(priority = 5)
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that HTTPS headers are as expected when logging into an account")
+    @Story("Account login")
     public void POST_login() {
 
         ExtentReportsManager.setTestName("Login");
@@ -103,9 +112,10 @@ public class HeadersTest extends HeaderBaseTest {
         login(new RegisterBody("eve.holt@reqres.in", "cityslicka"));
     }
 
-    @Test
-    @Tag(VALIDATE_HEADERS)
-    @DisplayName("HTTPS headers are as expected")
+    @Test(priority = 10)
+    @Severity(SeverityLevel.MINOR)
+    @Description("Checking that HTTPS headers are as expected when receiving delayed response data")
+    @Story("Retrieving data via delayed response")
     public void GET_delayedResponse() {
 
         ExtentReportsManager.setTestName("Delayed response");
