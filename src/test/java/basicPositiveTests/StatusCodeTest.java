@@ -15,18 +15,17 @@ public class StatusCodeTest extends StatusCodeBaseTest {
     @Test
     @Tag(VALIDATE_STATUS_CODE)
     @DisplayName("Should return status code 200")
-    public void GET_SingleUser() {
+    public void GET_listUsers() {
 
-        singleUser("3", HttpStatus.SC_OK);
+        check(getResponse(Method.GET, "/api/unknown"), HttpStatus.SC_OK);
     }
-
 
     @Test
     @Tag(VALIDATE_STATUS_CODE)
     @DisplayName("Should return status code 200")
-    public void GET_listUsers() {
+    public void GET_SingleUser() {
 
-        check(getResponse(Method.GET, "/api/unknown"), HttpStatus.SC_OK);
+        singleUser("3", HttpStatus.SC_OK);
     }
 
     @Test
