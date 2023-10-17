@@ -21,7 +21,7 @@ public class JSONStructureTest extends JSONStructureBaseTest {
 
     @Test
     @Severity(SeverityLevel.CRITICAL)
-    @Description("Checking that the response structure is according to data model when trying trying to receive a single non-existent resource")
+    @Description("Checking that the response structure is according to data model when trying to receive a single non-existent resource")
     @Story("Attempting to obtain a non-existent single resource")
     public void GET_SingleResource() {
 
@@ -30,7 +30,7 @@ public class JSONStructureTest extends JSONStructureBaseTest {
 
     @Test
     @Severity(SeverityLevel.CRITICAL)
-    @Description("Checking that the response structure is according to data model when trying trying to register with an undefined user")
+    @Description("Checking that the response structure is according to data model when trying to register with an undefined user")
     @Story("Attempting to register with undefined user")
     public void POST_registerNotDefinedUser() {
 
@@ -38,30 +38,45 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     }
 
     @Test
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that the response structure is according to data model when trying to register without email or username")
+    @Story("Account registration without email or username")
     public void POST_registerMissingEmailOrUsername() {
 
         check(getResponse(Method.POST, "/api/register", new RegisterBody("", "pistol")), "negative-valid-input-register-login.json");
     }
 
     @Test
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that the response structure is according to data model when trying to register without password")
+    @Story("Account registration without password")
     public void POST_registerMissingPassword() {
 
         check(getResponse(Method.POST, "/api/register", new RegisterBody("eve.holt@reqres.in", "")), "negative-valid-input-register-login.json");
     }
 
     @Test
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that the response structure is according to data model when trying to login with an incorrect username")
+    @Story("Login with an incorrect username")
     public void POST_loginIncorrectUsername() {
 
         check(getResponse(Method.POST, "/api/login", new RegisterBody("eve.holt@req.in", "pistol")), "negative-valid-input-register-login.json");
     }
 
     @Test
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that the response structure is according to data model when trying to login without email or username")
+    @Story("Login without email or username")
     public void POST_loginMissingEmailOrUsername() {
 
         check(getResponse(Method.POST, "/api/login", new RegisterBody("", "pistol")), "negative-valid-input-register-login.json");
     }
 
     @Test
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that the response structure is according to data model when trying to login without password")
+    @Story("Login without password")
     public void POST_loginMissingPassword() {
 
         check(getResponse(Method.POST, "/api/login", new RegisterBody("eve.holt@reqres.in", "")), "negative-valid-input-register-login.json");
