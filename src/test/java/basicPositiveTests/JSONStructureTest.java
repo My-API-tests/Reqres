@@ -1,21 +1,22 @@
 package basicPositiveTests;
 
 import base.JSONStructureBaseTest;
+import io.qameta.allure.*;
 import io.restassured.http.Method;
 import org.qa.bodies.RegisterBody;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
 import org.testng.annotations.Test;
 import org.qa.bodies.UserBody;
 import reportsManager.ExtentReportsManager;
-import static org.qa.constans.SuiteTags.VALIDATE_PAYLOAD;
 
 
+@Epic("E2E")
+@Feature("Testing JSON structure")
 public class JSONStructureTest extends JSONStructureBaseTest {
 
     @Test
-    @Tag(VALIDATE_PAYLOAD)
-    @DisplayName("The structure of the json file follows the schema")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that the response structure is according to data model when receiving a list of users")
+    @Story("Getting the user list")
     public void GET_listUsers() {
 
         ExtentReportsManager.setTestName("List users");
@@ -24,8 +25,9 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     }
 
     @Test
-    @Tag(VALIDATE_PAYLOAD)
-    @DisplayName("The structure of the json file follows the schema")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that the response structure is according to data model when receiving single users")
+    @Story("Acquiring a single user")
     public void singleUser() {
 
         ExtentReportsManager.setTestName("Get single user");
@@ -34,8 +36,9 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     }
 
     @Test
-    @Tag(VALIDATE_PAYLOAD)
-    @DisplayName("The structure of the json file follows the schema")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that the response structure is according to data model when receiving a list of resources")
+    @Story("Getting the list of resource")
     public void GET_listResource() {
 
         ExtentReportsManager.setTestName("List <Resource>");
@@ -44,8 +47,9 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     }
 
     @Test
-    @Tag(VALIDATE_PAYLOAD)
-    @DisplayName("The structure of the json file follows the schema")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that the response structure is according to data model when receiving a single resource")
+    @Story("Obtaining one resource")
     public void GET_singleResource() {
 
         ExtentReportsManager.setTestName("Single <Resource>");
@@ -54,8 +58,9 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     }
 
     @Test
-    @Tag(VALIDATE_PAYLOAD)
-    @DisplayName("The structure of the json file follows the schema")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that the response structure is according to data model when creating a new person")
+    @Story("Creating a new person")
     public void POST_create() {
 
         ExtentReportsManager.setTestName("Create");
@@ -64,8 +69,9 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     }
 
     @Test
-    @Tag(VALIDATE_PAYLOAD)
-    @DisplayName("The structure of the json file follows the schema")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that the response structure is according to data model when updating a person via PUT")
+    @Story("User update using the PUT method")
     public void PUT_update() {
 
         ExtentReportsManager.setTestName("Updating using PUT");
@@ -74,8 +80,9 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     }
 
     @Test
-    @Tag(VALIDATE_PAYLOAD)
-    @DisplayName("The structure of the json file follows the schema")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that the response structure is according to data model when updating a person via PATCH")
+    @Story("User update using the PATCH method")
     public void PATCH_update() {
 
         ExtentReportsManager.setTestName("Updating using PATCH");
@@ -84,8 +91,9 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     }
 
     @Test
-    @Tag(VALIDATE_PAYLOAD)
-    @DisplayName("The structure of the json file follows the schema")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that the response structure is according to data model when registering an account")
+    @Story("Account registration")
     public void POST_register() {
 
         ExtentReportsManager.setTestName("Register");
@@ -94,8 +102,9 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     }
 
     @Test
-    @Tag(VALIDATE_PAYLOAD)
-    @DisplayName("The structure of the json file follows the schema")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that the response structure is according to data model when logging into an account")
+    @Story("Account login")
     public void POST_login() {
 
         ExtentReportsManager.setTestName("Login");
@@ -104,8 +113,9 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     }
 
     @Test
-    @Tag(VALIDATE_PAYLOAD)
-    @DisplayName("The structure of the json file follows the schema")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that the response structure is according to data model when receiving delayed response data")
+    @Story("Retrieving data via delayed response")
     public void GET_delayedResponse() {
 
         ExtentReportsManager.setTestName("Delayed response");
