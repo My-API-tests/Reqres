@@ -50,7 +50,7 @@ public class JSONDataTest extends JSONDataBaseTest {
     @Test
     @Severity(SeverityLevel.CRITICAL)
     @Description("Checking that the response structure has a correct data when trying to login with an incorrect username")
-    @Story("Account registration with an incorrect username")
+    @Story("Login with an incorrect username")
     public void POST_loginIncorrectUsername() {
 
         check(getResponse(Method.POST, "/api/login", new RegisterBody("eve.holt@req.in", "pistol")),
@@ -61,7 +61,7 @@ public class JSONDataTest extends JSONDataBaseTest {
     @Test
     @Severity(SeverityLevel.CRITICAL)
     @Description("Checking that the response structure has a correct data when trying to login without email or username")
-    @Story("Account registration without email or username")
+    @Story("Login without email or username")
     public void POST_loginMissingEmailOrUsername() {
 
         check(getResponse(Method.POST, "/api/login", new RegisterBody("", "pistol")),
@@ -72,7 +72,7 @@ public class JSONDataTest extends JSONDataBaseTest {
     @Test
     @Severity(SeverityLevel.CRITICAL)
     @Description("Checking that the response structure has a correct data when trying to login without password")
-    @Story("Account registration without password")
+    @Story("Login without password")
     public void POST_loginMissingPassword() {
 
         check(getResponse(Method.POST, "/api/login", new RegisterBody("eve.holt@reqres.in", "")),
