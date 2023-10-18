@@ -7,7 +7,7 @@ import org.qa.factories.LoginCredentials;
 import org.qa.factories.RegisterCredentials;
 import org.qa.factories.UserBodyFactory;
 import org.testng.annotations.Test;
-import reportsManager.ExtentReportsManager;
+import org.qa.extentreportsmanager.ExtentReportsManager;
 
 
 @Epic("E2E")

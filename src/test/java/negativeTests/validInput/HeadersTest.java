@@ -5,7 +5,7 @@ import io.qameta.allure.*;
 import org.qa.factories.LoginCredentials;
 import org.qa.factories.RegisterCredentials;
 import org.testng.annotations.Test;
-import reportsManager.ExtentReportsManager;
+import org.qa.extentreportsmanager.ExtentReportsManager;
 
 @Epic("E2E")
 @Feature("Testing headers")

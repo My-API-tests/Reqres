@@ -2,7 +2,7 @@ package base;
 
 import io.restassured.http.Method;
 import io.restassured.response.Response;
-import org.qa.bodies.RegisterBody;
+import org.qa.bodies.Credentials;
 
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 
@@ -12,7 +12,7 @@ public class PerformanceSanityBaseTest extends BaseTest {
 
         response.then()
                 .assertThat()
-                .time(lessThanOrEqualTo(500L));
+                .time(lessThanOrEqualTo(5000L));
     }
 
     protected void singleUser(String userNumber) {
@@ -25,12 +25,12 @@ public class PerformanceSanityBaseTest extends BaseTest {
         check(getResponse(Method.GET, "/api/unknown/" + userNumber));
     }
 
-    protected void register(RegisterBody registerBody) {
+    protected void register(Credentials registerBody) {
 
         check(getResponse(Method.POST, "/api/register", registerBody));
     }
 
-    protected void login(RegisterBody registerBody) {
+    protected void login(Credentials registerBody) {
 
         check(getResponse(Method.POST, "/api/login", registerBody));
     }

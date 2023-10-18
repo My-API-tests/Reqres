@@ -10,8 +10,7 @@ import org.qa.factories.SingleUserBodyFactory;
 import org.qa.factories.UserBodyFactory;
 import org.qa.pojo.*;
 import org.testng.annotations.Test;
-import org.qa.constans.UserBodies;
-import reportsManager.ExtentReportsManager;
+import org.qa.extentreportsmanager.ExtentReportsManager;
 
 
 @Epic("E2E")
@@ -41,7 +40,7 @@ public class JSONDataTest extends JSONDataBaseTest {
 
         check(getResponse(Method.POST, "/api/users", UserBodyFactory.correct()),
               (Response r)-> r.body().as(CreatedUserResponseBody.class),
-               UserBodies.bodies.get(0), true);
+               UserBodyFactory.correct(), true);
     }
 
     @Test

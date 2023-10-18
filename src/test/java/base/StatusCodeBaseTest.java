@@ -2,7 +2,7 @@ package base;
 
 import io.restassured.http.Method;
 import io.restassured.response.Response;
-import org.qa.bodies.RegisterBody;
+import org.qa.bodies.Credentials;
 
 public class StatusCodeBaseTest extends BaseTest {
 
@@ -23,12 +23,12 @@ public class StatusCodeBaseTest extends BaseTest {
         check(getResponse(Method.GET, "/api/unknown/" + userNumber), httpStatus);
     }
 
-    public void register(RegisterBody registerBody, int httpStatus) {
+    public void register(Credentials registerBody, int httpStatus) {
 
         check(getResponse(Method.POST, "/api/register", registerBody), httpStatus);
     }
 
-    public void login(RegisterBody registerBody, int httpStatus) {
+    public void login(Credentials registerBody, int httpStatus) {
 
         check(getResponse(Method.POST, "/api/login", registerBody), httpStatus);
     }

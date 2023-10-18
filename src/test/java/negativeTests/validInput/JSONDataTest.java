@@ -9,7 +9,7 @@ import org.qa.factories.RegisterCredentials;
 import org.qa.factories.UnsuccessfulResponseBodyFactory;
 import org.qa.pojo.RegisterLoginUnsuccessfulResponseBody;
 import org.testng.annotations.Test;
-import reportsManager.ExtentReportsManager;
+import org.qa.extentreportsmanager.ExtentReportsManager;
 
 
 @Epic("E2E")

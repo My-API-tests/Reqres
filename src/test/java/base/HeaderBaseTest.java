@@ -3,7 +3,7 @@ package base;
 import io.restassured.http.Header;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
-import org.qa.bodies.RegisterBody;
+import org.qa.bodies.Credentials;
 import org.qa.constans.ExpectedHeaders;
 import org.testng.Assert;
 import java.util.List;
@@ -29,13 +29,13 @@ public class HeaderBaseTest extends BaseTest {
         check(getResponse(Method.GET, "/api/unknown/" + userNumber));
     }
 
-    protected void register(RegisterBody registerBody) {
+    protected void register(Credentials credentials) {
 
-        check(getResponse(Method.POST, "/api/register" ,registerBody));
+        check(getResponse(Method.POST, "/api/register" ,credentials));
     }
 
-    protected void login(RegisterBody registerBody) {
+    protected void login(Credentials credentials) {
 
-        check(getResponse(Method.POST, "/api/login", registerBody));
+        check(getResponse(Method.POST, "/api/login", credentials));
     }
 }
