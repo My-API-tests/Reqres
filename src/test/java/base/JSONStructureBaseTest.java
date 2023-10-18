@@ -2,7 +2,6 @@ package base;
 
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
-
 import java.io.InputStream;
 
 public class JSONStructureBaseTest extends BaseTest {
