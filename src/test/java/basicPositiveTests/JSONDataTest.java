@@ -4,10 +4,12 @@ import base.JSONDataBaseTest;
 import io.qameta.allure.*;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
+import org.qa.factories.LoginCredentials;
+import org.qa.factories.RegisterCredentials;
+import org.qa.factories.SingleUserBodyFactory;
+import org.qa.factories.UserBodyFactory;
 import org.qa.pojo.*;
 import org.testng.annotations.Test;
-import org.qa.constans.RegisterBodies;
-import org.qa.constans.SingleUserBodies;
 import org.qa.constans.UserBodies;
 
 
@@ -21,9 +23,9 @@ public class JSONDataTest extends JSONDataBaseTest {
     @Story("Acquiring a single user")
     public void GET_singleUser() {
 
-        check(getResponse(Method.GET, "/api/users/2", SingleUserBodies.bodies.get(0)),
+        check(getResponse(Method.GET, "/api/users/2", SingleUserBodyFactory.correctBody()),
              (Response r)-> r.body().as(SingleUserResponseBody.class),
-              SingleUserBodies.bodies.get(0), true);
+              SingleUserBodyFactory.correctBody(), true);
     }
 
     @Test
@@ -32,7 +34,7 @@ public class JSONDataTest extends JSONDataBaseTest {
     @Story("Creating a new user")
     public void POST_create() {
 
-        check(getResponse(Method.POST, "/api/users", UserBodies.bodies.get(0)),
+        check(getResponse(Method.POST, "/api/users", UserBodyFactory.correct()),
               (Response r)-> r.body().as(CreatedUserResponseBody.class),
                UserBodies.bodies.get(0), true);
     }
@@ -43,9 +45,9 @@ public class JSONDataTest extends JSONDataBaseTest {
     @Story("User update using the PUT method")
     public void PUT_update() {
 
-        check(getResponse(Method.PUT, "/api/users/1", UserBodies.bodies.get(1)),
+        check(getResponse(Method.PUT, "/api/users/1", UserBodyFactory.toUpdate_PUT()),
              (Response r)-> r.body().as(UpdatedUserResponseBody.class),
-              UserBodies.bodies.get(1), true);
+              UserBodyFactory.toUpdate_PUT(), true);
     }
 
     @Test
@@ -54,9 +56,9 @@ public class JSONDataTest extends JSONDataBaseTest {
     @Story("User update using the PATCH method")
     public void PATCH_update() {
 
-        check(getResponse(Method.PATCH, "/api/users/1", UserBodies.bodies.get(1)),
+        check(getResponse(Method.PATCH, "/api/users/1", UserBodyFactory.toUpdate_PATCH()),
              (Response r)->r.body().as(UpdatedUserResponseBody.class),
-              UserBodies.bodies.get(1), true);
+              UserBodyFactory.toUpdate_PATCH(), true);
     }
 
     @Test
@@ -65,9 +67,9 @@ public class JSONDataTest extends JSONDataBaseTest {
     @Story("Account registration")
     public void POST_register() {
 
-        check(getResponse(Method.POST, "/api/register", RegisterBodies.bodies.get(0)),
+        check(getResponse(Method.POST, "/api/register", RegisterCredentials.correct()),
                 (Response r)->r.body().as(RegisterSuccessfulResponseBody.class),
-                RegisterBodies.bodies.get(0), false);
+                RegisterCredentials.correct(), false);
     }
 
     @Test
@@ -76,8 +78,8 @@ public class JSONDataTest extends JSONDataBaseTest {
     @Story("Account login")
     public void POST_login() {
 
-        check(getResponse(Method.POST, "/api/login", RegisterBodies.bodies.get(1)),
+        check(getResponse(Method.POST, "/api/login", LoginCredentials.correct()),
                 (Response r)->r.body().as(LoginSuccessfulResponseBody.class),
-                RegisterBodies.bodies.get(1), false);
+                LoginCredentials.correct(), false);
     }
 }
