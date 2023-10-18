@@ -3,7 +3,7 @@
 
 <suite name="Status code tests">
     <listeners>
-        <listener class-name="listener.TestListener"/>
+        <listener class-name="org.qa.listener.TestListener"/>
     </listeners>
 
     <test name="Status code - positive tests">
