@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Status code tests">
+    <listeners>
+        <listener class-name="listener.TestListener"/>
+    </listeners>
+
+    <test name="Status code - negative tests">
+        <classes>
+            <class name="negativeTests.validInput.StatusCodeTest"/>
+        </classes>
+    </test>
+</suite>

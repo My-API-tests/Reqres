@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="JSON data tests">
+    <listeners>
+        <listener class-name="listener.TestListener"/>
+    </listeners>
+    <test name="Validate JSON data - positive tests">
+        <classes>
+            <class name="basicPositiveTests.JSONDataTest"/>
+        </classes>
+    </test>
+</suite>
