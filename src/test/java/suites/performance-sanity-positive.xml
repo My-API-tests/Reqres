@@ -3,7 +3,7 @@
 
 <suite name="Performance sanity tests">
     <listeners>
-        <listener class-name="listener.TestListener"/>
+        <listener class-name="org.qa.listener.TestListener"/>
     </listeners>
 
     <test name="Performance sanity - positive tests">

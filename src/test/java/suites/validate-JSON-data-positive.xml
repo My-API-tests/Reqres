@@ -3,7 +3,7 @@
 
 <suite name="JSON data tests">
     <listeners>
-        <listener class-name="listener.TestListener"/>
+        <listener class-name="org.qa.listener.TestListener"/>
     </listeners>
     <test name="Validate JSON data - positive tests">
         <classes>

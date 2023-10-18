@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
-<suite name="JSON tests">
+<suite name="JSON schema tests">
     <listeners>
-        <listener class-name="listener.TestListener"/>
+        <listener class-name="org.qa.listener.TestListener"/>
     </listeners>
-    <test name="Validate JSON schema">
+
+    <test name="Validate JSON schema - positive tests">
         <classes>
             <class name="basicPositiveTests.JSONStructureTest"/>
         </classes>
