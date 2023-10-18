@@ -1,9 +1,9 @@
-package listener;
+package org.qa.listener;
 
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
-import reportsManager.ExtentReportsManager;
+import org.qa.extentreportsmanager.ExtentReportsManager;
 import io.qameta.allure.Attachment;
 
 public class TestListener implements ITestListener {
