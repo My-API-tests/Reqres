@@ -1,16 +1,17 @@
 package basicPositiveTests;
 
 import base.PerformanceSanityBaseTest;
-import io.qameta.allure.Description;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import io.restassured.http.Method;
-import org.qa.bodies.RegisterBody;
-import org.qa.bodies.UserBody;
+import org.qa.factories.LoginCredentials;
+import org.qa.factories.RegisterCredentials;
+import org.qa.factories.UserBodyFactory;
 import org.testng.annotations.Test;
+import reportsManager.ExtentReportsManager;
 
 
+@Epic("E2E")
+@Feature("Performance sanity tests")
 public class PerformanceSanityTest extends PerformanceSanityBaseTest {
 
     @Test
@@ -18,6 +19,8 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
     @Description("Checking that response time is less than or equal to 500 ms when receiving single users")
     @Story("Acquiring a single user")
     public void GET_singleUser() {
+
+        ExtentReportsManager.setTestName("Acquiring a single user");
 
         singleUser("4");
     }
@@ -29,6 +32,8 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
     @Story("Getting the list of resource")
     public void GET_listResource() {
 
+        ExtentReportsManager.setTestName("Getting the list of resource");
+
         check(getResponse(Method.GET, "/api/unknown"));
     }
 
@@ -37,6 +42,8 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
     @Description("Checking that response time is less than or equal to 500 ms when receiving a single resource")
     @Story("Obtaining one resource")
     public void GET_singleResource() {
+
+        ExtentReportsManager.setTestName("Obtaining one resource");
 
         singleResource("2");
     }
@@ -47,6 +54,8 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
     @Story("Retrieving data via delayed response")
     public void GET_delayedResponse() {
 
+        ExtentReportsManager.setTestName("Retrieving data via delayed response");
+
         check(getResponse(Method.GET, "/api/users?delay=3"));
     }
 
@@ -56,7 +65,9 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
     @Story("Creating a new person")
     public void POST_create() {
 
-        check(getResponse(Method.POST, "/api/users", new UserBody("John", "Medic")));
+        ExtentReportsManager.setTestName("Creating a new person");
+
+        check(getResponse(Method.POST, "/api/users", UserBodyFactory.correct()));
     }
 
     @Test
@@ -65,7 +76,9 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
     @Story("Account update using the PUT method")
     public void PUT_update() {
 
-        check(getResponse(Method.PUT, "/api/users5", new UserBody("Patrick", "Miner")));
+        ExtentReportsManager.setTestName("Account update using the PUT method");
+
+        check(getResponse(Method.PUT, "/api/users5", UserBodyFactory.toUpdate_PUT()));
     }
 
     @Test
@@ -74,7 +87,9 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
     @Story("Account update using the PATCH method")
     public void PATCH_update() {
 
-        check(getResponse(Method.PATCH, "/api/users/4", new UserBody("Anna", "Cosmetic")));
+        ExtentReportsManager.setTestName("Account update using the PATCH method");
+
+        check(getResponse(Method.PATCH, "/api/users/4", UserBodyFactory.toUpdate_PATCH()));
     }
 
     @Test
@@ -83,7 +98,9 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
     @Story("Account registration")
     public void POST_register() {
 
-        register(new RegisterBody("eve.holt@reqres.in", "pistol"));
+        ExtentReportsManager.setTestName("Account registration");
+
+        register(RegisterCredentials.correct());
     }
 
     @Test
@@ -92,6 +109,8 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
     @Story("Account login")
     public void POST_login() {
 
-        login(new RegisterBody("eve.holt@reqres.in", "pistol"));
+        ExtentReportsManager.setTestName("Account login");
+
+        login(LoginCredentials.correct());
     }
 }
