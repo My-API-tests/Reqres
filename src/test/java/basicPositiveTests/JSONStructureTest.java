@@ -3,9 +3,10 @@ package basicPositiveTests;
 import base.JSONStructureBaseTest;
 import io.qameta.allure.*;
 import io.restassured.http.Method;
-import org.qa.bodies.RegisterBody;
+import org.qa.factories.LoginCredentials;
+import org.qa.factories.RegisterCredentials;
+import org.qa.factories.UserBodyFactory;
 import org.testng.annotations.Test;
-import org.qa.bodies.UserBody;
 import reportsManager.ExtentReportsManager;
 
 
@@ -19,7 +20,7 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     @Story("Getting the user list")
     public void GET_listUsers() {
 
-        ExtentReportsManager.setTestName("List users");
+        ExtentReportsManager.setTestName("Getting the user list");
 
         check(getResponse(Method.GET, "/api/users?page=2"), "list-users-json-schema.json");
     }
@@ -30,7 +31,7 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     @Story("Acquiring a single user")
     public void singleUser() {
 
-        ExtentReportsManager.setTestName("Get single user");
+        ExtentReportsManager.setTestName("Acquiring a single user");
 
         check(getResponse(Method.GET, "/api/users/2"), "single-user-json-schema.json");
     }
@@ -41,7 +42,7 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     @Story("Getting the list of resource")
     public void GET_listResource() {
 
-        ExtentReportsManager.setTestName("List <Resource>");
+        ExtentReportsManager.setTestName("Getting the list of resource");
 
         check(getResponse(Method.GET, "/api/unknown"), "list-users-json-schema.json");
     }
@@ -52,7 +53,7 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     @Story("Obtaining one resource")
     public void GET_singleResource() {
 
-        ExtentReportsManager.setTestName("Single <Resource>");
+        ExtentReportsManager.setTestName("Obtaining one resource");
 
         check(getResponse(Method.GET, "/api/unknown/2"), "single-user-json-schema.json");
     }
@@ -63,9 +64,9 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     @Story("Creating a new person")
     public void POST_create() {
 
-        ExtentReportsManager.setTestName("Create");
+        ExtentReportsManager.setTestName("Creating a new person");
 
-        check(getResponse(Method.POST, "/api/users", new UserBody("Pawel", "Organist")), "create-json-schema.json");
+        check(getResponse(Method.POST, "/api/users", UserBodyFactory.correct()), "create-json-schema.json");
     }
 
     @Test
@@ -74,9 +75,9 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     @Story("User update using the PUT method")
     public void PUT_update() {
 
-        ExtentReportsManager.setTestName("Updating using PUT");
+        ExtentReportsManager.setTestName("User update using the PUT method");
 
-        check(getResponse(Method.PUT, "/api/users/3", new UserBody("Andy", "Builder")), "create-json-schema.json");
+        check(getResponse(Method.PUT, "/api/users/3", UserBodyFactory.toUpdate_PUT()), "create-json-schema.json");
     }
 
     @Test
@@ -85,9 +86,9 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     @Story("User update using the PATCH method")
     public void PATCH_update() {
 
-        ExtentReportsManager.setTestName("Updating using PATCH");
+        ExtentReportsManager.setTestName("User update using the PATCH method");
 
-        check(getResponse(Method.PATCH, "/api/users/4", new UserBody("Maria", "Geologist")), "create-json-schema.json");
+        check(getResponse(Method.PATCH, "/api/users/4", UserBodyFactory.toUpdate_PATCH()), "create-json-schema.json");
     }
 
     @Test
@@ -96,9 +97,9 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     @Story("Account registration")
     public void POST_register() {
 
-        ExtentReportsManager.setTestName("Register");
+        ExtentReportsManager.setTestName("Account registration");
 
-        check(getResponse(Method.POST, "/api/register", new RegisterBody("eve.holt@reqres.in", "pistol")), "register-json-schema.json");
+        check(getResponse(Method.POST, "/api/register", RegisterCredentials.correct()), "register-json-schema.json");
     }
 
     @Test
@@ -107,9 +108,9 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     @Story("Account login")
     public void POST_login() {
 
-        ExtentReportsManager.setTestName("Login");
+        ExtentReportsManager.setTestName("Account login");
 
-        check(getResponse(Method.POST, "/api/login", new RegisterBody("eve.holt@reqres.in", "cityslicka")), "login-json-schema.json");
+        check(getResponse(Method.POST, "/api/login", LoginCredentials.correct()), "login-json-schema.json");
     }
 
     @Test
@@ -118,7 +119,7 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     @Story("Retrieving data via delayed response")
     public void GET_delayedResponse() {
 
-        ExtentReportsManager.setTestName("Delayed response");
+        ExtentReportsManager.setTestName("Retrieving data via delayed response");
 
         check(getResponse(Method.GET, "/api/users?delay=3"), "delayed-response-schema.json");
     }

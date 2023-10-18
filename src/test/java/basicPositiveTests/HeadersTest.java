@@ -3,8 +3,9 @@ package basicPositiveTests;
 import base.HeaderBaseTest;
 import io.qameta.allure.*;
 import io.restassured.http.Method;
-import org.qa.bodies.UserBody;
-import org.qa.bodies.RegisterBody;
+import org.qa.factories.LoginCredentials;
+import org.qa.factories.RegisterCredentials;
+import org.qa.factories.UserBodyFactory;
 import org.testng.annotations.Test;
 import reportsManager.ExtentReportsManager;
 
@@ -19,7 +20,7 @@ public class HeadersTest extends HeaderBaseTest {
     @Story("Getting the user list")
     public void GET_listUsers() {
 
-        ExtentReportsManager.setTestName("Get list users");
+        ExtentReportsManager.setTestName("Getting the user list");
 
         check(getResponse(Method.GET, "/api/users?page=2"));
     }
@@ -30,7 +31,7 @@ public class HeadersTest extends HeaderBaseTest {
     @Story("Acquiring a single user")
     public void GET_singleUser() {
 
-        ExtentReportsManager.setTestName("Get single user");
+        ExtentReportsManager.setTestName("Acquiring a single user");
 
         singleUser("2");
     }
@@ -41,7 +42,7 @@ public class HeadersTest extends HeaderBaseTest {
     @Story("Getting the list of resource")
     public void GET_listResource() {
 
-        ExtentReportsManager.setTestName("List <Resource>");
+        ExtentReportsManager.setTestName("Getting the list of resource");
 
         check(getResponse(Method.GET, "/api/unknown"));
     }
@@ -52,7 +53,7 @@ public class HeadersTest extends HeaderBaseTest {
     @Story("Obtaining one resource")
     public void GET_singleResource() {
 
-        ExtentReportsManager.setTestName("Single <Resource>");
+        ExtentReportsManager.setTestName("Obtaining one resource");
 
         singleResource("2");
     }
@@ -63,9 +64,9 @@ public class HeadersTest extends HeaderBaseTest {
     @Story("Creating a new person")
     public void POST_create() {
 
-        ExtentReportsManager.setTestName("Create");
+        ExtentReportsManager.setTestName("Creating a new person");
 
-        check(getResponse(Method.POST, "/api/users", new UserBody("Pawel", "organist")));
+        check(getResponse(Method.POST, "/api/users", UserBodyFactory.correct()));
     }
 
     @Test(priority = 2)
@@ -74,20 +75,20 @@ public class HeadersTest extends HeaderBaseTest {
     @Story("Account update using the PUT method")
     public void PUT_update() {
 
-        ExtentReportsManager.setTestName("Updating using PUT");
+        ExtentReportsManager.setTestName("Account update using the PUT method");
 
-        check(getResponse(Method.PUT, "/api/users/1", new UserBody("Kate", "Pianist")));
+        check(getResponse(Method.PUT, "/api/users/1", UserBodyFactory.toUpdate_PUT()));
     }
 
     @Test(priority = 3)
     @Severity(SeverityLevel.CRITICAL)
-    @Description("Checking that HTTPS headers are as expected when updating a person via POST")
-    @Story("Account update using the POST method")
-    public void POST_update() {
+    @Description("Checking that HTTPS headers are as expected when updating a person via PATCH")
+    @Story("Account update using the PATCH method")
+    public void PATCH_update() {
 
-        ExtentReportsManager.setTestName("Updating using POST");
+        ExtentReportsManager.setTestName("Account update using the PATCH method");
 
-        check(getResponse(Method.PATCH,"/api/users/4", new UserBody("Carlos", "Worker")));
+        check(getResponse(Method.PATCH,"/api/users/4", UserBodyFactory.toUpdate_PATCH()));
     }
 
     @Test(priority = 4)
@@ -96,9 +97,9 @@ public class HeadersTest extends HeaderBaseTest {
     @Story("Account registration")
     public void POST_register() {
 
-        ExtentReportsManager.setTestName("Register");
+        ExtentReportsManager.setTestName("Account registration");
 
-        register(new RegisterBody("eve.holt@reqres.in", "pistol"));
+        register(RegisterCredentials.correct());
     }
 
     @Test(priority = 5)
@@ -107,9 +108,9 @@ public class HeadersTest extends HeaderBaseTest {
     @Story("Account login")
     public void POST_login() {
 
-        ExtentReportsManager.setTestName("Login");
+        ExtentReportsManager.setTestName("Account login");
 
-        login(new RegisterBody("eve.holt@reqres.in", "cityslicka"));
+        login(LoginCredentials.correct());
     }
 
     @Test(priority = 10)
@@ -118,7 +119,7 @@ public class HeadersTest extends HeaderBaseTest {
     @Story("Retrieving data via delayed response")
     public void GET_delayedResponse() {
 
-        ExtentReportsManager.setTestName("Delayed response");
+        ExtentReportsManager.setTestName("Retrieving data via delayed response");
 
         check(getResponse(Method.GET, "/api/users?delay=3"));
     }
