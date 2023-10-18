@@ -1,16 +1,18 @@
 package basicPositiveTests;
 
 import base.StatusCodeBaseTest;
-import io.qameta.allure.Description;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import io.restassured.http.Method;
 import org.apache.http.HttpStatus;
+import org.qa.factories.LoginCredentials;
+import org.qa.factories.RegisterCredentials;
+import org.qa.factories.UserBodyFactory;
 import org.testng.annotations.Test;
-import org.qa.bodies.RegisterBody;
-import org.qa.bodies.UserBody;
+import reportsManager.ExtentReportsManager;
 
+
+@Epic("E2E")
+@Feature("Status code tests")
 public class StatusCodeTest extends StatusCodeBaseTest {
 
     @Test
@@ -18,6 +20,8 @@ public class StatusCodeTest extends StatusCodeBaseTest {
     @Description("Checking that status code is 200 when receiving a list of resources")
     @Story("Getting the list of resource")
     public void GET_listResource() {
+
+        ExtentReportsManager.setTestName("Getting the list of resource");
 
         check(getResponse(Method.GET, "/api/unknown"), HttpStatus.SC_OK);
     }
@@ -28,6 +32,8 @@ public class StatusCodeTest extends StatusCodeBaseTest {
     @Story("Acquiring a single user")
     public void GET_SingleUser() {
 
+        ExtentReportsManager.setTestName("Acquiring a single user");
+
         singleUser("3", HttpStatus.SC_OK);
     }
 
@@ -36,6 +42,8 @@ public class StatusCodeTest extends StatusCodeBaseTest {
     @Description("Checking that status code is 200 when receiving a list of users")
     @Story("Getting the user list")
     public void GET_ListUsers() {
+
+        ExtentReportsManager.setTestName("Getting the user list");
 
         check(getResponse(Method.GET, "/api/users?page=2"), HttpStatus.SC_OK);
     }
@@ -46,6 +54,8 @@ public class StatusCodeTest extends StatusCodeBaseTest {
     @Story("Getting the user list")
     public void GET_singleResource() {
 
+        ExtentReportsManager.setTestName("Getting the user list");
+
         singleResource("2", HttpStatus.SC_OK);
     }
 
@@ -55,7 +65,9 @@ public class StatusCodeTest extends StatusCodeBaseTest {
     @Story("Creating a new person")
     public void POST_create() {
 
-        check(getResponse(Method.POST, "/api/users/", new UserBody("Pawel", "tester")), HttpStatus.SC_CREATED);
+        ExtentReportsManager.setTestName("Creating a new person");
+
+        check(getResponse(Method.POST, "/api/users/", UserBodyFactory.correct()), HttpStatus.SC_CREATED);
     }
 
     @Test
@@ -64,7 +76,9 @@ public class StatusCodeTest extends StatusCodeBaseTest {
     @Story("Account update using the PUT method")
     public void PUT_update() {
 
-        check(getResponse(Method.PUT, "/api/users/2", new UserBody("Dorotka", "helper")), HttpStatus.SC_OK);
+        ExtentReportsManager.setTestName("Account update using the PUT method");
+
+        check(getResponse(Method.PUT, "/api/users/2", UserBodyFactory.toUpdate_PUT()), HttpStatus.SC_OK);
     }
 
     @Test
@@ -73,7 +87,9 @@ public class StatusCodeTest extends StatusCodeBaseTest {
     @Story("Account update using the PATCH method")
     public void PATCH_update() {
 
-        check(getResponse(Method.PATCH, "/api/users/3", new UserBody("Antosia", "child")), HttpStatus.SC_OK);
+        ExtentReportsManager.setTestName("Account update using the PATCH method");
+
+        check(getResponse(Method.PATCH, "/api/users/3", UserBodyFactory.toUpdate_PATCH()), HttpStatus.SC_OK);
     }
 
     @Test
@@ -82,7 +98,9 @@ public class StatusCodeTest extends StatusCodeBaseTest {
     @Story("Account registration")
     public void POST_register() {
 
-        register(new RegisterBody("eve.holt@reqres.in", "pistol"), HttpStatus.SC_OK);
+        ExtentReportsManager.setTestName("Account registration");
+
+        register(RegisterCredentials.correct(), HttpStatus.SC_OK);
     }
 
     @Test
@@ -91,7 +109,9 @@ public class StatusCodeTest extends StatusCodeBaseTest {
     @Story("Account login")
     public void POST_login() {
 
-        register(new RegisterBody("eve.holt@reqres.in", "pistol"), HttpStatus.SC_OK);
+        ExtentReportsManager.setTestName("Account login");
+
+        register(LoginCredentials.correct(), HttpStatus.SC_OK);
     }
 
     @Test
@@ -99,6 +119,8 @@ public class StatusCodeTest extends StatusCodeBaseTest {
     @Description("Checking that status code is 200 when receiving delayed response data")
     @Story("Retrieving data via delayed response")
     public void GET_delayedResponse() {
+
+        ExtentReportsManager.setTestName("Retrieving data via delayed response");
 
         check(getResponse(Method.GET, "/api/users?delay=3"), HttpStatus.SC_OK);
     }
@@ -108,6 +130,8 @@ public class StatusCodeTest extends StatusCodeBaseTest {
     @Description("Checking that status code is 204 when receiving delete an user")
     @Story("Deleting an user")
     public void DELETE_delete() {
+
+        ExtentReportsManager.setTestName("Deleting an user");
 
         check(getResponse(Method.DELETE, "/api/users/2"), HttpStatus.SC_NO_CONTENT);
     }

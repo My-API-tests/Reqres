@@ -1,14 +1,15 @@
 package negativeTests.validInput;
 
 import base.PerformanceSanityBaseTest;
-import io.qameta.allure.Description;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
-import io.qameta.allure.Story;
-import org.qa.bodies.RegisterBody;
+import io.qameta.allure.*;
+import org.qa.factories.LoginCredentials;
+import org.qa.factories.RegisterCredentials;
 import org.testng.annotations.Test;
+import reportsManager.ExtentReportsManager;
 
 
+@Epic("E2E")
+@Feature("Performance sanity tests")
 public class PerformanceSanityTest extends PerformanceSanityBaseTest {
 
     @Test
@@ -16,6 +17,8 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
     @Description("Checking that response time is less than or equal to 500 ms when trying to receive a single non-existent user")
     @Story("Attempting to obtain a non-existent single user")
     public void GET_singleUser() {
+
+        ExtentReportsManager.setTestName("Attempting to obtain a non-existent single user");
 
         singleUser("500");
     }
@@ -26,6 +29,8 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
     @Story("Attempting to obtain a non-existent single resource")
     public void GET_singleResource() {
 
+        ExtentReportsManager.setTestName("Attempting to obtain a non-existent single resource");
+
         singleResource("2000");
     }
 
@@ -35,7 +40,9 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
     @Story("Attempting to register with undefined user")
     public void POST_registerNotDefinedUser() {
 
-        register(new RegisterBody("eve.holt@req.in", "pistol"));
+        ExtentReportsManager.setTestName("Attempting to register with undefined user");
+
+        register(RegisterCredentials.notDefinedUser());
     }
 
     @Test
@@ -44,7 +51,9 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
     @Story("Account registration without email or username")
     public void POST_registerMissingEmailOrUsername() {
 
-        register(new RegisterBody("", "pistol"));
+        ExtentReportsManager.setTestName("Account registration without email or username");
+
+        register(RegisterCredentials.withoutEmailOrUsername());
     }
 
     @Test
@@ -53,7 +62,9 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
     @Story("Account registration without password")
     public void POST_registerMissingPassword() {
 
-        register(new RegisterBody("eve.holt@reqres.in", ""));
+        ExtentReportsManager.setTestName("Account registration without password");
+
+        register(RegisterCredentials.withoutPassword());
     }
 
     @Test
@@ -62,7 +73,9 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
     @Story("Login with an incorrect username")
     public void POST_loginIncorrectUsername() {
 
-        login(new RegisterBody("eve.holt@req.in", "pistol"));
+        ExtentReportsManager.setTestName("Login with an incorrect username");
+
+        login(LoginCredentials.incorrectUsername());
     }
 
     @Test
@@ -71,7 +84,9 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
     @Story("Login without username")
     public void POST_loginMissingEmailOrUsername() {
 
-        login(new RegisterBody("", "pistol"));
+        ExtentReportsManager.setTestName("Login without username");
+
+        login(LoginCredentials.withoutEmailOrUsername());
     }
 
     @Test
@@ -80,6 +95,8 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
     @Story("Login without password")
     public void POST_loginMissingPassword() {
 
-        login(new RegisterBody("eve.holt@reqres.in", ""));
+        ExtentReportsManager.setTestName("Login without password");
+
+        login(LoginCredentials.withoutPassword());
     }
 }

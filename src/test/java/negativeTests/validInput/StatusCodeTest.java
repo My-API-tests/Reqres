@@ -1,76 +1,86 @@
 package negativeTests.validInput;
 
 import base.StatusCodeBaseTest;
+import io.qameta.allure.*;
 import org.apache.http.HttpStatus;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
-import org.qa.bodies.RegisterBody;
+import org.qa.factories.LoginCredentials;
+import org.qa.factories.RegisterCredentials;
 import org.testng.annotations.Test;
-import static org.qa.constans.SuiteTags.VALIDATE_STATUS_CODE;
 
+
+@Epic("E2E")
+@Feature("Status code tests")
 public class StatusCodeTest extends StatusCodeBaseTest {
 
     @Test
-    @Tag(VALIDATE_STATUS_CODE)
-    @DisplayName("Should return status code 404")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that status code is 404 when trying to receive a single non-existent user")
+    @Story("Acquiring a single user")
     public void GET_singleUser() {
 
         singleUser("150", HttpStatus.SC_NOT_FOUND);
     }
 
     @Test
-    @Tag(VALIDATE_STATUS_CODE)
-    @DisplayName("Should return status code 404")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that status code is 404 when trying to receive a single non-existent resource")
+    @Story("Attempting to obtain a non-existent single user")
     public void GET_singleResource() {
 
         singleResource("2000", HttpStatus.SC_NOT_FOUND);
     }
 
     @Test
-    @Tag(VALIDATE_STATUS_CODE)
-    @DisplayName("Should return status code 400")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that status code is 400 when trying to register with an undefined user")
+    @Story("Attempting to register with undefined user")
     public void POST_registerNotDefinedUser() {
 
-        register(new RegisterBody("eve.holt@req.in", "pistol"), HttpStatus.SC_BAD_REQUEST);
+        register(RegisterCredentials.notDefinedUser(), HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test
-    @Tag(VALIDATE_STATUS_CODE)
-    @DisplayName("Should return status code 400")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that status code is 400 when trying to register without email or username")
+    @Story("Account registration without email or username")
     public void POST_registerMissingEmailOrUsername() {
 
-        register(new RegisterBody("", "pistol"), HttpStatus.SC_BAD_REQUEST);
+        register(RegisterCredentials.withoutEmailOrUsername(), HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test
-    @Tag(VALIDATE_STATUS_CODE)
-    @DisplayName("Should return status code 400")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that status code is 400 when trying to register without password")
+    @Story("Account registration without password")
     public void POST_registerMissingPassword() {
 
-        register(new RegisterBody("eve.holt@reqres.in", ""), HttpStatus.SC_BAD_REQUEST);
+        register(RegisterCredentials.withoutPassword(), HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test
-    @Tag(VALIDATE_STATUS_CODE)
-    @DisplayName("Should return status code 400")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that status code is 400 when trying to login with an incorrect username")
+    @Story("Login with an incorrect username")
     public void POST_loginIncorrectUsername() {
 
-        login(new RegisterBody("eve.holt@req.in", "pistol"), HttpStatus.SC_BAD_REQUEST);
+        login(LoginCredentials.incorrectUsername(), HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test
-    @Tag(VALIDATE_STATUS_CODE)
-    @DisplayName("Should return status code 400")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that status code is 400 when trying to login without email or username")
+    @Story("Login without email or username")
     public void POST_loginMissingEmailOrUsername() {
 
-        login(new RegisterBody("", "pistol"), HttpStatus.SC_BAD_REQUEST);
+        login(LoginCredentials.withoutEmailOrUsername(), HttpStatus.SC_BAD_REQUEST);
     }
 
     @Test
-    @Tag(VALIDATE_STATUS_CODE)
-    @DisplayName("Should return status code 400")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Checking that status code is 400 when trying to login without password")
+    @Story("Login without password")
     public void POST_loginMissingPassword() {
 
-        login(new RegisterBody("eve.holt@reqres.in", ""), HttpStatus.SC_BAD_REQUEST);
+        login(LoginCredentials.withoutPassword(), HttpStatus.SC_BAD_REQUEST);
     }
 }

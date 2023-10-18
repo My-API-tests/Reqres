@@ -4,10 +4,12 @@ import base.JSONDataBaseTest;
 import io.qameta.allure.*;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
-import org.qa.bodies.RegisterBody;
-import org.qa.constans.UnsuccessfulResponseBodies;
+import org.qa.factories.LoginCredentials;
+import org.qa.factories.RegisterCredentials;
+import org.qa.factories.UnsuccessfulResponseBodyFactory;
 import org.qa.pojo.RegisterLoginUnsuccessfulResponseBody;
 import org.testng.annotations.Test;
+import reportsManager.ExtentReportsManager;
 
 
 @Epic("E2E")
@@ -20,9 +22,11 @@ public class JSONDataTest extends JSONDataBaseTest {
     @Story("Account registration with an undefined user")
     public void POST_registerNotDefinedUser() {
 
-        check(getResponse(Method.POST, "/api/register", new RegisterBody("eve.holt@req.in", "pistol")),
+        ExtentReportsManager.setTestName("Account registration with an undefined user");
+
+        check(getResponse(Method.POST, "/api/register", RegisterCredentials.notDefinedUser()),
               (Response r)->r.body().as(RegisterLoginUnsuccessfulResponseBody.class),
-               UnsuccessfulResponseBodies.bodies.get(0), true);
+               UnsuccessfulResponseBodyFactory.forDefinedUsersOnly(), true);
     }
 
     @Test
@@ -31,9 +35,11 @@ public class JSONDataTest extends JSONDataBaseTest {
     @Story("Account registration without email or username")
     public void POST_registerMissingEmailOrUsername() {
 
-        check(getResponse(Method.POST, "/api/register", new RegisterBody("", "pistol")),
+        ExtentReportsManager.setTestName("Account registration without email or username");
+
+        check(getResponse(Method.POST, "/api/register", RegisterCredentials.withoutEmailOrUsername()),
                 (Response r)->r.body().as(RegisterLoginUnsuccessfulResponseBody.class),
-                UnsuccessfulResponseBodies.bodies.get(1),true);
+                UnsuccessfulResponseBodyFactory.missingEmailOrUsername(),true);
     }
 
     @Test
@@ -42,9 +48,11 @@ public class JSONDataTest extends JSONDataBaseTest {
     @Story("Account registration without password")
     public void POST_registerMissingPassword() {
 
-        check(getResponse(Method.POST, "/api/register", new RegisterBody("eve.holt@reqres.in", "")),
+        ExtentReportsManager.setTestName("Account registration without password");
+
+        check(getResponse(Method.POST, "/api/register", RegisterCredentials.withoutPassword()),
                 (Response r)->r.body().as(RegisterLoginUnsuccessfulResponseBody.class),
-                UnsuccessfulResponseBodies.bodies.get(2),true);
+                UnsuccessfulResponseBodyFactory.missingPassword(),true);
     }
 
     @Test
@@ -53,9 +61,11 @@ public class JSONDataTest extends JSONDataBaseTest {
     @Story("Login with an incorrect username")
     public void POST_loginIncorrectUsername() {
 
-        check(getResponse(Method.POST, "/api/login", new RegisterBody("eve.holt@req.in", "pistol")),
+        ExtentReportsManager.setTestName("Login with an incorrect username");
+
+        check(getResponse(Method.POST, "/api/login", LoginCredentials.incorrectUsername()),
                 (Response r)->r.body().as(RegisterLoginUnsuccessfulResponseBody.class),
-                UnsuccessfulResponseBodies.bodies.get(3), true);
+                UnsuccessfulResponseBodyFactory.userNotFound(), true);
     }
 
     @Test
@@ -64,9 +74,11 @@ public class JSONDataTest extends JSONDataBaseTest {
     @Story("Login without email or username")
     public void POST_loginMissingEmailOrUsername() {
 
-        check(getResponse(Method.POST, "/api/login", new RegisterBody("", "pistol")),
+        ExtentReportsManager.setTestName("Login without email or username");
+
+        check(getResponse(Method.POST, "/api/login", LoginCredentials.withoutEmailOrUsername()),
                 (Response r)->r.body().as(RegisterLoginUnsuccessfulResponseBody.class),
-                UnsuccessfulResponseBodies.bodies.get(1),true);
+                UnsuccessfulResponseBodyFactory.missingEmailOrUsername(),true);
     }
 
     @Test
@@ -75,8 +87,10 @@ public class JSONDataTest extends JSONDataBaseTest {
     @Story("Login without password")
     public void POST_loginMissingPassword() {
 
-        check(getResponse(Method.POST, "/api/login", new RegisterBody("eve.holt@reqres.in", "")),
+        ExtentReportsManager.setTestName("Login without password");
+
+        check(getResponse(Method.POST, "/api/login", LoginCredentials.withoutPassword()),
                 (Response r)->r.body().as(RegisterLoginUnsuccessfulResponseBody.class),
-                UnsuccessfulResponseBodies.bodies.get(2),true);
+                UnsuccessfulResponseBodyFactory.missingPassword(),true);
     }
 }
