@@ -3,7 +3,15 @@
 
 <suite name="Reqres API tests">
     <suite-files>
+        <suite-file path="status-code-positive.xml"/>
+        <suite-file path="validate-JSON-data-positive.xml"/>
+        <suite-file path="validate-JSON-schema-positive.xml"/>
         <suite-file path="headers-positive.xml"/>
-        <suite-file path="Validate-JSON-schema-positive.xml"/>
+        <suite-file path="performance-sanity-positive.xml"/>
+        <suite-file path="status-code-negative.xml"/>
+        <suite-file path="validate-JSON-data-negative.xml"/>
+        <suite-file path="validate-JSON-schema-negative.xml"/>
+        <suite-file path="headers-negative.xml"/>
+        <suite-file path="performance-sanity-negative.xml"/>
     </suite-files>
 </suite>
