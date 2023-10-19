@@ -5,12 +5,20 @@ import io.qameta.allure.*;
 import org.apache.http.HttpStatus;
 import org.qa.factories.LoginCredentials;
 import org.qa.factories.RegisterCredentials;
+import org.qa.utils.TestType;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 
 @Epic("E2E")
 @Feature("Status code tests")
 public class StatusCodeTest extends StatusCodeBaseTest {
+
+    @BeforeSuite
+    public void setTestType() {
+
+        TestType.setType("negative");
+    }
 
     @Test
     @Severity(SeverityLevel.CRITICAL)

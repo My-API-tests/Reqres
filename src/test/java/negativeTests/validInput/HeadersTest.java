@@ -4,12 +4,20 @@ import base.HeaderBaseTest;
 import io.qameta.allure.*;
 import org.qa.factories.LoginCredentials;
 import org.qa.factories.RegisterCredentials;
+import org.qa.utils.TestType;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 import org.qa.extentreportsmanager.ExtentReportsManager;
 
 @Epic("E2E")
 @Feature("Testing headers")
 public class HeadersTest extends HeaderBaseTest {
+
+    @BeforeSuite
+    public void setTestType() {
+
+        TestType.setType("negative");
+    }
 
     @Test(priority = 7)
     @Severity(SeverityLevel.NORMAL)

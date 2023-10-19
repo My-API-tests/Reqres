@@ -5,12 +5,20 @@ import io.qameta.allure.*;
 import io.restassured.http.Method;
 import org.qa.factories.LoginCredentials;
 import org.qa.factories.RegisterCredentials;
+import org.qa.utils.TestType;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 import org.qa.extentreportsmanager.ExtentReportsManager;
 
 @Epic("E2E")
 @Feature("Testing JSON structure")
 public class JSONStructureTest extends JSONStructureBaseTest {
+
+    @BeforeSuite
+    public void setTestType() {
+
+        TestType.setType("negative");
+    }
 
     @Test
     @Severity(SeverityLevel.CRITICAL)

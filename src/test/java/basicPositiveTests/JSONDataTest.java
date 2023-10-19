@@ -9,6 +9,8 @@ import org.qa.factories.RegisterCredentials;
 import org.qa.factories.SingleUserBodyFactory;
 import org.qa.factories.UserBodyFactory;
 import org.qa.pojo.*;
+import org.qa.utils.TestType;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 import org.qa.extentreportsmanager.ExtentReportsManager;
 
@@ -16,6 +18,12 @@ import org.qa.extentreportsmanager.ExtentReportsManager;
 @Epic("E2E")
 @Feature("Testing JSON data")
 public class JSONDataTest extends JSONDataBaseTest {
+
+    @BeforeSuite
+    public void setTestType() {
+
+        TestType.setType("positive");
+    }
 
     @Test
     @Severity(SeverityLevel.CRITICAL)
