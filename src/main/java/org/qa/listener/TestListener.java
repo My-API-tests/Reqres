@@ -1,5 +1,6 @@
 package org.qa.listener;
 
+import org.qa.utils.TestType;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -22,7 +23,7 @@ public class TestListener implements ITestListener {
     @Override
     public void onStart(ITestContext iTestContext) {
 
-        ExtentReportsManager.init(iTestContext.getSuite().getName());
+        ExtentReportsManager.init(iTestContext.getSuite().getName() + "-" + TestType.getType());
     }
 
     @Override
