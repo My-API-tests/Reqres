@@ -8,8 +8,10 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.testng.annotations.BeforeSuite;
 
-import static io.restassured.RestAssured.given;
+import java.io.InputStream;
+
 import static com.github.automatedowl.tools.AllureEnvironmentWriter.allureEnvironmentWriter;
+import static io.restassured.RestAssured.*;
 
 public class BaseTest {
 
@@ -49,6 +51,14 @@ public class BaseTest {
 
         RequestSpecification requestSpecification = given();
         requestSpecification.contentType(ContentType.JSON).body(body);
+
+        return requestSpecification.request(method, url);
+    }
+
+    protected Response getResponse(Method method, String url, InputStream inputStream) {
+
+        RequestSpecification requestSpecification = given();
+        requestSpecification.contentType(ContentType.JSON).body(inputStream);
 
         return requestSpecification.request(method, url);
     }
