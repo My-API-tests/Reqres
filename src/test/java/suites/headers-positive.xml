@@ -8,7 +8,7 @@
 
     <test name="Headers tests - positive">
         <classes>
-            <class name="basicPositiveTests.HeadersTest"/>
+            <class name="positivetests.HeadersTest"/>
         </classes>
     </test>
 </suite>

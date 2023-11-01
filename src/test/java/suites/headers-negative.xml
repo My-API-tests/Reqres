@@ -8,7 +8,7 @@
 
     <test name="Headers tests - negative">
         <classes>
-            <class name="negativeTests.validInput.HeadersTest"/>
+            <class name="negativetests.HeadersTest"/>
         </classes>
     </test>
 </suite>
