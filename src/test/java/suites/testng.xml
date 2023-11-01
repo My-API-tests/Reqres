@@ -13,5 +13,6 @@
         <suite-file path="validate-JSON-schema-negative.xml"/>
         <suite-file path="headers-negative.xml"/>
         <suite-file path="performance-sanity-negative.xml"/>
+        <suite-file path="status-code-malformed-data.xml"/>
     </suite-files>
 </suite>
