@@ -4,6 +4,8 @@ import io.restassured.http.Method;
 import io.restassured.response.Response;
 import org.qa.bodies.Credentials;
 
+import java.io.InputStream;
+
 public class StatusCodeBaseTest extends BaseTest {
 
     protected void check(Response response, int expectedStatusCode) {
@@ -28,8 +30,19 @@ public class StatusCodeBaseTest extends BaseTest {
         check(getResponse(Method.POST, "/api/register", registerBody), httpStatus);
     }
 
+    public void register(InputStream inputStream, int httpStatus) {
+
+        check(getResponse(Method.POST, "/api/register", inputStream), httpStatus);
+    }
+
     public void login(Credentials registerBody, int httpStatus) {
 
         check(getResponse(Method.POST, "/api/login", registerBody), httpStatus);
     }
+
+    public void login(InputStream inputStream, int httpStatus) {
+
+        check(getResponse(Method.POST, "/api/login", inputStream), httpStatus);
+    }
+
 }
