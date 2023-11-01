@@ -1,4 +1,4 @@
-package negativeTests.validInput;
+package negativetests;
 
 import base.JSONStructureBaseTest;
 import io.qameta.allure.*;

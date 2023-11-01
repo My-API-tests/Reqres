@@ -1,4 +1,4 @@
-package basicPositiveTests;
+package positivetests;
 
 import base.HeaderBaseTest;
 import io.qameta.allure.*;

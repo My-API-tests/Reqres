@@ -1,4 +1,4 @@
-package basicPositiveTests;
+package positivetests;
 
 import base.PerformanceSanityBaseTest;
 import io.qameta.allure.*;

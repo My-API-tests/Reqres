@@ -1,4 +1,4 @@
-package negativeTests.validInput;
+package negativetests;
 
 import base.PerformanceSanityBaseTest;
 import io.qameta.allure.*;

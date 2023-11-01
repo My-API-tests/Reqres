@@ -1,4 +1,4 @@
-package negativeTests.validInput;
+package negativetests;
 
 import base.JSONDataBaseTest;
 import io.qameta.allure.*;

@@ -1,4 +1,4 @@
-package basicPositiveTests;
+package positivetests;
 
 import base.JSONStructureBaseTest;
 import io.qameta.allure.*;
