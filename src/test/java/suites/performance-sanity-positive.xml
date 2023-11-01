@@ -8,7 +8,7 @@
 
     <test name="Performance sanity - positive tests">
         <classes>
-            <class name="basicPositiveTests.PerformanceSanityTest"/>
+            <class name="positivetests.PerformanceSanityTest"/>
         </classes>
     </test>
 </suite>

@@ -8,7 +8,7 @@
 
     <test name="Status code - positive tests">
         <classes>
-            <class name="basicPositiveTests.StatusCodeTest"/>
+            <class name="positivetests.StatusCodeTest"/>
         </classes>
     </test>
 </suite>

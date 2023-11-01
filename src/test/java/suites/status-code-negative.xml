@@ -8,7 +8,7 @@
 
     <test name="Status code - negative tests">
         <classes>
-            <class name="negativeTests.validInput.StatusCodeTest"/>
+            <class name="negativetests.StatusCodeTest"/>
         </classes>
     </test>
 </suite>

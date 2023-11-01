@@ -7,7 +7,7 @@
     </listeners>
     <test name="Validate JSON data - positive tests">
         <classes>
-            <class name="basicPositiveTests.JSONDataTest"/>
+            <class name="positivetests.JSONDataTest"/>
         </classes>
     </test>
 </suite>

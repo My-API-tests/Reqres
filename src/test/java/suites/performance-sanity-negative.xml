@@ -8,7 +8,7 @@
 
     <test name="Performance sanity - negative tests">
         <classes>
-            <class name="negativeTests.validInput.PerformanceSanityTest"/>
+            <class name="negativetests.PerformanceSanityTest"/>
         </classes>
     </test>
 </suite>

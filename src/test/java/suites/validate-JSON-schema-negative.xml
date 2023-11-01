@@ -8,7 +8,7 @@
 
     <test name="Validate JSON schema - negative tests">
         <classes>
-            <class name="negativeTests.validInput.JSONStructureTest"/>
+            <class name="negativetests.JSONStructureTest"/>
         </classes>
     </test>
 </suite>
