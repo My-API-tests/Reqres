@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
-<suite name="JSON schema tests">
+<suite name="JSON data tests">
     <listeners>
         <listener class-name="org.qa.listener.TestListener"/>
     </listeners>
-
-    <test name="Validate JSON schema - negative tests">
+    <test name="Validate JSON data when valid data is used">
         <classes>
-            <class name="negativetests.JSONStructureTest"/>
+            <class name="positivetests.JSONDataTest"/>
         </classes>
     </test>
 </suite>

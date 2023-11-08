@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
-<suite name="Status code tests">
+<suite name="Performance sanity tests">
     <listeners>
         <listener class-name="org.qa.listener.TestListener"/>
     </listeners>
 
-    <test name="Status code - negative tests">
+    <test name="Performance sanity when invalid data is used">
         <classes>
-            <class name="destructivetests.malformeddata.StatusCodeTest"/>
+            <class name="negativetests.PerformanceSanityTest"/>
         </classes>
     </test>
 </suite>

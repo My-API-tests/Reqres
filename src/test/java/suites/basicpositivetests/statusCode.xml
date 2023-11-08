@@ -6,9 +6,9 @@
         <listener class-name="org.qa.listener.TestListener"/>
     </listeners>
 
-    <test name="Status code - negative tests">
+    <test name="Status code when valid data is used">
         <classes>
-            <class name="negativetests.StatusCodeTest"/>
+            <class name="positivetests.StatusCodeTest"/>
         </classes>
     </test>
 </suite>

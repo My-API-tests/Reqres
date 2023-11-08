@@ -5,7 +5,7 @@
     <listeners>
         <listener class-name="org.qa.listener.TestListener"/>
     </listeners>
-    <test name="Validate JSON data - negative tests">
+    <test name="Validate JSON data when invalid data is used">
         <classes>
             <class name="negativetests.JSONDataTest"/>
         </classes>
