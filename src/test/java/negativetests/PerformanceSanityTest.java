@@ -22,7 +22,7 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
 
     @Test
     @Severity(SeverityLevel.NORMAL)
-    @Description("Checking that response time is less than or equal to 500 ms when trying to receive a single non-existent user")
+    @Description("Checking that response time is less than or equal to 5000 ms when trying to receive a single non-existent user")
     @Story("Attempting to obtain a non-existent single user")
     public void GET_singleUser() {
 
@@ -33,7 +33,7 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
 
     @Test
     @Severity(SeverityLevel.NORMAL)
-    @Description("Checking that response time is less than or equal to 500 ms when trying to receive a single non-existent resource")
+    @Description("Checking that response time is less than or equal to 5000 ms when trying to receive a single non-existent resource")
     @Story("Attempting to obtain a non-existent single resource")
     public void GET_singleResource() {
 
@@ -44,7 +44,7 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
 
     @Test
     @Severity(SeverityLevel.NORMAL)
-    @Description("Checking that response time is less than or equal to 500 ms when trying to register with an undefined user")
+    @Description("Checking that response time is less than or equal to 5000 ms when trying to register with an undefined user")
     @Story("Attempting to register with undefined user")
     public void POST_registerNotDefinedUser() {
 
@@ -55,7 +55,7 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
 
     @Test
     @Severity(SeverityLevel.NORMAL)
-    @Description("Checking that response time is less than or equal to 500 ms when trying to register without email or username")
+    @Description("Checking that response time is less than or equal to 5000 ms when trying to register without email or username")
     @Story("Account registration without email or username")
     public void POST_registerMissingEmailOrUsername() {
 
@@ -66,7 +66,7 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
 
     @Test
     @Severity(SeverityLevel.NORMAL)
-    @Description("Checking that response time is less than or equal to 500 ms when trying to to register without password")
+    @Description("Checking that response time is less than or equal to 5000 ms when trying to to register without password")
     @Story("Account registration without password")
     public void POST_registerMissingPassword() {
 
@@ -77,7 +77,7 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
 
     @Test
     @Severity(SeverityLevel.NORMAL)
-    @Description("Checking that response time is less than or equal to 500 ms when trying to login with an incorrect username")
+    @Description("Checking that response time is less than or equal to 5000 ms when trying to login with an incorrect username")
     @Story("Login with an incorrect username")
     public void POST_loginIncorrectUsername() {
 
@@ -88,7 +88,7 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
 
     @Test
     @Severity(SeverityLevel.NORMAL)
-    @Description("Checking that response time is less than or equal to 500 ms when trying to login without email or username")
+    @Description("Checking that response time is less than or equal to 5000 ms when trying to login without email or username")
     @Story("Login without username")
     public void POST_loginMissingEmailOrUsername() {
 
@@ -99,7 +99,7 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
 
     @Test
     @Severity(SeverityLevel.NORMAL)
-    @Description("Checking that response time is less than or equal to 500 ms when trying to login without password")
+    @Description("Checking that response time is less than or equal to 5000 ms when trying to login without password")
     @Story("Login without password")
     public void POST_loginMissingPassword() {
 
