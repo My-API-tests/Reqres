@@ -79,7 +79,7 @@ public class HeadersTest extends HeaderBaseTest {
 
     @Test(priority = 2)
     @Severity(SeverityLevel.CRITICAL)
-    @Description("Checking that HTTPS headers are as expected when updating a person via PUT")
+    @Description("Checking that HTTPS headers are as expected when updating a person via PUT method")
     @Story("Account update using the PUT method")
     public void PUT_update() {
 
@@ -90,7 +90,7 @@ public class HeadersTest extends HeaderBaseTest {
 
     @Test(priority = 3)
     @Severity(SeverityLevel.CRITICAL)
-    @Description("Checking that HTTPS headers are as expected when updating a person via PATCH")
+    @Description("Checking that HTTPS headers are as expected when updating a person via PATCH method")
     @Story("Account update using the PATCH method")
     public void PATCH_update() {
 
