@@ -17,13 +17,19 @@ public class ExtentReportsManager {
 
         extentReports = new ExtentReports();
         ExtentSparkReporter sparkReporter = new ExtentSparkReporter(filepath + filename);
+
+        sparkReporter.config().setDocumentTitle("Reqres API tests");
         sparkReporter.config().setTheme(Theme.DARK);
+
         extentReports.attachReporter(sparkReporter);
     }
 
     public static void setTestName(String testName) {
 
-        extentTest = extentReports.createTest(testName);
+        extentTest = extentReports
+                .createTest(testName)
+                .assignCategory("E2E")
+                .assignAuthor("Paweł Aksman");
     }
 
     public static void setInfo() {
