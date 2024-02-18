@@ -72,9 +72,9 @@ public class JSONStructureTest extends JSONStructureBaseTest {
     @Story("Creating a new person")
     public void POST_create() {
 
-        ExtentReportsManager.setTestName("Creating a new person");
+        //ExtentReportsManager.setTestName("Creating a new person");
 
-        check(getResponse(Method.POST, "/api/users", UserBodyFactory.correct()), "create-json-schema.json");
+        check(getResponse(Method.POST, "/api/users", UserBodyFactory.correct()), "createUser.json");
     }
 
     @Test
@@ -85,7 +85,7 @@ public class JSONStructureTest extends JSONStructureBaseTest {
 
         ExtentReportsManager.setTestName("User update using the PUT method");
 
-        check(getResponse(Method.PUT, "/api/users/3", UserBodyFactory.toUpdate_PUT()), "create-json-schema.json");
+        check(getResponse(Method.PUT, "/api/users/3", UserBodyFactory.toUpdate_PUT()), "createUser.json");
     }
 
     @Test
@@ -96,7 +96,7 @@ public class JSONStructureTest extends JSONStructureBaseTest {
 
         ExtentReportsManager.setTestName("User update using the PATCH method");
 
-        check(getResponse(Method.PATCH, "/api/users/4", UserBodyFactory.toUpdate_PATCH()), "create-json-schema.json");
+        check(getResponse(Method.PATCH, "/api/users/4", UserBodyFactory.toUpdate_PATCH()), "createUser.json");
     }
 
     @Test

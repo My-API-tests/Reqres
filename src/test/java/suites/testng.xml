@@ -2,17 +2,15 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <suite name="Reqres API tests">
-    <suite-files>
-        <suite-file path="status-code-positive.xml"/>
-        <suite-file path="validate-JSON-data-positive.xml"/>
-        <suite-file path="validate-JSON-schema-positive.xml"/>
-        <suite-file path="headers-positive.xml"/>
-        <suite-file path="performance-sanity-positive.xml"/>
-        <suite-file path="status-code-negative.xml"/>
-        <suite-file path="validate-JSON-data-negative.xml"/>
-        <suite-file path="validate-JSON-schema-negative.xml"/>
-        <suite-file path="headers-negative.xml"/>
-        <suite-file path="performance-sanity-negative.xml"/>
-        <suite-file path="status-code-malformed-data.xml"/>
-    </suite-files>
+
+    <parameter name="fileName" value="REQ_User.json"/>
+
+    <test name="My test">
+        <classes>
+            <class name="DelayedResponseTest">
+
+            </class>
+        </classes>
+    </test>
+
 </suite>

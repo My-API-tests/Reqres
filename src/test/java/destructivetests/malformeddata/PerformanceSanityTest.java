@@ -5,10 +5,11 @@ import io.qameta.allure.*;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 import org.qa.extentreportsmanager.ExtentReportsManager;
-import org.testng.Assert;
 import org.testng.annotations.Test;
-
 import java.io.InputStream;
+
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
+
 
 @Epic("E2E")
 @Feature("Performance sanity tests")
@@ -18,7 +19,10 @@ public class PerformanceSanityTest extends PerformanceSanityBaseTest {
 
         Response response = getResponse(method, url, inputStream);
 
-        Assert.assertEquals(response.getTime(), 5000L);
+        response
+                .then()
+                .assertThat()
+                .time(lessThanOrEqualTo(5000L));
     }
 
     @Test

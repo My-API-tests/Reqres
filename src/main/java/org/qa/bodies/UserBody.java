@@ -1,7 +1,9 @@
 package org.qa.bodies;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
 
+@Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserBody {
 
@@ -13,15 +15,5 @@ public class UserBody {
 
         this.name = name;
         this.job = job;
-    }
-
-    public String getName() {
-
-        return name;
-    }
-
-    public String getJob() {
-
-        return job;
     }
 }
