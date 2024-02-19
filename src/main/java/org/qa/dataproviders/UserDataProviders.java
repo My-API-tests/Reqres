@@ -1,6 +1,6 @@
 package org.qa.dataproviders;
 
-import org.qa.modelsbuilder.ModelsBuilder;
+import org.qa.jsondatatransformer.JSONDataTransformer;
 import org.qa.utils.DataProviderNames;
 import org.testng.annotations.DataProvider;
 
@@ -11,18 +11,18 @@ public class UserDataProviders {
     @DataProvider(name = DataProviderNames.CORRECT)
     public Object[] correct() throws IOException {
 
-        return ModelsBuilder.getUserBodies(DataProviderNames.CORRECT);
+        return JSONDataTransformer.getUserData(DataProviderNames.CORRECT);
     }
 
-    @DataProvider(name = DataProviderNames.WITHOUT_NAME)
-    public Object[] withoutName() throws IOException {
+    @DataProvider(name = DataProviderNames.MISSING_NAME)
+    public Object[] withoutName() {
 
-        return ModelsBuilder.getUserBodies(DataProviderNames.WITHOUT_NAME);
+        return JSONDataTransformer.getUserData(DataProviderNames.MISSING_NAME);
     }
 
-    @DataProvider(name = DataProviderNames.WITHOUT_JOB)
-    public Object[] withoutJob() throws IOException {
+    @DataProvider(name = DataProviderNames.MISSING_JOB)
+    public Object[] withoutJob() {
 
-        return ModelsBuilder.getUserBodies(DataProviderNames.WITHOUT_JOB);
+        return JSONDataTransformer.getUserData(DataProviderNames.MISSING_JOB);
     }
 }
