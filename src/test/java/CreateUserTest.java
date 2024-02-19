@@ -3,6 +3,7 @@ import io.qameta.allure.*;
 import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
+import io.restassured.response.ResponseBody;
 import org.apache.http.HttpStatus;
 import org.json.JSONObject;
 import org.qa.dataproviders.UserDataProviders;
@@ -10,6 +11,7 @@ import org.qa.jsondatatransformer.JSONDataTransformer;
 import org.qa.utils.DataProviderNames;
 import org.qa.utils.JSONSchemas;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.equalTo;
@@ -27,7 +29,22 @@ public class CreateUserTest extends BaseTest {
                 .then()
                 .statusCode(HttpStatus.SC_CREATED)
                 .body(JsonSchemaValidator.matchesJsonSchema(JSONDataTransformer.getJsonSchema(JSONSchemas.CREATE_USER)))
+
                 .extract().response();
+    }
+
+    private void verifyDataTypes(ResponseBody responseBody) {
+
+        SoftAssert softAssert = new SoftAssert();
+
+        JSONObject jsonObject = new JSONObject(responseBody.asString());
+
+        softAssert.assertTrue(jsonObject.get("name") instanceof String, "The \"name\" field is not String");
+        softAssert.assertTrue(jsonObject.get("job") instanceof String, "The \"job\" field is not String");
+        softAssert.assertTrue(jsonObject.get("id") instanceof String, "The \"id\" field is not string");
+        softAssert.assertTrue(jsonObject.get("createdAt") instanceof String, "The \"createdAt\" field is not String");
+
+        softAssert.assertAll();
     }
 
     @Severity(SeverityLevel.CRITICAL)
@@ -43,7 +60,7 @@ public class CreateUserTest extends BaseTest {
                 .body("name", equalTo(body.getString("name")))
                 .body("job", equalTo(body.getString("job")));
 
-        checkHeaders(response);
+        verifyDataTypes(response.getBody());
     }
 
     @Severity(SeverityLevel.CRITICAL)
