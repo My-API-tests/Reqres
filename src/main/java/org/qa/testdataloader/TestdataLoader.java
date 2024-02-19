@@ -6,7 +6,6 @@ import lombok.Getter;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-
 public class TestdataLoader {
 
     private static final String schemasPath = "./src/test/resources/testdata/schemas/schemas.json";
