@@ -1,14 +1,13 @@
-package org.qa.modelsbuilder;
+package org.qa.jsondatatransformer;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.qa.testdataloader.TestdataLoader;
 
-import java.io.IOException;
 import java.util.stream.IntStream;
 
-public class ModelsBuilder {
-    public static JSONObject[] getUserBodies(String key) throws IOException {
+public class JSONDataTransformer {
+    public static JSONObject[] getUserData(String key) {
 
         JSONObject jsonObject = new JSONObject(TestdataLoader.getBodySource());
         JSONArray jsonArray = jsonObject.getJSONArray(key);
