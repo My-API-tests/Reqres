@@ -1,5 +1,7 @@
 import base.BaseTest;
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
@@ -17,6 +19,8 @@ import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.*;
 
+@Epic("E2E")
+@Feature("Register")
 public class RegisterTest extends BaseTest {
 
     private Response check(int statusCode, JSONObject body, String jsonSchemaKey) {
