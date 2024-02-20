@@ -1,9 +1,7 @@
 import base.BaseTest;
 import io.qameta.allure.*;
-import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
-import org.qa.jsondatatransformer.JSONDataTransformer;
 import org.qa.utils.JSONSchemas;
 import org.testng.annotations.Test;
 
@@ -13,15 +11,10 @@ import static io.restassured.RestAssured.*;
 @Feature("Singe <Resource>")
 public class SingleResourceTest extends BaseTest {
 
-    private Response check(String id, int statusCode, String jsonSchemaKey) {
+    private Response check(String id) {
 
         return given()
-                .get("/api/unknown/" + id)
-                .then()
-                .assertThat()
-                .statusCode(statusCode)
-                .body(JsonSchemaValidator.matchesJsonSchema(JSONDataTransformer.getJsonSchema(jsonSchemaKey)))
-                .extract().response();
+                .get("/api/unknown/" + id);
     }
 
     @Severity(SeverityLevel.NORMAL)
@@ -30,7 +23,9 @@ public class SingleResourceTest extends BaseTest {
     @Test
     public void correctId() {
 
-        Response response = check("2", HttpStatus.SC_OK, JSONSchemas.SINGLE_RESOURCE);
+        Response response = check("2");
+        verifyStatusCode(response, HttpStatus.SC_OK);
+        verifyJSONSchema(response, JSONSchemas.SINGLE_RESOURCE);
     }
 
     @Description("Verify that an error message appears when an incorrect ID is provided")
@@ -38,6 +33,8 @@ public class SingleResourceTest extends BaseTest {
     @Test
     public void incorrectId() {
 
-        Response response = check("xyz", HttpStatus.SC_NOT_FOUND, JSONSchemas.EMPTY_BODY);
+        Response response = check("xyz");
+        verifyStatusCode(response, HttpStatus.SC_NOT_FOUND);
+        verifyJSONSchema(response, JSONSchemas.EMPTY_BODY);
     }
 }
