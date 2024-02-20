@@ -1,12 +1,16 @@
 package base;
 
-import com.google.common.collect.ImmutableMap;
+import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import io.restassured.http.Header;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import org.json.simple.parser.ParseException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.qa.jsondatatransformer.JSONDataTransformer;
 import org.qa.testdataloader.TestdataLoader;
+import org.qa.utils.TestUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Optional;
@@ -16,16 +20,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.github.automatedowl.tools.AllureEnvironmentWriter.allureEnvironmentWriter;
-
 public class BaseTest {
 
     @Parameters({"fileName"})
     @BeforeSuite
     public void init(@Optional("noFile") String fileName) throws IOException, ParseException {
 
+        TestUtils.setAllureEnvironment();
         RestAssured.baseURI = "https://reqres.in/";
-        setAllureEnvironment();
         TestdataLoader.loadJsonSchemas();
 
         if (!fileName.equals("noFile")) {
@@ -33,25 +35,33 @@ public class BaseTest {
         }
     }
 
-    protected void setAllureEnvironment() {
+    @Step("Verify status code")
+    protected void verifyStatusCode(Response response, int statusCode) {
 
-        allureEnvironmentWriter(
-
-                ImmutableMap.<String, String>builder()
-                        .put("Available processors (core)", String.valueOf(Runtime.getRuntime().availableProcessors()))
-                        .put("Maximum memory", String.valueOf(Runtime.getRuntime().maxMemory()))
-                        .put("Total memory", String.valueOf(Runtime.getRuntime().totalMemory()))
-                        .put("Free memory", String.valueOf(Runtime.getRuntime().freeMemory()))
-                        .put("Available processors", String.valueOf(Runtime.getRuntime().availableProcessors()))
-                        .put("System property", System.getProperty("user.dir"))
-                        .put("Operating system", System.getProperty("os.name") + " " + System.getProperty("os.arch"))
-                        .put("Java runtime version", System.getProperty("java.runtime.version"))
-                        .put("URL", "https://requres.in/")
-                        .build()
-        );
+        response
+                .then()
+                .statusCode(statusCode);
     }
 
-    protected void checkHeaders(Response response) {
+    @Step("Verify JSON schema")
+    protected void verifyJSONSchema(Response response, String jsonSchemaKey) {
+
+        response
+                .then()
+                .body(JsonSchemaValidator.matchesJsonSchema(JSONDataTransformer.getJsonSchema(jsonSchemaKey)));
+    }
+
+    @Step("Verify {Bad Request} response body")
+    protected void verifyBadRequestResponseBody(String responseHTML) {
+
+        Document document = Jsoup.parse(responseHTML);
+        String preContent = document.select("pre").text();
+
+        Assert.assertEquals(preContent, "Bad Request");
+    }
+
+    @Step("Verify headers")
+    protected void verifyHeaders(Response response) {
 
         List<String> expected = new ArrayList<>(List.of(JSONDataTransformer.getHeaders()));
         List<String> given = response.headers().asList().stream().map(Header::getName).toList();
