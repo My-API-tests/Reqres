@@ -1,27 +1,44 @@
 import base.BaseTest;
 import io.qameta.allure.*;
-import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
-import org.qa.jsondatatransformer.JSONDataTransformer;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.qa.utils.JSONSchemas;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.isA;
 
 @Epic("E2E")
 @Feature("List users")
 public class ListUsersTest extends BaseTest {
 
-    private Response check(String id, int statusCode, String jsonSchemaKey) {
+    private Response set(String id) {
 
         return given()
-                .get("/api/users?page=" + id)
+                .get("/api/users?page=" + id);
+    }
+
+    @Step("Verify {page, per_page, total, total_pages} data types")
+    private void verifyDataTypesInResponse(Response response) {
+
+        response
                 .then()
-                .assertThat()
-                .statusCode(statusCode)
-                .body(JsonSchemaValidator.matchesJsonSchema(JSONDataTransformer.getJsonSchema(jsonSchemaKey)))
-                .extract().response();
+                .body("page", isA(Integer.class))
+                .body("per_page", isA(Integer.class))
+                .body("total", isA(Integer.class))
+                .body("total_pages", isA(Integer.class));
+    }
+
+    @Step("Verify list of users")
+    private void verifyListOfUsers(Response response) {
+
+        JSONObject jsonObject = new JSONObject(response.getBody().asString());
+        JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+        Assert.assertTrue(jsonArray.length() > 0);
     }
 
     @Severity(SeverityLevel.NORMAL)
@@ -30,7 +47,11 @@ public class ListUsersTest extends BaseTest {
     @Test
     public void correctId() {
 
-        Response response = check("2", HttpStatus.SC_OK, JSONSchemas.LIST_USERS);
+        Response response = set("2");
+        verifyStatusCode(response, HttpStatus.SC_OK);
+        verifyJSONSchema(response, JSONSchemas.LIST_USERS);
+        verifyDataTypesInResponse(response);
+        verifyListOfUsers(response);
     }
 
     @Description("Verify that an error message appears when an incorrect user ID is provided")
@@ -38,6 +59,8 @@ public class ListUsersTest extends BaseTest {
     @Test
     public void incorrectId() {
 
-        Response response = check("^%&*", HttpStatus.SC_NOT_FOUND, JSONSchemas.ERROR_RESPONSE);
+        Response response = set("^%&*");
+        verifyStatusCode(response, HttpStatus.SC_NOT_FOUND);
+        verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
     }
 }
