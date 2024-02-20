@@ -1,39 +1,37 @@
 import base.BaseTest;
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import io.restassured.http.ContentType;
-import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.qa.dataproviders.RegisterDataProviders;
-import org.qa.jsondatatransformer.JSONDataTransformer;
 import org.qa.utils.DataProviderNames;
 import org.qa.utils.JSONSchemas;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.isA;
 
 @Epic("E2E")
 @Feature("Register")
 public class RegisterTest extends BaseTest {
 
-    private Response check(int statusCode, JSONObject body, String jsonSchemaKey) {
+    private Response set(String responseBody) {
 
         return given()
                 .contentType(ContentType.JSON)
-                .body(body.toString())
-                .post("/api/register")
+                .body(responseBody)
+                .post("/api/register");
+    }
+
+    @Step("Verify {id, token} data types")
+    private void verifyDataTypesInResponse(Response response) {
+
+        response
                 .then()
                 .assertThat()
-                .statusCode(statusCode)
-                .body(JsonSchemaValidator.matchesJsonSchema(JSONDataTransformer.getJsonSchema(jsonSchemaKey)))
-                .extract().response();
+                .body("id", isA(Integer.class))
+                .body("token", isA(String.class));
     }
 
     @Description("Verify that a user can be registered using correct credentials")
@@ -41,8 +39,10 @@ public class RegisterTest extends BaseTest {
     @Test(dataProvider = DataProviderNames.USER_NOT_DEFINED, dataProviderClass = RegisterDataProviders.class)
     public void correct(JSONObject body) {
 
-        Response response = check(HttpStatus.SC_OK, body, JSONSchemas.REGISTER);
-        System.out.println(response.body().prettyPrint());
+        Response response = set(body.toString());
+        verifyStatusCode(response, HttpStatus.SC_OK);
+        verifyJSONSchema(response, JSONSchemas.REGISTER);
+        verifyDataTypesInResponse(response);
     }
 
     @Description("Verify that a new user cannot register if the user is not defined")
@@ -50,7 +50,9 @@ public class RegisterTest extends BaseTest {
     @Test(dataProvider = DataProviderNames.USER_NOT_DEFINED, dataProviderClass = RegisterDataProviders.class)
     public void userNotDefined(JSONObject body) {
 
-        Response response = check(HttpStatus.SC_BAD_REQUEST, body, JSONSchemas.ERROR_RESPONSE);
+        Response response = set(body.toString());
+        verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
+        verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
     }
 
     @Description("Verify that a new user cannot register when an email is missing")
@@ -58,7 +60,9 @@ public class RegisterTest extends BaseTest {
     @Test(dataProvider = DataProviderNames.MISSING_EMAIL, dataProviderClass = RegisterDataProviders.class)
     public void missingEmail(JSONObject body) {
 
-        Response response = check(HttpStatus.SC_BAD_REQUEST, body, JSONSchemas.ERROR_RESPONSE);
+        Response response = set(body.toString());
+        verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
+        verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
     }
 
     @Description("Verify that a new user cannot register when an email is missing")
@@ -66,7 +70,9 @@ public class RegisterTest extends BaseTest {
     @Test(dataProvider = DataProviderNames.MISSING_PASSWORD, dataProviderClass = RegisterDataProviders.class)
     public void missingPassword(JSONObject body) {
 
-        Response response = check(HttpStatus.SC_BAD_REQUEST, body, JSONSchemas.ERROR_RESPONSE);
+        Response response = set(body.toString());
+        verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
+        verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
     }
 
     @Description("Verify that an error message appears when sending a malformed JSON request body")
@@ -76,18 +82,8 @@ public class RegisterTest extends BaseTest {
 
         String invalid = "{" + "  \"email\": \"example@example.com\"," + "  \"password\": \"password123\"";
 
-        String responseHTML = given()
-                .contentType(ContentType.JSON)
-                .body(invalid)
-                .post("/api/register")
-                .then()
-                .assertThat()
-                .statusCode(HttpStatus.SC_BAD_REQUEST)
-                .extract().body().asString();
-
-        Document document = Jsoup.parse(responseHTML);
-        String preContent = document.select("prev").text();
-
-        Assert.assertEquals(preContent, "Bad Request");
+        Response response = set(invalid);
+        verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
+        verifyBadRequestResponseBody(response.getBody().asString());
     }
 }
