@@ -1,95 +1,103 @@
 import base.BaseTest;
 import io.qameta.allure.*;
 import io.restassured.http.ContentType;
-import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
-import io.restassured.response.ResponseBody;
 import org.apache.http.HttpStatus;
 import org.json.JSONObject;
 import org.qa.dataproviders.UserDataProviders;
-import org.qa.jsondatatransformer.JSONDataTransformer;
 import org.qa.utils.DataProviderNames;
 import org.qa.utils.JSONSchemas;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.isA;
 
 @Epic("E2E")
 @Feature("Create")
 public class CreateUserTest extends BaseTest {
 
-    private Response check(JSONObject body) {
+    private Response set(JSONObject body) {
 
         return given().when()
                 .contentType(ContentType.JSON)
                 .body(body.toString())
-                .post("/api/users/")
-                .then()
-                .statusCode(HttpStatus.SC_CREATED)
-                .body(JsonSchemaValidator.matchesJsonSchema(JSONDataTransformer.getJsonSchema(JSONSchemas.CREATE_USER)))
-
-                .extract().response();
+                .post("/api/users/");
     }
 
-    private void verifyDataTypes(ResponseBody responseBody) {
+    @Step("Verify {name, job, id, createdAt} data types")
+    private void verifyDataTypesInResponse(Response response) {
 
-        SoftAssert softAssert = new SoftAssert();
+        response
+                .then()
+                .assertThat()
+                .body("name", isA(String.class))
+                .body("job", isA(String.class))
+                .body("id", isA(String.class))
+                .body("createdAt", isA(String.class));
+    }
 
-        JSONObject jsonObject = new JSONObject(responseBody.asString());
+    @Step("Verify {name, job, id, createdAt} values")
+    private void verifyValuesInResponseWithRequest(Response response, JSONObject requestBody) {
 
-        softAssert.assertTrue(jsonObject.get("name") instanceof String, "The \"name\" field is not String");
-        softAssert.assertTrue(jsonObject.get("job") instanceof String, "The \"job\" field is not String");
-        softAssert.assertTrue(jsonObject.get("id") instanceof String, "The \"id\" field is not string");
-        softAssert.assertTrue(jsonObject.get("createdAt") instanceof String, "The \"createdAt\" field is not String");
+        response.then()
+                .assertThat()
+                .body("name", equalTo(requestBody.getString("name")))
+                .body("job", equalTo(requestBody.getString("job")));
+    }
 
-        softAssert.assertAll();
+    @Step("Verify the {job} value")
+    private void verifyJobValueInResponseWithRequest(Response response, JSONObject requestBody) {
+
+        response
+                .then()
+                .assertThat()
+                .body("job", equalTo(requestBody.getString("job")));
+    }
+
+    @Step("Verify the {name} value")
+    private void verifyNameValueInResponseWithRequest(Response response, JSONObject requestBody) {
+
+        response
+                .then()
+                .assertThat()
+                .body("name", equalTo(requestBody.get("name")));
     }
 
     @Severity(SeverityLevel.CRITICAL)
     @Description("Verify that a new user can be created using correct data")
     @Story("As an user, I want to be able to create an account using correct data")
     @Test(dataProvider = DataProviderNames.CORRECT, dataProviderClass = UserDataProviders.class)
-    public void correct(JSONObject body) {
+    public void correct(JSONObject requestBody) {
 
-        Response response = check(body);
-
-        response.then()
-                .assertThat()
-                .body("name", equalTo(body.getString("name")))
-                .body("job", equalTo(body.getString("job")));
-
-        verifyDataTypes(response.getBody());
+        Response response = set(requestBody);
+        verifyStatusCode(response, HttpStatus.SC_CREATED);
+        verifyJSONSchema(response, JSONSchemas.CREATE_USER);
+        verifyDataTypesInResponse(response);
+        verifyValuesInResponseWithRequest(response, requestBody);
     }
 
     @Severity(SeverityLevel.CRITICAL)
     @Description("Verify that a new user cannot be created when the \"name\" parameter is missing")
     @Story("As an user, I want to be able to create an account even if I do not provide a name")
     @Test(dataProvider = DataProviderNames.MISSING_NAME, dataProviderClass = UserDataProviders.class)
-    public void missingName(JSONObject body) {
+    public void missingName(JSONObject requestBody) {
 
-        Response response = check(body);
-
-        response.then()
-                .assertThat()
-                .body("job", equalTo(body.getString("job")));
-
-        checkHeaders(response);
+        Response response = set(requestBody);
+        verifyStatusCode(response, HttpStatus.SC_CREATED);
+        verifyJSONSchema(response, JSONSchemas.CREATE_USER);
+        verifyJobValueInResponseWithRequest(response, requestBody);
     }
 
     @Severity(SeverityLevel.CRITICAL)
     @Description("Verify that a new user cannot be created when the \"job\" parameter is missing")
     @Story("As an user, I want to be able to create an account even if I do not provide a job")
     @Test(dataProvider = DataProviderNames.MISSING_JOB, dataProviderClass = UserDataProviders.class)
-    public void missingJob(JSONObject body) {
+    public void missingJob(JSONObject requestBody) {
 
-        Response response = check(body);
-
-        response.then()
-                .assertThat()
-                .body("name", equalTo(body.getString("name")));
-
-        checkHeaders(response);
+        Response response = set(requestBody);
+        verifyStatusCode(response, HttpStatus.SC_CREATED);
+        verifyJSONSchema(response, JSONSchemas.CREATE_USER);
+        verifyNameValueInResponseWithRequest(response, requestBody);
     }
 }
