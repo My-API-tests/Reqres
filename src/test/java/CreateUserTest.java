@@ -84,7 +84,6 @@ public class CreateUserTest extends BaseTest {
     public void missingName(JSONObject requestBody) {
 
         Response response = set(requestBody);
-        //System.out.println(response.getBody().prettyPrint());
         verifyStatusCode(response, HttpStatus.SC_CREATED);
         verifyJSONSchema(response, JSONSchemas.MISSING_NAME);
         verifyJobValueInResponseWithRequest(response, requestBody);
