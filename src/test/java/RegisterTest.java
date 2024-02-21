@@ -53,6 +53,8 @@ public class RegisterTest extends BaseTest {
         Response response = set(body.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
+        verifyErrorDataTypeInResponse(response);
+        verifyErrorValueInResponseWithRequest(response, "Only defined users succeed registration");
     }
 
     @Description("Verify that a new user cannot register when an email is missing")
@@ -63,6 +65,8 @@ public class RegisterTest extends BaseTest {
         Response response = set(body.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
+        verifyErrorDataTypeInResponse(response);
+        verifyErrorValueInResponseWithRequest(response, "Missing email or username");
     }
 
     @Description("Verify that a new user cannot register when an email is missing")
@@ -73,6 +77,8 @@ public class RegisterTest extends BaseTest {
         Response response = set(body.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
+        verifyErrorDataTypeInResponse(response);
+        verifyErrorValueInResponseWithRequest(response, "Missing password");
     }
 
     @Description("Verify that an error message appears when sending a malformed JSON request body")
