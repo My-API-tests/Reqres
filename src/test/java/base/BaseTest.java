@@ -20,6 +20,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.isA;
+
 public class BaseTest {
 
     @Parameters({"fileName"})
@@ -49,6 +52,24 @@ public class BaseTest {
         response
                 .then()
                 .body(JsonSchemaValidator.matchesJsonSchema(JSONDataTransformer.getJsonSchema(jsonSchemaKey)));
+    }
+
+    @Step("Verify the {error} data type")
+    protected void verifyErrorDataTypeInResponse(Response response) {
+
+        response
+                .then()
+                .assertThat()
+                .body("error", isA(String.class));
+    }
+
+    @Step("Verify the {error} value")
+    protected void verifyErrorValueInResponseWithRequest(Response response, String expectedMessage) {
+
+        response
+                .then()
+                .assertThat()
+                .body("error", equalTo(expectedMessage));
     }
 
     @Step("Verify {Bad Request} response body")
