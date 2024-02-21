@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
-<suite name="Headers tests">
+<suite name="List users">
     <listeners>
         <listener class-name="org.qa.listener.TestListener"/>
     </listeners>
 
-    <test name="Headers tests when valid data is used">
+    <test name="Retrieved the user list">
         <classes>
-            <class name="positivetests.HeadersTest"/>
+            <class name="ListUsersTest">
+                <methods>
+                    <include name="correctId"/>
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
-<suite name="Performance sanity tests">
+<suite name="Delayed response">
     <listeners>
         <listener class-name="org.qa.listener.TestListener"/>
     </listeners>
 
-    <test name="Performance sanity when valid data is used">
+    <test name="Retrieved the user list using the delayed response">
         <classes>
-            <class name="positivetests.PerformanceSanityTest"/>
+            <class name="DelayedResponseTest"/>
         </classes>
     </test>
 </suite>
