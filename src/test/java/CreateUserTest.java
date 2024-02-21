@@ -84,8 +84,9 @@ public class CreateUserTest extends BaseTest {
     public void missingName(JSONObject requestBody) {
 
         Response response = set(requestBody);
+        //System.out.println(response.getBody().prettyPrint());
         verifyStatusCode(response, HttpStatus.SC_CREATED);
-        verifyJSONSchema(response, JSONSchemas.CREATE_USER);
+        verifyJSONSchema(response, JSONSchemas.MISSING_NAME);
         verifyJobValueInResponseWithRequest(response, requestBody);
     }
 
@@ -97,7 +98,7 @@ public class CreateUserTest extends BaseTest {
 
         Response response = set(requestBody);
         verifyStatusCode(response, HttpStatus.SC_CREATED);
-        verifyJSONSchema(response, JSONSchemas.CREATE_USER);
+        verifyJSONSchema(response, JSONSchemas.MISSING_JOB);
         verifyNameValueInResponseWithRequest(response, requestBody);
     }
 }
