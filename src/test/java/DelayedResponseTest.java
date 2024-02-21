@@ -1,4 +1,4 @@
-import base.BaseTest;
+import base.ListBaseTest;
 import io.qameta.allure.*;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
@@ -9,14 +9,13 @@ import static io.restassured.RestAssured.*;
 
 @Epic("E2E")
 @Feature("Delayed response")
-public class DelayedResponseTest extends BaseTest {
+public class DelayedResponseTest extends ListBaseTest {
 
     private Response set() {
 
         return given()
                 .get("/api/users?delay=3");
     }
-
 
     @Severity(SeverityLevel.NORMAL)
     @Description("Verify that the users list can be retrieved with a delayed response")
@@ -27,5 +26,7 @@ public class DelayedResponseTest extends BaseTest {
         Response response = set();
         verifyStatusCode(response, HttpStatus.SC_OK);
         verifyJSONSchema(response, JSONSchemas.DELAYED_RESPONSE);
+        verifyDataTypesInResponse(response);
+        verifyListOfUsers(response);
     }
 }

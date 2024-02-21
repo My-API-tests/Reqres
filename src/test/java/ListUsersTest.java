@@ -1,44 +1,20 @@
-import base.BaseTest;
+import base.ListBaseTest;
 import io.qameta.allure.*;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.qa.utils.JSONSchemas;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.isA;
 
 @Epic("E2E")
 @Feature("List users")
-public class ListUsersTest extends BaseTest {
+public class ListUsersTest extends ListBaseTest {
 
     private Response set(String id) {
 
         return given()
                 .get("/api/users?page=" + id);
-    }
-
-    @Step("Verify {page, per_page, total, total_pages} data types")
-    private void verifyDataTypesInResponse(Response response) {
-
-        response
-                .then()
-                .body("page", isA(Integer.class))
-                .body("per_page", isA(Integer.class))
-                .body("total", isA(Integer.class))
-                .body("total_pages", isA(Integer.class));
-    }
-
-    @Step("Verify list of users")
-    private void verifyListOfUsers(Response response) {
-
-        JSONObject jsonObject = new JSONObject(response.getBody().asString());
-        JSONArray jsonArray = jsonObject.getJSONArray("data");
-
-        Assert.assertTrue(jsonArray.length() > 0);
     }
 
     @Severity(SeverityLevel.NORMAL)
