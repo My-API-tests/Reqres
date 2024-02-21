@@ -1,79 +1,106 @@
 import base.BaseTest;
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import io.restassured.http.ContentType;
-import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.qa.dataproviders.RegisterDataProviders;
-import org.qa.jsondatatransformer.JSONDataTransformer;
 import org.qa.utils.DataProviderNames;
 import org.qa.utils.JSONSchemas;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.isA;
+import static org.hamcrest.Matchers.not;
 
 @Epic("E2E")
 @Feature("Login")
 public class LoginTest extends BaseTest {
 
-    private Response check(int statusCode, JSONObject body, String jsonSchemaKey) {
+    private Response set(String requestBody) {
 
         return given()
                 .contentType(ContentType.JSON)
-                .body(body.toString())
-                .post("/api/login")
+                .body(requestBody)
+                .post("/api/login");
+    }
+
+    @Step("Verify the {token} data type")
+    private void verifyTokenDataTypeInResponse(Response response) {
+
+        response
                 .then()
                 .assertThat()
-                .statusCode(statusCode)
-                .body(JsonSchemaValidator.matchesJsonSchema(JSONDataTransformer.getJsonSchema(jsonSchemaKey)))
-                .extract().response();
+                .body("token", isA(String.class));
+    }
+
+    @Step("Verify the {token} value")
+    private void verifyTokenValueInResponseWithRequest(Response response) {
+
+        response
+                .then()
+                .assertThat()
+                .body("token", not(""));
     }
 
     @Description("Verify that a new user can be logged in using correct credentials")
     @Story("As a user, I want to be able to log in successfully using correct credentials")
     @Test(dataProvider = DataProviderNames.CORRECT, dataProviderClass = RegisterDataProviders.class)
-    public void correct(JSONObject body) {
+    public void correct(JSONObject requestBody) {
 
-        Response response = check(HttpStatus.SC_OK, body, JSONSchemas.LOGIN);
+        Response response = set(requestBody.toString());
+        verifyStatusCode(response, HttpStatus.SC_OK);
+        verifyJSONSchema(response, JSONSchemas.LOGIN);
+        verifyTokenDataTypeInResponse(response);
+        verifyTokenValueInResponseWithRequest(response);
     }
 
     @Description("Verify that a new user cannot log in using an incorrect email")
     @Story("As an user, I want to see an error message when I provide an incorrect email during login")
     @Test(dataProvider = DataProviderNames.INCORRECT_EMAIL, dataProviderClass = RegisterDataProviders.class)
-    public void incorrectEmail(JSONObject body) {
+    public void incorrectEmail(JSONObject requestBody) {
 
-        Response response = check(HttpStatus.SC_BAD_REQUEST, body, JSONSchemas.ERROR_RESPONSE);
+        Response response = set(requestBody.toString());
+        verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
+        verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
+        verifyErrorDataTypeInResponse(response);
+        verifyErrorValueInResponseWithRequest(response, "user not found");
     }
 
     @Description("Verify that a new user cannot log in using an incorrect password")
     @Story("As an user, I want to see an error message when I provide an incorrect password during login")
     @Test(dataProvider = DataProviderNames.INCORRECT_PASSWORD, dataProviderClass = RegisterDataProviders.class)
-    public void incorrectPassword(JSONObject body) {
+    public void incorrectPassword(JSONObject requestBody) {
 
-        Response response = check(HttpStatus.SC_BAD_REQUEST, body, JSONSchemas.ERROR_RESPONSE);
+        Response response = set(requestBody.toString());
+        verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
+        verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
+        verifyErrorDataTypeInResponse(response);
+        verifyErrorValueInResponseWithRequest(response, "user not found");
     }
 
     @Description("Verify that a new user cannot log in when an email is missing")
     @Story("As a user, I want to see an error message if I do not provide an email during login")
     @Test(dataProvider = DataProviderNames.MISSING_EMAIL, dataProviderClass = RegisterDataProviders.class)
-    public void missingEmail(JSONObject body) {
+    public void missingEmail(JSONObject requestBody) {
 
-        Response response = check(HttpStatus.SC_BAD_REQUEST, body, JSONSchemas.ERROR_RESPONSE);
+        Response response = set(requestBody.toString());
+        verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
+        verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
+        verifyErrorDataTypeInResponse(response);
+        verifyErrorValueInResponseWithRequest(response, "Missing email or username");
     }
 
     @Description("Verify that a new user cannot log in when a password is missing")
     @Story("As a user, I want to see an error message if I do not provide a password during login")
     @Test(dataProvider = DataProviderNames.MISSING_PASSWORD, dataProviderClass = RegisterDataProviders.class)
-    public void missingPassword(JSONObject body) {
+    public void missingPassword(JSONObject requestBody) {
 
-        Response response = check(HttpStatus.SC_BAD_REQUEST, body, JSONSchemas.ERROR_RESPONSE);
+        Response response = set(requestBody.toString());
+        verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
+        verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
+        verifyErrorDataTypeInResponse(response);
+        verifyErrorValueInResponseWithRequest(response, "Missing password");
     }
 
     @Description("Verify that an error message appears when sending a malformed JSON request body")
@@ -85,18 +112,8 @@ public class LoginTest extends BaseTest {
                          "  \"password\": \"password123\"" +
                          "  \"role\": \"admin\"";
 
-        String responseHTML = given()
-                .contentType(ContentType.JSON)
-                .body(body)
-                .post("/api/login")
-                .then()
-                .assertThat()
-                .statusCode(HttpStatus.SC_BAD_REQUEST)
-                .extract().body().asString();
-
-        Document document = Jsoup.parse(responseHTML);
-        String preContent = document.select("pre").text();
-
-        Assert.assertEquals(preContent, "Bad Request");
+        Response response = set(body);
+        verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
+        verifyBadRequestResponseBody(response.body().asString());
     }
 }
