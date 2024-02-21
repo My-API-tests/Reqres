@@ -65,6 +65,59 @@
         }
     },
 
+    "createUserMissingName": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "Generated schema for Root",
+        "type": "object",
+        "properties": {
+          "job": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "job",
+          "id",
+          "createdAt"
+        ]
+      },
+
+    "createUserMissingJob": {
+        "$schema": "http://json-schema.org/draft-06/schema#",
+        "$ref": "#/definitions/Welcome7",
+        "definitions": {
+            "Welcome7": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string",
+                        "format": "integer"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "id",
+                    "name"
+                ],
+                "title": "Welcome7"
+            }
+        }
+    },
+      
+
     "updateUser": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "title": "Generated schema for Root",
