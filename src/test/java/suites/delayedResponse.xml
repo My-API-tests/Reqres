@@ -6,7 +6,7 @@
         <listener class-name="org.qa.listener.TestListener"/>
     </listeners>
 
-    <test name="Retrieved the user list using the delayed response">
+    <test name="Tests retrieving the list of users using the delayed response">
         <classes>
             <class name="DelayedResponseTest"/>
         </classes>
