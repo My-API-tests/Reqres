@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Create">
+    <listeners>
+        <listener class-name="org.qa.listener.TestListener"/>
+    </listeners>
+
+    <parameter name="fileName" value="REQ_User.json"/>
+
+    <test name="Tests creating an user providing name and job">
+        <classes>
+            <class name="CreateUserTest">
+                <methods>
+                    <include name="correct"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Tests creating an user without providing a name">
+        <classes>
+            <class name="CreateUserTest">
+                <methods>
+                    <include name="missingName"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Tests creating an user without providing a job">
+        <classes>
+            <class name="CreateUserTest">
+                <methods>
+                    <include name="missingJob"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

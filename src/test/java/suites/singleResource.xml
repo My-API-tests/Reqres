@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Single resource">
+
+    <listeners>
+        <listener class-name="org.qa.listener.TestListener"/>
+    </listeners>
+
+    <test name="Tests retrieving a single resource providing a correct ID">
+        <classes>
+            <class name="SingleResourceTest">
+                <methods>
+                    <include name="correctId"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Tests retrieving a single resource retrieving an incorrect ID">
+        <classes>
+            <class name="SingleResourceTest">
+                <methods>
+                    <include name="incorrectId"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Login">
+    <listeners>
+        <listener class-name="org.qa.listener.TestListener"/>
+    </listeners>
+
+    <parameter name="fileName" value="REQ_Login.json"/>
+
+    <test name="Tests logging in using correct authentication data (valid username and password)">
+        <classes>
+            <class name="LoginTest">
+                <methods>
+                    <include name="correct"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Tests logging in using an incorrect email address.">
+        <classes>
+            <class name="LoginTest">
+                <methods>
+                    <include name="incorrectEmail"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Tests logging in using an incorrect password.">
+        <classes>
+            <class name="LoginTest">
+                <methods>
+                    <include name="incorrectPassword"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Tests logging in without providing an email address.">
+        <classes>
+            <class name="LoginTest">
+                <methods>
+                    <include name="missingEmail"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name=" Tests logging in without providing a password.">
+        <classes>
+            <class name="LoginTest">
+                <methods>
+                    <include name="missingPassword"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Tests logging in using a incorrectly formatted JSON request body.">
+        <classes>
+            <class name="LoginTest">
+                <methods>
+                    <include name="malformedJSON"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

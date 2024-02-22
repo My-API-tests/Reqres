@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Register">
+    <listeners>
+        <listener class-name="org.qa.listener.TestListener"/>
+    </listeners>
+
+    <parameter name="fileName" value="REQ_Register.json"/>
+
+    <test name="Tests registering using correct authentication data (valid username and password)">
+        <classes>
+            <class name="RegisterTest">
+                <methods>
+                    <include name="correct"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Tests registering as not defined user.">
+        <classes>
+            <class name="RegisterTest">
+                <methods>
+                    <include name="incorrectEmail"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Tests registering without providing an email address.">
+        <classes>
+            <class name="RegisterTest">
+                <methods>
+                    <include name="missingEmail"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name=" Tests registering without providing a password.">
+        <classes>
+            <class name="RegisterTest">
+                <methods>
+                    <include name="missingPassword"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Tests registering using a incorrectly formatted JSON request body.">
+        <classes>
+            <class name="RegisterTest">
+                <methods>
+                    <include name="malformedJSON"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
