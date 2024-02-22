@@ -21,7 +21,7 @@ public class ListUsersTest extends ListBaseTest {
     @Description("Verify that the user list can be retrieved using the correct user ID")
     @Story("As an user, I want to be able to retrieve the list of users using the correct user ID")
     @Test
-    public void correctId() {
+    public void correctPageId() {
 
         Response response = set("2");
         verifyStatusCode(response, HttpStatus.SC_OK);
@@ -33,7 +33,7 @@ public class ListUsersTest extends ListBaseTest {
     @Description("Verify that an error message appears when an incorrect user ID is provided")
     @Story("As an user, I want to see an error message when I provide an incorrect user ID")
     @Test
-    public void incorrectId() {
+    public void incorrectPageId() {
 
         Response response = set("^%&*");
         verifyStatusCode(response, HttpStatus.SC_NOT_FOUND);
