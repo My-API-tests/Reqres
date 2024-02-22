@@ -43,6 +43,17 @@ public class SingleResourceTest extends BaseTest {
                 .body("data.color", matchesPattern(regex));
     }
 
+    @Step("Verify that the Pantone value {pantoneValue} format is correct")
+    private void verifyPantoneValueFormatInResponse(Response response) {
+
+        String regex = "^([1-9]{2}-2[0-9]{3})$";
+
+        response
+                .then()
+                .assertThat()
+                .body("data.pantone_value", matchesPattern(regex));
+    }
+
     @Severity(SeverityLevel.NORMAL)
     @Description("Verify that the single resource can be retrieved using the correct ID")
     @Story("As an user, I want to be able to retrieve the single resource using the correct ID")
@@ -54,7 +65,7 @@ public class SingleResourceTest extends BaseTest {
         verifyJSONSchema(response, JSONSchemas.SINGLE_RESOURCE);
         verifyDataTypesInDataJSONObject(response);
         verifyColorPropertyValueInResponseWithRequest(response);
-
+        verifyPantoneValueFormatInResponse(response);
     }
 
     @Description("Verify that an error message appears when an incorrect ID is provided")
