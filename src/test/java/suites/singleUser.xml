@@ -16,5 +16,13 @@
             </class>
         </classes>
     </test>
-
+    <test name="Tests retrieving a single user data providing an incorrect user ID">
+        <classes>
+            <class name="SingleUserTest">
+                <methods>
+                    <include name="incorrectUserId"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
