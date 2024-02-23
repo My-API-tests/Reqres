@@ -57,7 +57,7 @@ public class SingleUserTest extends BaseTest {
                 response
                 .then()
                 .assertThat()
-                .body("data.color", matchesPattern(regex));
+                .body("data.email", matchesPattern(regex));
     }
 
     @Step("Verify the {avatar} format")
@@ -68,7 +68,7 @@ public class SingleUserTest extends BaseTest {
         response
                 .then()
                 .assertThat()
-                .body("data.color", matchesPattern(regex));
+                .body("data.avatar", matchesPattern(regex));
     }
 
     @Severity(SeverityLevel.NORMAL)
@@ -88,6 +88,6 @@ public class SingleUserTest extends BaseTest {
     @Story("As an user, I want to see an error message when I provide an incorrect user ID")
     @Test void incorrectUserId() {
 
-        Response response = check("5000", HttpStatus.SC_NOT_FOUND, JSONSchemas.EMPTY_BODY);
+        Response response = check("50@@#", HttpStatus.SC_NOT_FOUND, JSONSchemas.EMPTY_BODY);
     }
 }
