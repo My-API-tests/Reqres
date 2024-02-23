@@ -1,4 +1,4 @@
-package org.qa.utils;
+package org.qa.support;
 
 public class JSONSchemas {
 
