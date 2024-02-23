@@ -2,7 +2,7 @@ import base.ListBaseTest;
 import io.qameta.allure.*;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
-import org.qa.utils.JSONSchemas;
+import org.qa.support.JSONSchemas;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.*;

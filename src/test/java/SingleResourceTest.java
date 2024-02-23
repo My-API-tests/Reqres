@@ -2,7 +2,8 @@ import base.BaseTest;
 import io.qameta.allure.*;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
-import org.qa.utils.JSONSchemas;
+import org.qa.support.JSONSchemas;
+import org.qa.support.Patterns;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.*;
@@ -35,23 +36,19 @@ public class SingleResourceTest extends BaseTest {
     @Step("Verify the {color} format")
     private void verifyColorPropertyValueInResponseWithRequest(Response response) {
 
-        String regex = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
-
         response
                 .then()
                 .assertThat()
-                .body("data.color", matchesPattern(regex));
+                .body("data.color", matchesPattern(Patterns.COLOR_FORMAT));
     }
 
     @Step("Verify that the Pantone value {pantoneValue} format is correct")
     private void verifyPantoneValueFormatInResponse(Response response) {
 
-        String regex = "^([1-9]{2}-2[0-9]{3})$";
-
         response
                 .then()
                 .assertThat()
-                .body("data.pantone_value", matchesPattern(regex));
+                .body("data.pantone_value", matchesPattern(Patterns.PANTONE_FORMAT));
     }
 
     @Severity(SeverityLevel.NORMAL)

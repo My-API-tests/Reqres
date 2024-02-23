@@ -5,8 +5,8 @@ import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.json.JSONObject;
 import org.qa.dataproviders.UserDataProviders;
-import org.qa.utils.DataProviderNames;
-import org.qa.utils.JSONSchemas;
+import org.qa.support.DataProviderNames;
+import org.qa.support.JSONSchemas;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.*;

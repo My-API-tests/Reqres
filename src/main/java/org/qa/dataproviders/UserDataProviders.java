@@ -1,7 +1,7 @@
 package org.qa.dataproviders;
 
 import org.qa.jsondatatransformer.JSONDataTransformer;
-import org.qa.utils.DataProviderNames;
+import org.qa.support.DataProviderNames;
 import org.testng.annotations.DataProvider;
 
 import java.io.IOException;

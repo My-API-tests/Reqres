@@ -10,7 +10,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.qa.jsondatatransformer.JSONDataTransformer;
 import org.qa.testdataloader.TestdataLoader;
-import org.qa.utils.TestUtils;
+import org.qa.support.TestUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Optional;

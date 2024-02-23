@@ -1,10 +1,9 @@
 import base.BaseTest;
 import io.qameta.allure.*;
-import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
-import org.qa.jsondatatransformer.JSONDataTransformer;
-import org.qa.utils.JSONSchemas;
+import org.qa.support.JSONSchemas;
+import org.qa.support.Patterns;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.*;
@@ -15,15 +14,10 @@ import static org.hamcrest.Matchers.matchesPattern;
 @Feature("Single user")
 public class SingleUserTest extends BaseTest {
 
-    private Response check(String user, int statusCode, String jsonSchemaKey) {
+    private Response check(String user) {
 
         return given()
-                .get("/api/users/" + user)
-                .then()
-                .assertThat()
-                .statusCode(statusCode)
-                .body(JsonSchemaValidator.matchesJsonSchema(JSONDataTransformer.getJsonSchema(jsonSchemaKey)))
-                .extract().response();
+                .get("/api/users/" + user);
     }
 
     @Step("Verify {id, email, first_name, last_name, avatar} data types in the {data} JSON object")
@@ -52,23 +46,19 @@ public class SingleUserTest extends BaseTest {
     @Step("Verify the {email} format")
     private void verifyEmailPropertyValueInResponseWithRequest(Response response) {
 
-        String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-
                 response
                 .then()
                 .assertThat()
-                .body("data.email", matchesPattern(regex));
+                .body("data.email", matchesPattern(Patterns.EMAIL_FORMAT));
     }
 
     @Step("Verify the {avatar} format")
     private void verifyAvatarPropertyValueInResponseWithRequest(Response response) {
 
-        String regex = "^(https:\\/\\/reqres\\.in\\/img\\/faces\\/.+\\.jpg)$";
-
         response
                 .then()
                 .assertThat()
-                .body("data.avatar", matchesPattern(regex));
+                .body("data.avatar", matchesPattern(Patterns.AVATAR_FORMAT));
     }
 
     @Severity(SeverityLevel.NORMAL)
@@ -77,7 +67,7 @@ public class SingleUserTest extends BaseTest {
     @Test
     public void correctUserId() {
 
-        Response response = check("2", HttpStatus.SC_OK, JSONSchemas.SINGLE_USER);
+        Response response = check("2");
         verifyDataTypesInDataJSONObject(response);
         verifyDataTypesInSupportJSONObject(response);
         verifyEmailPropertyValueInResponseWithRequest(response);
@@ -88,6 +78,8 @@ public class SingleUserTest extends BaseTest {
     @Story("As an user, I want to see an error message when I provide an incorrect user ID")
     @Test void incorrectUserId() {
 
-        Response response = check("50@@#", HttpStatus.SC_NOT_FOUND, JSONSchemas.EMPTY_BODY);
+        Response response = check("50@@#");
+        verifyStatusCode(response, HttpStatus.SC_NOT_FOUND);
+        verifyJSONSchema(response, JSONSchemas.EMPTY_BODY);
     }
 }
