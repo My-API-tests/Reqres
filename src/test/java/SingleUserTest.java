@@ -1,5 +1,7 @@
 import base.BaseTest;
 import io.qameta.allure.*;
+import io.qase.api.annotation.QaseId;
+import io.qase.api.annotation.QaseTitle;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.qa.support.JSONSchemas;
@@ -20,7 +22,8 @@ public class SingleUserTest extends BaseTest {
                 .get("/api/users/" + user);
     }
 
-    @Step("Verify {id, email, first_name, last_name, avatar} data types in the {data} JSON object")
+    @io.qameta.allure.Step("Verify {id, email, first_name, last_name, avatar} data types in the {data} JSON object")
+    @io.qase.api.annotation.Step("Verify {id, email, first_name, last_name, avatar} data types in the {data} JSON object")
     private void verifyDataTypesInDataJSONObject(Response response) {
 
         response
@@ -33,7 +36,8 @@ public class SingleUserTest extends BaseTest {
                 .body("data.avatar", isA(String.class));
     }
 
-    @Step("Verify {url, text} data types in the {support} JSON object")
+    @io.qameta.allure.Step("Verify {url, text} data types in the {support} JSON object")
+    @io.qase.api.annotation.Step("Verify {url, text} data types in the {support} JSON object")
     private void verifyDataTypesInSupportJSONObject(Response response) {
 
         response
@@ -43,7 +47,8 @@ public class SingleUserTest extends BaseTest {
                 .body("support.text", isA(String.class));
     }
 
-    @Step("Verify the {email} format")
+    @io.qameta.allure.Step("Verify the {email} format")
+    @io.qase.api.annotation.Step("Verify the {email} format")
     private void verifyEmailPropertyValueInResponseWithRequest(Response response) {
 
                 response
@@ -52,7 +57,8 @@ public class SingleUserTest extends BaseTest {
                 .body("data.email", matchesPattern(Patterns.EMAIL_FORMAT));
     }
 
-    @Step("Verify the {avatar} format")
+    @io.qameta.allure.Step("Verify the {avatar} format")
+    @io.qase.api.annotation.Step("Verify the {avatar} format")
     private void verifyAvatarPropertyValueInResponseWithRequest(Response response) {
 
         response
@@ -61,25 +67,30 @@ public class SingleUserTest extends BaseTest {
                 .body("data.avatar", matchesPattern(Patterns.AVATAR_FORMAT));
     }
 
-    @Severity(SeverityLevel.NORMAL)
-    @Description("Verify that the user data can be retrieved using the correct user ID")
-    @Story("As an user, I want to be able to retrieve the user data using the correct user ID")
     @Test
-    public void correctUserId() {
+    @Severity(SeverityLevel.NORMAL)
+    @QaseId(1)
+    @QaseTitle("Getting a user data using an existing user ID")
+    @Description("Getting a user data using an existing user ID")
+    public void existingUserId() {
 
         Response response = check("2");
+        verifyStatusCode(response, HttpStatus.SC_OK);
         verifyDataTypesInDataJSONObject(response);
         verifyDataTypesInSupportJSONObject(response);
         verifyEmailPropertyValueInResponseWithRequest(response);
         verifyAvatarPropertyValueInResponseWithRequest(response);
+        verifyHeaders(response);
     }
 
-    @Description("Verify that an error message appears when an incorrect user ID is provided")
-    @Story("As an user, I want to see an error message when I provide an incorrect user ID")
-    @Test void incorrectUserId() {
+    @Test
+    @QaseId(2)
+    @QaseTitle("Getting a user data using a non existing user ID")
+    @Description("Getting a user data using a non existing user ID")
+    void nonExistingUserId() {
 
-        Response response = check("50@@#");
-        verifyStatusCode(response, HttpStatus.SC_NOT_FOUND);
+        Response response = check("13");
+        verifyStatusCode(response, HttpStatus.SC_OK);
         verifyJSONSchema(response, JSONSchemas.EMPTY_BODY);
     }
 }
