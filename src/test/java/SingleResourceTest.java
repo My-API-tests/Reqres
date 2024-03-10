@@ -1,5 +1,7 @@
 import base.BaseTest;
 import io.qameta.allure.*;
+import io.qase.api.annotation.QaseId;
+import io.qase.api.annotation.QaseTitle;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.qa.support.JSONSchemas;
@@ -14,13 +16,16 @@ import static org.hamcrest.Matchers.matchesPattern;
 @Feature("Singe <Resource>")
 public class SingleResourceTest extends BaseTest {
 
+    @io.qameta.allure.Step("Perform a GET request to https://reqres.in/api/unknown/<ID>, where <ID> represents a single <Resource> ID number")
+    @io.qase.api.annotation.Step("Perform a GET request to https://reqres.in/api/unknown/<ID>, where <ID> represents a single <Resource> ID number")
     private Response check(String id) {
 
         return given()
                 .get("/api/unknown/" + id);
     }
 
-    @Step("Verify {id, name, year, color, pantone_value} data types in the {data} JSON object")
+    @io.qameta.allure.Step("Verify {id, name, year, color, pantone_value} data types in the {data} JSON object")
+    @io.qase.api.annotation.Step("Verify {id, name, year, color, pantone_value} data types in the {data} JSON object")
     private void verifyDataTypesInDataJSONObject(Response response) {
 
         response
@@ -33,7 +38,8 @@ public class SingleResourceTest extends BaseTest {
                 .body("data.pantone_value", isA(String.class));
     }
 
-    @Step("Verify the {color} format")
+    @io.qameta.allure.Step("Verify the {color} format")
+    @io.qase.api.annotation.Step("Verify the {color} format")
     private void verifyColorPropertyValueInResponseWithRequest(Response response) {
 
         response
@@ -42,7 +48,8 @@ public class SingleResourceTest extends BaseTest {
                 .body("data.color", matchesPattern(Patterns.COLOR_FORMAT));
     }
 
-    @Step("Verify that the Pantone value {pantoneValue} format is correct")
+    @io.qameta.allure.Step("Verify the Pantone {pantone_value} format")
+    @io.qase.api.annotation.Step("Verify the Pantone {pantone_value} format")
     private void verifyPantoneValueFormatInResponse(Response response) {
 
         response
@@ -51,10 +58,10 @@ public class SingleResourceTest extends BaseTest {
                 .body("data.pantone_value", matchesPattern(Patterns.PANTONE_FORMAT));
     }
 
-    @Severity(SeverityLevel.NORMAL)
-    @Description("Verify that the single resource can be retrieved using the correct ID")
-    @Story("As an user, I want to be able to retrieve the single resource using the correct ID")
     @Test
+    @QaseId(5)
+    @QaseTitle("Getting a single <Resource> using a correct resource ID")
+    @Description("Getting a single <Resource> using a correct resource ID")
     public void correctId() {
 
         Response response = check("2");
@@ -63,15 +70,18 @@ public class SingleResourceTest extends BaseTest {
         verifyDataTypesInDataJSONObject(response);
         verifyColorPropertyValueInResponseWithRequest(response);
         verifyPantoneValueFormatInResponse(response);
+        verifyHeaders(response);
     }
 
-    @Description("Verify that an error message appears when an incorrect ID is provided")
-    @Story("As an user, I want to see an error message when I provide an incorrect ID")
     @Test
+    @QaseId(6)
+    @QaseTitle("Getting a single <Resource> using an incorrect resource ID")
+    @Description("Getting a single <Resource> using an incorrect resource ID")
     public void incorrectId() {
 
         Response response = check("xyz");
         verifyStatusCode(response, HttpStatus.SC_NOT_FOUND);
         verifyJSONSchema(response, JSONSchemas.EMPTY_BODY);
+        verifyHeaders(response);
     }
 }
