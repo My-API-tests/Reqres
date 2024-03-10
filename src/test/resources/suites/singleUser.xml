@@ -7,20 +7,20 @@
         <listener class-name="org.qa.listener.TestListener"/>
     </listeners>
 
-    <test name="Tests retrieving a single user data providing a correct user ID">
+    <test name="Getting a user data using an existing user ID">
         <classes>
             <class name="SingleUserTest">
                 <methods>
-                    <include name="correctUserId"/>
+                    <include name="existingUserId"/>
                 </methods>
             </class>
         </classes>
     </test>
-    <test name="Tests retrieving a single user data providing an incorrect user ID">
+    <test name="Getting a user data using a non existing user ID">
         <classes>
             <class name="SingleUserTest">
                 <methods>
-                    <include name="incorrectUserId"/>
+                    <include name="nonExistingUserId"/>
                 </methods>
             </class>
         </classes>
