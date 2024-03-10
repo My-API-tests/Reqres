@@ -32,13 +32,15 @@ public class BaseTest {
         TestUtils.setAllureEnvironment();
         RestAssured.baseURI = "https://reqres.in/";
         TestdataLoader.loadJsonSchemas();
+        TestdataLoader.loadHeaders();
 
         if (!fileName.equals("noFile")) {
             TestdataLoader.loadBodies(fileName);
         }
     }
 
-    @Step("Verify status code")
+    @io.qameta.allure.Step("Verify status code")
+    @io.qase.api.annotation.Step("Verify status code")
     protected void verifyStatusCode(Response response, int statusCode) {
 
         response
@@ -46,7 +48,8 @@ public class BaseTest {
                 .statusCode(statusCode);
     }
 
-    @Step("Verify JSON schema")
+    @io.qameta.allure.Step("Verify JSON schema")
+    @io.qase.api.annotation.Step("Verify JSON schema")
     protected void verifyJSONSchema(Response response, String jsonSchemaKey) {
 
         response
@@ -86,7 +89,6 @@ public class BaseTest {
 
         List<String> expected = new ArrayList<>(List.of(JSONDataTransformer.getHeaders()));
         List<String> given = response.headers().asList().stream().map(Header::getName).toList();
-
         Assert.assertTrue(given.containsAll(expected), "No complete headers");
     }
 }
