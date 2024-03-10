@@ -6,7 +6,7 @@
         <listener class-name="org.qa.listener.TestListener"/>
     </listeners>
 
-    <test name="Tests retrieving the list of users providing a correct page ID">
+    <test name="Getting a list of users using a correct page ID">
         <classes>
             <class name="ListUsersTest">
                 <methods>
@@ -15,7 +15,7 @@
             </class>
         </classes>
     </test>
-    <test name="Tests retrieving the list of users providing an incorrect page ID">
+    <test name="Getting a list of users using an incorrect page ID">
         <classes>
             <class name="ListUsersTest">
                 <methods>
