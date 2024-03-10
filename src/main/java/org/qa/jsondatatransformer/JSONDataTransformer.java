@@ -26,11 +26,21 @@ public class JSONDataTransformer {
 
     public static String[] getHeaders() {
 
-        JSONObject jsonObject = new JSONObject(TestdataLoader.getSchemasSource());
+        JSONObject jsonObject = new JSONObject(TestdataLoader.getHeadersSource());
         JSONArray jsonArray = jsonObject.getJSONArray("headers");
 
         return IntStream.range(0, jsonArray.length())
                 .mapToObj(jsonArray::getString)
                 .toArray(String[]::new);
     }
+
+    /*public static String[] getHeaders() {
+
+        JSONObject jsonObject = new JSONObject(TestdataLoader.getSchemasSource());
+        JSONArray jsonArray = jsonObject.getJSONArray("headers");
+
+        return IntStream.range(0, jsonArray.length())
+                .mapToObj(jsonArray::getString)
+                .toArray(String[]::new);
+    }*/
 }
