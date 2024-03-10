@@ -16,6 +16,8 @@ import static org.hamcrest.Matchers.matchesPattern;
 @Feature("Single user")
 public class SingleUserTest extends BaseTest {
 
+    @io.qameta.allure.Step("Perform a GET request to https://reqres.in/api/user/<ID>, where <ID> represents a user ID number")
+    @io.qase.api.annotation.Step("Perform a GET request to https://reqres.in/api/user/<ID>, where <ID> represents a user ID number")
     private Response check(String user) {
 
         return given()
@@ -90,7 +92,8 @@ public class SingleUserTest extends BaseTest {
     void nonExistingUserId() {
 
         Response response = check("13");
-        verifyStatusCode(response, HttpStatus.SC_OK);
+        verifyStatusCode(response, HttpStatus.SC_NOT_FOUND);
         verifyJSONSchema(response, JSONSchemas.EMPTY_BODY);
+        verifyHeaders(response);
     }
 }
