@@ -13,7 +13,7 @@ import static org.hamcrest.Matchers.isA;
 import static org.hamcrest.Matchers.matchesPattern;
 
 @Epic("E2E")
-@Feature("Singe <Resource>")
+@Feature("Single <Resource>")
 public class SingleResourceTest extends BaseTest {
 
     @io.qameta.allure.Step("Perform a GET request to https://reqres.in/api/unknown/<ID>, where <ID> represents a single <Resource> ID number")
