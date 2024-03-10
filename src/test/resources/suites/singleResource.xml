@@ -5,9 +5,10 @@
 
     <listeners>
         <listener class-name="org.qa.listener.TestListener"/>
+        <listener class-name="io.qase.testng.QaseListener"/>
     </listeners>
 
-    <test name="Tests retrieving a single resource providing a correct ID">
+    <test name="Getting a single resource using a correct resource ID">
         <classes>
             <class name="SingleResourceTest">
                 <methods>
@@ -16,7 +17,7 @@
             </class>
         </classes>
     </test>
-    <test name="Tests retrieving a single resource retrieving an incorrect ID">
+    <test name="Getting a single resource using an incorrect resource ID">
         <classes>
             <class name="SingleResourceTest">
                 <methods>
