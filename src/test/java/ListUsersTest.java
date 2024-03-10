@@ -1,5 +1,7 @@
 import base.ListBaseTest;
 import io.qameta.allure.*;
+import io.qase.api.annotation.QaseId;
+import io.qase.api.annotation.QaseTitle;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.qa.support.JSONSchemas;
@@ -11,16 +13,19 @@ import static io.restassured.RestAssured.*;
 @Feature("List users")
 public class ListUsersTest extends ListBaseTest {
 
+    @io.qameta.allure.Step("Perform a GET request to https://reqres.in/api/users?page=<ID>, where <ID> represents a user ID number")
+    @io.qase.api.annotation.Step("Perform a GET request to https://reqres.in/api/users?page=<ID>, where <ID> represents a user ID number")
     private Response set(String id) {
 
         return given()
                 .get("/api/users?page=" + id);
     }
 
-    @Severity(SeverityLevel.NORMAL)
-    @Description("Verify that the user list can be retrieved using the correct user ID")
-    @Story("As an user, I want to be able to retrieve the list of users using the correct user ID")
     @Test
+    @Severity(SeverityLevel.NORMAL)
+    @QaseId(3)
+    @QaseTitle("Getting a list of users using a correct page ID")
+    @Description("Getting a list of users using a correct page ID")
     public void correctPageId() {
 
         Response response = set("2");
@@ -28,15 +33,18 @@ public class ListUsersTest extends ListBaseTest {
         verifyJSONSchema(response, JSONSchemas.LIST_USERS);
         verifyDataTypesInResponse(response);
         verifyListOfUsers(response);
+        verifyHeaders(response);
     }
 
-    @Description("Verify that an error message appears when an incorrect user ID is provided")
-    @Story("As an user, I want to see an error message when I provide an incorrect user ID")
     @Test
+    @QaseId(4)
+    @QaseTitle("Getting a list of users using an incorrect page ID")
+    @Description("Getting a list of users using an incorrect page ID")
     public void incorrectPageId() {
 
         Response response = set("^%&*");
         verifyStatusCode(response, HttpStatus.SC_NOT_FOUND);
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
+        verifyHeaders(response);
     }
 }
