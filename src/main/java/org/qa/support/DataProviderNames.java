@@ -10,4 +10,5 @@ public class DataProviderNames {
     public static final String MISSING_EMAIL = "withoutEmail";
     public static final String MISSING_PASSWORD = "withoutPassword";
     public static final String USER_NOT_DEFINED = "userNotDefined";
+    public static final String INCORRECT_KEYS = "incorrectKeys";
 }
