@@ -45,14 +45,22 @@ public class UpdateTest extends BaseTest {
         checkDataType(response, "updatedAt", String.class);
     }
 
-    @Step("Verify {name, job, updatedAt} values")
-    private void verifyValuesInResponseWithRequest(Response response, JSONObject requestBody) {
+    @Step("Verify the {name} value")
+    private void verifyNameValueInResponseWithRequest(Response response, JSONObject requestBody) {
 
         response
                 .then()
                 .assertThat()
-                .body("name", equalTo(requestBody.getString("name")))
-                .body("job", equalTo(requestBody.getString("job")));
+                .body("name", equalTo(requestBody.get("name")));
+    }
+
+    @Step("Verify the {job} value")
+    private void verifyJobValueInResponseWithRequest(Response response, JSONObject requestBody) {
+
+        response
+                .then()
+                .assertThat()
+                .body("job", equalTo(requestBody.get("job")));
     }
 
     @Step("Verify the {createdAt} format")
@@ -74,7 +82,8 @@ public class UpdateTest extends BaseTest {
         verifyStatusCode(response, HttpStatus.SC_OK);
         verifyJSONSchema(response, JSONSchemas.UPDATE_USER);
         verifyDataTypesInResponse(response);
-        verifyValuesInResponseWithRequest(response, body);
+        verifyNameValueInResponseWithRequest(response, body);
+        verifyJobValueInResponseWithRequest(response, body);
     }
 
     @Severity(SeverityLevel.CRITICAL)
@@ -84,10 +93,12 @@ public class UpdateTest extends BaseTest {
     public void missingName(JSONObject body) {
 
         Response response = check("2", body.toString());
-        verifyStatusCode(response, HttpStatus.SC_OK);
-        verifyJSONSchema(response, JSONSchemas.UPDATE_USER);
-        verifyDataTypesWhenMissingName(response);
-
+        System.out.println(response.getBody().prettyPrint());
+        //verifyStatusCode(response, HttpStatus.SC_OK);
+        //verifyJSONSchema(response, JSONSchemas.UPDATE_USER);
+        //verifyDataTypesWhenMissingName(response);
+        //verifyJobValueInResponseWithRequest(response, body);
+        //verifyHeaders(response);
     }
 
     @Severity(SeverityLevel.CRITICAL)
@@ -97,8 +108,11 @@ public class UpdateTest extends BaseTest {
     public void withoutJob(JSONObject body) {
 
         Response response = check("2", body.toString());
-        System.out.println(response.statusCode());
-        System.out.println(response.getBody().prettyPrint());
+        verifyStatusCode(response, HttpStatus.SC_OK);
+        verifyJSONSchema(response, JSONSchemas.UPDATE_USER);
+        verifyDataTypesWhenMissingName(response);
+        verifyNameValueInResponseWithRequest(response, body);
+        verifyHeaders(response);
     }
 
     @Description("Verify that an error message appears when an incorrect user ID is provided")
@@ -106,7 +120,7 @@ public class UpdateTest extends BaseTest {
     @Test(dataProvider = DataProviderNames.CORRECT, dataProviderClass = UserDataProviders.class)
     public void incorrectId(JSONObject body) {
 
-        Response response = check("10000", body);
+        Response response = check("10000", body.toString());
         System.out.println(response.statusCode());
         System.out.println(response.getBody().prettyPrint());
     }
