@@ -39,6 +39,14 @@ public class BaseTest {
         }
     }
 
+    protected void checkDataType(Response response, String data, Class<?> type) {
+
+        response
+                .then()
+                .assertThat()
+                .body(data, isA(type));
+    }
+
     @io.qameta.allure.Step("Verify status code")
     @io.qase.api.annotation.Step("Verify status code")
     protected void verifyStatusCode(Response response, int statusCode) {
