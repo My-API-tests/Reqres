@@ -1,5 +1,7 @@
 import base.ListBaseTest;
 import io.qameta.allure.*;
+import io.qase.api.annotation.QaseId;
+import io.qase.api.annotation.QaseTitle;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.qa.support.JSONSchemas;
@@ -11,16 +13,19 @@ import static io.restassured.RestAssured.*;
 @Feature("Delayed response")
 public class DelayedResponseTest extends ListBaseTest {
 
+
+    @io.qameta.allure.Step("Perform a GET request to https://reqres.in/api/users=<D> where represents a delay ID number")
+    @io.qase.api.annotation.Step("Perform a GET request to https://reqres.in/api/users=<D> where represents a delay ID number")
     private Response set() {
 
         return given()
-                .get("/api/users?delay=3");
+                .get("/api/users?delay=2");
     }
 
-    @Severity(SeverityLevel.NORMAL)
-    @Description("Verify that the users list can be retrieved with a delayed response")
-    @Story("As an user, I want to be able to retrieve the list of users even with a delayed response")
     @Test
+    @QaseId(8)
+    @QaseTitle("Getting a list of users with a delayed response")
+    @Description("Getting a list of users with a delayed response")
     public void check() {
 
         Response response = set();
@@ -28,5 +33,6 @@ public class DelayedResponseTest extends ListBaseTest {
         verifyJSONSchema(response, JSONSchemas.DELAYED_RESPONSE);
         verifyDataTypesInResponse(response);
         verifyListOfUsers(response);
+        verifyHeaders(response);
     }
 }
