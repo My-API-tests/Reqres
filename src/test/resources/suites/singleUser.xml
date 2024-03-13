@@ -5,6 +5,7 @@
 
     <listeners>
         <listener class-name="org.qa.listener.TestListener"/>
+        <listener class-name="io.qase.testng.QaseListener"/>
     </listeners>
 
     <test name="Getting a user data using an existing user ID">
