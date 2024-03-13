@@ -25,4 +25,10 @@ public class UserDataProviders {
 
         return JSONDataTransformer.getUserData(DataProviderNames.MISSING_JOB);
     }
+
+    @DataProvider(name = DataProviderNames.INCORRECT_KEYS)
+    public Object[] incorrectKeys() {
+
+        return JSONDataTransformer.getDataWithIncorrectKeys();
+    }
 }
