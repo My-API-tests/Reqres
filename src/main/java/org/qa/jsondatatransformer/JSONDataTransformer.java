@@ -2,6 +2,7 @@ package org.qa.jsondatatransformer;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.qa.support.DataProviderNames;
 import org.qa.testdataloader.TestdataLoader;
 
 import java.util.stream.IntStream;
@@ -11,6 +12,16 @@ public class JSONDataTransformer {
 
         JSONObject jsonObject = new JSONObject(TestdataLoader.getBodySource());
         JSONArray jsonArray = jsonObject.getJSONArray(key);
+
+        return IntStream.range(0, jsonArray.length())
+                .mapToObj(i -> new JSONObject(jsonArray.getJSONObject(i).toString()))
+                .toArray(JSONObject[]::new);
+    }
+
+    public static JSONObject[] getDataWithIncorrectKeys() {
+
+        JSONObject jsonObject = new JSONObject(TestdataLoader.getBodySource());
+        JSONArray jsonArray = jsonObject.getJSONArray(DataProviderNames.INCORRECT_KEYS);
 
         return IntStream.range(0, jsonArray.length())
                 .mapToObj(i -> new JSONObject(jsonArray.getJSONObject(i).toString()))
@@ -33,14 +44,4 @@ public class JSONDataTransformer {
                 .mapToObj(jsonArray::getString)
                 .toArray(String[]::new);
     }
-
-    /*public static String[] getHeaders() {
-
-        JSONObject jsonObject = new JSONObject(TestdataLoader.getSchemasSource());
-        JSONArray jsonArray = jsonObject.getJSONArray("headers");
-
-        return IntStream.range(0, jsonArray.length())
-                .mapToObj(jsonArray::getString)
-                .toArray(String[]::new);
-    }*/
 }
