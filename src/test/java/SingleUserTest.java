@@ -9,7 +9,6 @@ import org.qa.support.Patterns;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.isA;
 import static org.hamcrest.Matchers.matchesPattern;
 
 @Epic("E2E")
@@ -18,7 +17,7 @@ public class SingleUserTest extends BaseTest {
 
     @io.qameta.allure.Step("Perform a GET request to https://reqres.in/api/user/<ID>, where <ID> represents a user ID number")
     @io.qase.api.annotation.Step("Perform a GET request to https://reqres.in/api/user/<ID>, where <ID> represents a user ID number")
-    private Response check(String user) {
+    private Response sendRequest(String user) {
 
         return given()
                 .get("/api/users/" + user);
@@ -28,32 +27,26 @@ public class SingleUserTest extends BaseTest {
     @io.qase.api.annotation.Step("Verify {id, email, first_name, last_name, avatar} data types in the {data} JSON object")
     private void verifyDataTypesInDataJSONObject(Response response) {
 
-        response
-                .then()
-                .assertThat()
-                .body("data.id", isA(Integer.class))
-                .body("data.email", isA(String.class))
-                .body("data.first_name", isA(String.class))
-                .body("data.last_name", isA(String.class))
-                .body("data.avatar", isA(String.class));
+        checkDataType(response, "data.id", Integer.class);
+        checkDataType(response, "data.email", String.class);
+        checkDataType(response, "data.first_name", String.class);
+        checkDataType(response, "data.last_name", String.class);
+        checkDataType(response, "data.avatar", String.class);
     }
 
     @io.qameta.allure.Step("Verify {url, text} data types in the {support} JSON object")
     @io.qase.api.annotation.Step("Verify {url, text} data types in the {support} JSON object")
     private void verifyDataTypesInSupportJSONObject(Response response) {
 
-        response
-                .then()
-                .assertThat()
-                .body("support.url", isA(String.class))
-                .body("support.text", isA(String.class));
+        checkDataType(response, "support.url", String.class);
+        checkDataType(response, "support.text", String.class);
     }
 
     @io.qameta.allure.Step("Verify the {email} format")
     @io.qase.api.annotation.Step("Verify the {email} format")
     private void verifyEmailPropertyValueInResponseWithRequest(Response response) {
 
-                response
+        response
                 .then()
                 .assertThat()
                 .body("data.email", matchesPattern(Patterns.EMAIL_FORMAT));
@@ -76,7 +69,7 @@ public class SingleUserTest extends BaseTest {
     @Description("Getting a user data using an existing user ID")
     public void existingUserId() {
 
-        Response response = check("2");
+        Response response = sendRequest("2");
         verifyStatusCode(response, HttpStatus.SC_OK);
         verifyDataTypesInDataJSONObject(response);
         verifyDataTypesInSupportJSONObject(response);
@@ -91,7 +84,7 @@ public class SingleUserTest extends BaseTest {
     @Description("Getting a user data using a non existing user ID")
     void nonExistingUserId() {
 
-        Response response = check("13");
+        Response response = sendRequest("13");
         verifyStatusCode(response, HttpStatus.SC_NOT_FOUND);
         verifyJSONSchema(response, JSONSchemas.EMPTY_BODY);
         verifyHeaders(response);

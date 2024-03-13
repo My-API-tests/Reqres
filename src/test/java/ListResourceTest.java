@@ -15,7 +15,7 @@ public class ListResourceTest extends ListBaseTest {
 
     @io.qameta.allure.Step("Perform a GET request to https://reqres.in/api/unknown")
     @io.qase.api.annotation.Step("Perform a GET request to https://reqres.in/api/unknown")
-    private Response set() {
+    private Response sendRequest() {
 
         return given()
                 .get("/api/unknown");
@@ -28,7 +28,7 @@ public class ListResourceTest extends ListBaseTest {
     @Description("Getting a list of resource")
     public void correctPageId() {
 
-        Response response = set();
+        Response response = sendRequest();
         verifyStatusCode(response, HttpStatus.SC_OK);
         verifyJSONSchema(response, JSONSchemas.LIST_USERS);
         verifyDataTypesInResponse(response);

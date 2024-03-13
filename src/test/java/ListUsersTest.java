@@ -15,7 +15,7 @@ public class ListUsersTest extends ListBaseTest {
 
     @io.qameta.allure.Step("Perform a GET request to https://reqres.in/api/users?page=<ID>, where <ID> represents a user ID number")
     @io.qase.api.annotation.Step("Perform a GET request to https://reqres.in/api/users?page=<ID>, where <ID> represents a user ID number")
-    private Response set(String id) {
+    private Response sendRequest(String id) {
 
         return given()
                 .get("/api/users?page=" + id);
@@ -28,7 +28,7 @@ public class ListUsersTest extends ListBaseTest {
     @Description("Getting a list of users using a correct page ID")
     public void correctPageId() {
 
-        Response response = set("2");
+        Response response = sendRequest("2");
         verifyStatusCode(response, HttpStatus.SC_OK);
         verifyJSONSchema(response, JSONSchemas.LIST_USERS);
         verifyDataTypesInResponse(response);
@@ -42,7 +42,7 @@ public class ListUsersTest extends ListBaseTest {
     @Description("Getting a list of users using an incorrect page ID")
     public void incorrectPageId() {
 
-        Response response = set("^%&*");
+        Response response = sendRequest("^%&*");
         verifyStatusCode(response, HttpStatus.SC_NOT_FOUND);
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
         verifyHeaders(response);

@@ -16,7 +16,7 @@ public class DelayedResponseTest extends ListBaseTest {
 
     @io.qameta.allure.Step("Perform a GET request to https://reqres.in/api/users=<D> where represents a delay ID number")
     @io.qase.api.annotation.Step("Perform a GET request to https://reqres.in/api/users=<D> where represents a delay ID number")
-    private Response set() {
+    private Response sendRequest() {
 
         return given()
                 .get("/api/users?delay=2");
@@ -28,7 +28,7 @@ public class DelayedResponseTest extends ListBaseTest {
     @Description("Getting a list of users with a delayed response")
     public void check() {
 
-        Response response = set();
+        Response response = sendRequest();
         verifyStatusCode(response, HttpStatus.SC_OK);
         verifyJSONSchema(response, JSONSchemas.DELAYED_RESPONSE);
         verifyDataTypesInResponse(response);
