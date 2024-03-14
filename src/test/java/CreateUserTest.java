@@ -56,15 +56,6 @@ public class CreateUserTest extends BaseTest {
         checkDataType(response, "createdAt", String.class);
     }
 
-    @Step("Verify {name, job} values")
-    private void verifyValuesInResponseWithRequest(Response response, JSONObject requestBody) {
-
-        response.then()
-                .assertThat()
-                .body("name", equalTo(requestBody.getString("name")))
-                .body("job", equalTo(requestBody.getString("job")));
-    }
-
     @io.qameta.allure.Step("Verify the <name> value")
     @io.qase.api.annotation.Step("Verify the <name> value")
     private void verifyNameValue(Response response, JSONObject requestBody) {
@@ -111,7 +102,7 @@ public class CreateUserTest extends BaseTest {
         verifyCreatedAtDataType(response);
         verifyNameValue(response, requestBody);
         verifyJobValue(response, requestBody);
-        verifyValuesInResponseWithRequest(response, requestBody);
+        verifyHeaders(response);
     }
 
     @Test(dataProvider = DataProviderNames.MISSING_JOB, dataProviderClass = UserDataProviders.class)
@@ -128,7 +119,7 @@ public class CreateUserTest extends BaseTest {
         verifyCreatedAtDataType(response);
         verifyNameValue(response, requestBody);
         verifyJobValue(response, requestBody);
-        verifyValuesInResponseWithRequest(response, requestBody);
+        verifyHeaders(response);
     }
 
     @Test
