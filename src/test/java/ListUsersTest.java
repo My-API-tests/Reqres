@@ -31,7 +31,10 @@ public class ListUsersTest extends ListBaseTest {
         Response response = sendRequest("2");
         verifyStatusCode(response, HttpStatus.SC_OK);
         verifyJSONSchema(response, JSONSchemas.LIST_USERS);
-        verifyDataTypesInResponse(response);
+        verifyPageDataType(response);
+        verifyPerPageDataType(response);
+        verifyTotalDataType(response);
+        verifyTotalPagesDataType(response);
         verifyListOfUsers(response);
         verifyHeaders(response);
     }
