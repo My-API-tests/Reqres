@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.not;
 @Feature("Login")
 public class LoginTest extends BaseTest {
 
-    private Response set(String requestBody) {
+    private Response sendRequest(String requestBody) {
 
         return given()
                 .contentType(ContentType.JSON)
@@ -47,7 +47,7 @@ public class LoginTest extends BaseTest {
     @Description("Login using correct credentials")
     public void correct(JSONObject requestBody) {
 
-        Response response = set(requestBody.toString());
+        Response response = sendRequest(requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_OK);
         verifyJSONSchema(response, JSONSchemas.LOGIN);
         verifyTokenDataType(response);
@@ -57,62 +57,79 @@ public class LoginTest extends BaseTest {
     @Test(dataProvider = DataProviderNames.INCORRECT_EMAIL, dataProviderClass = RegisterDataProviders.class)
     @QaseId(27)
     @QaseTitle("Login using an incorrect email")
-    @Description("Login using an incorrect credentials")
+    @Description("Login using an incorrect email")
     public void incorrectEmail(JSONObject requestBody) {
 
-        Response response = set(requestBody.toString());
+        Response response = sendRequest(requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
         verifyErrorDataTypeInResponse(response);
         verifyErrorValueInResponseWithRequest(response, "user not found");
     }
 
-    @Description("Verify that a new user cannot log in using an incorrect password")
-    @Story("As an user, I want to see an error message when I provide an incorrect password during login")
     @Test(dataProvider = DataProviderNames.INCORRECT_PASSWORD, dataProviderClass = RegisterDataProviders.class)
+    @QaseId(28)
+    @QaseTitle("Login using an incorrect password")
+    @Description("Login using an incorrect password")
     public void incorrectPassword(JSONObject requestBody) {
 
-        Response response = set(requestBody.toString());
+        Response response = sendRequest(requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
         verifyErrorDataTypeInResponse(response);
         verifyErrorValueInResponseWithRequest(response, "user not found");
     }
 
-    @Description("Verify that a new user cannot log in when an email is missing")
-    @Story("As a user, I want to see an error message if I do not provide an email during login")
     @Test(dataProvider = DataProviderNames.MISSING_EMAIL, dataProviderClass = RegisterDataProviders.class)
+    @QaseId(29)
+    @QaseTitle("Login missing email")
+    @Description("Login missing email")
     public void missingEmail(JSONObject requestBody) {
 
-        Response response = set(requestBody.toString());
+        Response response = sendRequest(requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
         verifyErrorDataTypeInResponse(response);
         verifyErrorValueInResponseWithRequest(response, "Missing email or username");
     }
 
-    @Description("Verify that a new user cannot log in when a password is missing")
-    @Story("As a user, I want to see an error message if I do not provide a password during login")
     @Test(dataProvider = DataProviderNames.MISSING_PASSWORD, dataProviderClass = RegisterDataProviders.class)
+    @QaseId(30)
+    @QaseTitle("Login missing password")
+    @Description("Login missing password")
     public void missingPassword(JSONObject requestBody) {
 
-        Response response = set(requestBody.toString());
+        Response response = sendRequest(requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
         verifyErrorDataTypeInResponse(response);
         verifyErrorValueInResponseWithRequest(response, "Missing password");
     }
 
-    @Description("Verify that an error message appears when sending a malformed JSON request body")
-    @Story("As a user, I want to see an error message when I provide an incorrect request body format")
     @Test
+    @QaseId(31)
+    @QaseTitle("Login with empty request body")
+    @Description("Login with empty request body")
+    public void emptyRequestBody() {
+
+        Response response = sendRequest("{}");
+        verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
+        verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
+        verifyErrorDataTypeInResponse(response);
+        verifyErrorValueInResponseWithRequest(response, "Missing email or username");
+    }
+
+    @Test
+    @QaseId(32)
+    @QaseTitle("Login with malformed request body")
+    @Description("Login with malformed request body")
     public void malformedJSON() {
 
-        String body = "{" + "  \"email\": \"example@example.com\"," +
+        String malformedJSON = "{" + "  \"email\": \"example@example.com\"," +
                          "  \"password\": \"password123\"" +
                          "  \"role\": \"admin\"";
 
-        Response response = set(body);
+        Response response = sendRequest(malformedJSON);
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyBadRequestResponseBody(response.body().asString());
     }
