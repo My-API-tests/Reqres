@@ -26,7 +26,7 @@ public class ListResourceTest extends ListBaseTest {
     @QaseId(7)
     @QaseTitle("Getting a list of resource")
     @Description("Getting a list of resource")
-    public void correctPageId() {
+    public void getList() {
 
         Response response = sendRequest();
         verifyStatusCode(response, HttpStatus.SC_OK);
