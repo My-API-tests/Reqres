@@ -23,35 +23,58 @@ public class SingleResourceTest extends BaseTest {
                 .get("/api/unknown/" + id);
     }
 
-    @io.qameta.allure.Step("Verify {id, name, year, color, pantone_value} data types in the {data} JSON object")
-    @io.qase.api.annotation.Step("Verify {id, name, year, color, pantone_value} data types in the {data} JSON object")
-    private void verifyDataTypesInDataJSONObject(Response response) {
+    @io.qameta.allure.Step("Verify the <id> data type")
+    @io.qase.api.annotation.Step("Verify the <id> data type")
+    private void verifyIdDataType(Response response) {
 
         checkDataType(response, "data.id", Integer.class);
+
+    }
+
+    @io.qameta.allure.Step("Verify the <name> data type")
+    @io.qase.api.annotation.Step("Verify the <name> data type")
+    private void verifyNameDataType(Response response) {
+
         checkDataType(response, "data.name", String.class);
+
+    }
+
+    @io.qameta.allure.Step("Verify the <year> data type")
+    @io.qase.api.annotation.Step("Verify the <year> data type")
+    private void verifyYearDataType(Response response) {
+
         checkDataType(response, "data.year", Integer.class);
+
+    }
+
+    @io.qameta.allure.Step("Verify the <color> data type")
+    @io.qase.api.annotation.Step("Verify the <color> data type")
+    private void verifyColorDataType(Response response) {
+
         checkDataType(response, "data.color", String.class);
-        checkDataType(response, "data.pantone_value", Integer.class);
+
     }
 
-    @io.qameta.allure.Step("Verify the {color} format")
-    @io.qase.api.annotation.Step("Verify the {color} format")
-    private void verifyColorPropertyValueInResponseWithRequest(Response response) {
+    @io.qameta.allure.Step("Verify the <pantone_value> data type")
+    @io.qase.api.annotation.Step("Verify the <pantone_value> data type")
+    private void verifyPantoneValueDataType(Response response) {
 
-        response
-                .then()
-                .assertThat()
-                .body("data.color", matchesPattern(Patterns.COLOR_FORMAT));
+        checkDataType(response, "data.pantone_value", String.class);
+
     }
 
-    @io.qameta.allure.Step("Verify the Pantone {pantone_value} format")
-    @io.qase.api.annotation.Step("Verify the Pantone {pantone_value} format")
-    private void verifyPantoneValueFormatInResponse(Response response) {
+    @io.qameta.allure.Step("Verify the <color> format")
+    @io.qase.api.annotation.Step("Verify the <color> format")
+    private void verifyColorFormat(Response response) {
 
-        response
-                .then()
-                .assertThat()
-                .body("data.pantone_value", matchesPattern(Patterns.PANTONE_FORMAT));
+        response.then().assertThat().body("data.color", matchesPattern(Patterns.COLOR_FORMAT));
+    }
+
+    @io.qameta.allure.Step("Verify the <pantone_value> format")
+    @io.qase.api.annotation.Step("Verify the <pantone_value> format")
+    private void verifyPantoneValueFormat(Response response) {
+
+        response.then().assertThat().body("data.pantone_value", matchesPattern(Patterns.PANTONE_FORMAT));
     }
 
     @Test
@@ -63,9 +86,13 @@ public class SingleResourceTest extends BaseTest {
         Response response = sendRequest("2");
         verifyStatusCode(response, HttpStatus.SC_OK);
         verifyJSONSchema(response, JSONSchemas.SINGLE_RESOURCE);
-        verifyDataTypesInDataJSONObject(response);
-        verifyColorPropertyValueInResponseWithRequest(response);
-        verifyPantoneValueFormatInResponse(response);
+        verifyIdDataType(response);
+        verifyNameDataType(response);
+        verifyYearDataType(response);
+        verifyColorDataType(response);
+        verifyPantoneValueDataType(response);
+        verifyColorFormat(response);
+        verifyPantoneValueFormat(response);
         verifyHeaders(response);
     }
 
