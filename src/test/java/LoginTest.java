@@ -1,5 +1,7 @@
 import base.BaseTest;
 import io.qameta.allure.*;
+import io.qase.api.annotation.QaseId;
+import io.qase.api.annotation.QaseTitle;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
@@ -25,39 +27,37 @@ public class LoginTest extends BaseTest {
                 .post("/api/login");
     }
 
-    @Step("Verify the {token} data type")
-    private void verifyTokenDataTypeInResponse(Response response) {
+    @io.qameta.allure.Step("Verify the <token> data type")
+    @io.qase.api.annotation.Step("Verify the <token> data type")
+    private void verifyTokenDataType(Response response) {
 
-        response
-                .then()
-                .assertThat()
-                .body("token", isA(String.class));
+        response.then().assertThat().body("token", isA(String.class));
     }
 
-    @Step("Verify the {token} value")
+    @io.qameta.allure.Step("Verify the <token> value")
+    @io.qase.api.annotation.Step("Verify the <token> value")
     private void verifyTokenValueInResponseWithRequest(Response response) {
 
-        response
-                .then()
-                .assertThat()
-                .body("token", not(""));
+        response.then().assertThat().body("token", not(""));
     }
 
-    @Description("Verify that a new user can be logged in using correct credentials")
-    @Story("As a user, I want to be able to log in successfully using correct credentials")
     @Test(dataProvider = DataProviderNames.CORRECT, dataProviderClass = RegisterDataProviders.class)
+    @QaseId(26)
+    @QaseTitle("Login using correct credentials")
+    @Description("Login using correct credentials")
     public void correct(JSONObject requestBody) {
 
         Response response = set(requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_OK);
         verifyJSONSchema(response, JSONSchemas.LOGIN);
-        verifyTokenDataTypeInResponse(response);
+        verifyTokenDataType(response);
         verifyTokenValueInResponseWithRequest(response);
     }
 
-    @Description("Verify that a new user cannot log in using an incorrect email")
-    @Story("As an user, I want to see an error message when I provide an incorrect email during login")
     @Test(dataProvider = DataProviderNames.INCORRECT_EMAIL, dataProviderClass = RegisterDataProviders.class)
+    @QaseId(27)
+    @QaseTitle("Login using an incorrect email")
+    @Description("Login using an incorrect credentials")
     public void incorrectEmail(JSONObject requestBody) {
 
         Response response = set(requestBody.toString());
