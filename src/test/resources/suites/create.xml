@@ -6,13 +6,13 @@
         <listener class-name="org.qa.listener.TestListener"/>
     </listeners>
 
-    <parameter name="fileName" value="REQ_IncorrectKeys.json"/>
+    <parameter name="fileName" value="REQ_User.json"/>
 
     <test name="Tests creating an user providing name and job">
         <classes>
             <class name="CreateUserTest">
                 <methods>
-                    <include name="incorrectKeyInRequestBody"/>
+                    <include name="emptyRequestBody"/>
                 </methods>
             </class>
         </classes>

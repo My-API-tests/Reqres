@@ -13,7 +13,7 @@
         <classes>
             <class name="UpdateTest">
                 <methods>
-                    <include name="missingName"/>
+                    <include name="incorrectKeys"/>
                 </methods>
             </class>
         </classes>
