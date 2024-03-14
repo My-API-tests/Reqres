@@ -3,6 +3,14 @@
 
 <suite name="Reqres">
     <suite-files>
+        <suite-file path="listUsers.xml"/>
+        <suite-file path="singleUser.xml"/>
+        <suite-file path="listResource.xml"/>
         <suite-file path="delayedResponse.xml"/>
+        <suite-file path="singleResource.xml"/>
+        <suite-file path="create.xml"/>
+        <suite-file path="update.xml"/>
+        <suite-file path="register.xml"/>
+        <suite-file path="login.xml"/>
     </suite-files>
 </suite>
