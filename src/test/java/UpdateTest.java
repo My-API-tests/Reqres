@@ -1,5 +1,7 @@
 import base.BaseTest;
 import io.qameta.allure.*;
+import io.qase.api.annotation.QaseId;
+import io.qase.api.annotation.QaseTitle;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
@@ -12,14 +14,13 @@ import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.isA;
 import static org.hamcrest.Matchers.matchesPattern;
 
 @Epic("E2E")
 @Feature("Update")
 public class UpdateTest extends BaseTest {
 
-    private Response check(String id, String requestBody) {
+    private Response sendRequest(String id, String requestBody) {
 
         return given().when()
                 .contentType(ContentType.JSON)
@@ -27,123 +28,133 @@ public class UpdateTest extends BaseTest {
                 .put("/api/users/" + id);
     }
 
-    @Step("Verify {name, job, updatedAt} data types")
-    private void verifyDataTypesInResponse(Response response) {
+    @io.qameta.allure.Step("Verify the <name> data type")
+    @io.qase.api.annotation.Step("Verify the <name> data type")
+    private void verifyNameDataType(Response response) {
 
-        response
-                .then()
-                .assertThat()
-                .body("name", isA(String.class))
-                .body("job", isA(String.class))
-                .body("updatedAt", isA(String.class));
+        checkDataType(response, "name", String.class);
     }
 
-    @Step("Verify {job, createdAt} data types")
-    private void verifyDataTypesWhenMissingName(Response response) {
+    @io.qameta.allure.Step("Verify the <job> data type")
+    @io.qase.api.annotation.Step("Verify the <job> data type")
+    private void verifyJobDataType(Response response) {
 
         checkDataType(response, "job", String.class);
+    }
+
+    @io.qameta.allure.Step("Verify the <updatedAt> data type")
+    @io.qase.api.annotation.Step("Verify the <updatedAt> data type")
+    private void verifyUpdatedAtDataType(Response response) {
+
         checkDataType(response, "updatedAt", String.class);
     }
 
-    @Step("Verify the {name} value")
-    private void verifyNameValueInResponseWithRequest(Response response, JSONObject requestBody) {
+    @io.qameta.allure.Step("Verify the <name> value")
+    @io.qase.api.annotation.Step("Verify the <name> value")
+    private void verifyNameValue(Response response, JSONObject requestBody) {
 
-        response
-                .then()
-                .assertThat()
-                .body("name", equalTo(requestBody.get("name")));
+        response.then().assertThat().body("name", equalTo(requestBody.get("name")));
     }
 
-    @Step("Verify the {job} value")
-    private void verifyJobValueInResponseWithRequest(Response response, JSONObject requestBody) {
+    @io.qameta.allure.Step("Verify the <job> value")
+    @io.qase.api.annotation.Step("Verify the <job> value")
+    private void verifyJobValue(Response response, JSONObject requestBody) {
 
-        response
-                .then()
-                .assertThat()
-                .body("job", equalTo(requestBody.get("job")));
+        response.then().assertThat().body("job", equalTo(requestBody.get("job")));
     }
 
-    @Step("Verify the {createdAt} format")
-    private void verifyCreatedAtPropertyValueInResponseWithRequest(Response response) {
+    @io.qameta.allure.Step("Verify the <updatedAt> format")
+    @io.qase.api.annotation.Step("Verify the <updatedAt> format")
+    private void verifyUpdatedAtPropertyFormat(Response response) {
 
-        response
-                .then()
-                .assertThat()
-                .body("createdAt", matchesPattern(Patterns.DATE_TIME_FORMAT));
+        response.then().assertThat().body("updatedAt", matchesPattern(Patterns.DATE_TIME_FORMAT));
     }
 
-    @Severity(SeverityLevel.CRITICAL)
-    @Description("Verify that a user's data is updated successfully using correct data")
-    @Story("As an user, I want to be able to update a user data using correct data")
     @Test(dataProvider = DataProviderNames.CORRECT, dataProviderClass = UserDataProviders.class)
+    @QaseId(15)
+    @QaseTitle("Updating a user data using correct credentials")
+    @Description("Updating a user data using correct credentials")
     public void correct(JSONObject body) {
 
-        Response response = check("2", body.toString());
+        Response response = sendRequest("2", body.toString());
         verifyStatusCode(response, HttpStatus.SC_OK);
         verifyJSONSchema(response, JSONSchemas.UPDATE_USER);
-        verifyDataTypesInResponse(response);
-        verifyNameValueInResponseWithRequest(response, body);
-        verifyJobValueInResponseWithRequest(response, body);
-    }
-
-    @Severity(SeverityLevel.CRITICAL)
-    @Description("Verify that a user's data is updated successfully when the \"name\" parameter is missing")
-    @Story("As a user, I want to be able to update my data even if I do not provide my name")
-    @Test(dataProvider = DataProviderNames.MISSING_NAME, dataProviderClass = UserDataProviders.class)
-    public void missingName(JSONObject body) {
-
-        Response response = check("2", body.toString());
-        System.out.println(response.getBody().prettyPrint());
-        //verifyStatusCode(response, HttpStatus.SC_OK);
-        //verifyJSONSchema(response, JSONSchemas.UPDATE_USER);
-        //verifyDataTypesWhenMissingName(response);
-        //verifyJobValueInResponseWithRequest(response, body);
-        //verifyHeaders(response);
-    }
-
-    @Severity(SeverityLevel.CRITICAL)
-    @Description("Verify that a user's data is updated successfully when the \"job\" parameter is missing")
-    @Story("As a user, I want to be able to update my data even if I do not provide my job")
-    @Test(dataProvider = DataProviderNames.MISSING_JOB, dataProviderClass = UserDataProviders.class)
-    public void withoutJob(JSONObject body) {
-
-        Response response = check("2", body.toString());
-        verifyStatusCode(response, HttpStatus.SC_OK);
-        verifyJSONSchema(response, JSONSchemas.UPDATE_USER);
-        verifyDataTypesWhenMissingName(response);
-        verifyNameValueInResponseWithRequest(response, body);
+        verifyNameDataType(response);
+        verifyJobDataType(response);
+        verifyUpdatedAtDataType(response);
+        verifyNameValue(response, body);
+        verifyJobValue(response, body);
+        verifyUpdatedAtPropertyFormat(response);
         verifyHeaders(response);
     }
 
-    @Description("Verify that an error message appears when an incorrect user ID is provided")
-    @Story("As an user, I want to see an error message when I provide an incorrect user ID")
-    @Test(dataProvider = DataProviderNames.CORRECT, dataProviderClass = UserDataProviders.class)
-    public void incorrectId(JSONObject body) {
+    @Test(dataProvider = DataProviderNames.MISSING_NAME, dataProviderClass = UserDataProviders.class)
+    @QaseId(16)
+    @QaseTitle("Updating a user data missing the <name>")
+    @Description("Updating a user data missing the <name>")
+    public void missingName(JSONObject body) {
 
-        Response response = check("10000", body.toString());
-        System.out.println(response.statusCode());
-        System.out.println(response.getBody().prettyPrint());
+        Response response = sendRequest("2", body.toString());
+        verifyStatusCode(response, HttpStatus.SC_OK);
+        verifyJSONSchema(response, JSONSchemas.UPDATE_USER_MISSING_NAME);
+        verifyJobDataType(response);
+        verifyUpdatedAtDataType(response);
+        verifyJobValue(response, body);
+        verifyUpdatedAtPropertyFormat(response);
+        verifyHeaders(response);
     }
 
-    @Description("Verify that an error message appears when sending a malformed JSON request body")
-    @Story("As a user, I want to see an error message when I provide an incorrect request body format")
+    @Test(dataProvider = DataProviderNames.MISSING_JOB, dataProviderClass = UserDataProviders.class)
+    @QaseId(17)
+    @QaseTitle("Updating a user data missing the <job>")
+    @Description("Updating a user data missing the <job>")
+    public void missingJob(JSONObject body) {
+
+        Response response = sendRequest("2", body.toString());
+        verifyStatusCode(response, HttpStatus.SC_OK);
+        verifyJSONSchema(response, JSONSchemas.UPDATE_USER_MISSING_JOB);
+        verifyNameDataType(response);
+        verifyUpdatedAtDataType(response);
+        verifyNameValue(response, body);
+        verifyUpdatedAtPropertyFormat(response);
+        verifyHeaders(response);
+    }
+
+    @Test(dataProvider = DataProviderNames.CORRECT, dataProviderClass = UserDataProviders.class)
+    @QaseId(18)
+    @QaseTitle("Updating a user data using an incorrect ID")
+    @Description("Updating a user data using an incorrect ID")
+    public void incorrectId(JSONObject body) {
+
+        Response response = sendRequest("$$", body.toString());
+        verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
+        verifyBadRequestResponseBody(response.getBody().asString());
+        verifyHeaders(response);
+    }
+
+    @Test(dataProvider = DataProviderNames.INCORRECT_KEYS, dataProviderClass = UserDataProviders.class)
+    @QaseId(19)
+    @QaseTitle("Creating a user with incorrect keys in the request body")
+    @Description("Creating a user with incorrect keys in the request body")
+    public void incorrectKeys(JSONObject requestBody) {
+
+        Response response = sendRequest("2", requestBody.toString());
+        verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
+        verifyBadRequestResponseBody(response.getBody().asString());
+        verifyHeaders(response);
+    }
+
     @Test
+    @QaseId(20)
+    @QaseTitle("Updating a user data with malformed request body")
+    @Description("Updating a user data with malformed request body")
     public void malformedJSON() {
 
-        /*String invalid = "{ \"name\": {\"$gt\": \"\"}, \"job\": {\"$ne\": \"\"}";
+        String invalid = "{ \"name\": {\"$gt\": \"\"}, \"job\": {\"$ne\": \"\"}";
 
-        String responseHTML = given()
-                .contentType(ContentType.JSON)
-                .body(invalid)
-                .put("/api/users/2")
-                .then()
-                .assertThat()
-                .statusCode(HttpStatus.SC_BAD_REQUEST)
-                .extract().body().asString();
-
-        Document document = Jsoup.parse(responseHTML);
-        String preContent = document.select("pre").text();
-
-        Assert.assertEquals(preContent, "Bad Request");*/
+        Response response = sendRequest("2", invalid);
+        verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
+        verifyBadRequestResponseBody(response.getBody().asString());
+        verifyHeaders(response);
     }
 }
