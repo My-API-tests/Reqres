@@ -4,7 +4,6 @@
         "Content-Type",
         "Content-Length",
         "Connection",
-        "X-Powered-By",
-        "Access-Control-Allow-Origin"
+        "X-Powered-By"
     ]
 }
