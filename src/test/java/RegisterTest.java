@@ -17,11 +17,11 @@ import static io.restassured.RestAssured.*;
 @Feature("Register")
 public class RegisterTest extends BaseTest {
 
-    private Response sendRequest(String responseBody) {
+    private Response sendRequest(String requestBody) {
 
         return given()
                 .contentType(ContentType.JSON)
-                .body(responseBody)
+                .body(requestBody)
                 .post("/api/register");
     }
 
@@ -43,9 +43,9 @@ public class RegisterTest extends BaseTest {
     @QaseId(21)
     @QaseTitle("Register using correct credentials")
     @Description("Register using correct credentials")
-    public void correct(JSONObject body) {
+    public void correct(JSONObject requestBody) {
 
-        Response response = sendRequest(body.toString());
+        Response response = sendRequest(requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_OK);
         verifyJSONSchema(response, JSONSchemas.REGISTER);
         verifyIdDataType(response);
@@ -56,9 +56,9 @@ public class RegisterTest extends BaseTest {
     @QaseId(22)
     @QaseTitle("Register when a user is not defined")
     @Description("Register when a user is not defined")
-    public void userNotDefined(JSONObject body) {
+    public void userNotDefined(JSONObject requestBody) {
 
-        Response response = sendRequest(body.toString());
+        Response response = sendRequest(requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
         verifyErrorDataTypeInResponse(response);
@@ -69,9 +69,9 @@ public class RegisterTest extends BaseTest {
     @QaseId(23)
     @QaseTitle("Register missing email")
     @Description("Register missing email")
-    public void missingEmail(JSONObject body) {
+    public void missingEmail(JSONObject requestBody) {
 
-        Response response = sendRequest(body.toString());
+        Response response = sendRequest(requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
         verifyErrorDataTypeInResponse(response);
@@ -82,9 +82,9 @@ public class RegisterTest extends BaseTest {
     @QaseId(24)
     @QaseTitle("Register missing password")
     @Description("Register missing password")
-    public void missingPassword(JSONObject body) {
+    public void missingPassword(JSONObject requestBody) {
 
-        Response response = sendRequest(body.toString());
+        Response response = sendRequest(requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
         verifyErrorDataTypeInResponse(response);
@@ -97,9 +97,9 @@ public class RegisterTest extends BaseTest {
     @Description("Register with malformed request body")
     public void malformedJSON() {
 
-        String invalid = "{" + "  \"email\": \"example@example.com\"," + "  \"password\": \"password123\"";
+        String malformedJSON = "{" + "  \"email\": \"example@example.com\"," + "  \"password\": \"password123\"";
 
-        Response response = sendRequest(invalid);
+        Response response = sendRequest(malformedJSON);
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyBadRequestResponseBody(response.getBody().asString());
     }
