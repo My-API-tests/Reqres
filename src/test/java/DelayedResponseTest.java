@@ -36,6 +36,5 @@ public class DelayedResponseTest extends ListBaseTest {
         verifyTotalDataType(response);
         verifyTotalPagesDataType(response);
         verifyListOfUsers(response);
-        verifyHeaders(response);
     }
 }

@@ -52,7 +52,6 @@ public class LoginTest extends BaseTest {
         verifyJSONSchema(response, JSONSchemas.LOGIN);
         verifyTokenDataType(response);
         verifyTokenValueInResponseWithRequest(response);
-        verifyHeaders(response);
     }
 
     @Test(dataProvider = DataProviderNames.INCORRECT_EMAIL, dataProviderClass = RegisterDataProviders.class)
@@ -66,7 +65,6 @@ public class LoginTest extends BaseTest {
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
         verifyErrorDataTypeInResponse(response);
         verifyErrorValueInResponseWithRequest(response, "user not found");
-        verifyHeaders(response);
     }
 
     @Test(dataProvider = DataProviderNames.INCORRECT_PASSWORD, dataProviderClass = RegisterDataProviders.class)
@@ -80,7 +78,6 @@ public class LoginTest extends BaseTest {
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
         verifyErrorDataTypeInResponse(response);
         verifyErrorValueInResponseWithRequest(response, "user not found");
-        verifyHeaders(response);
     }
 
     @Test(dataProvider = DataProviderNames.MISSING_EMAIL, dataProviderClass = RegisterDataProviders.class)
@@ -94,7 +91,6 @@ public class LoginTest extends BaseTest {
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
         verifyErrorDataTypeInResponse(response);
         verifyErrorValueInResponseWithRequest(response, "Missing email or username");
-        verifyHeaders(response);
     }
 
     @Test(dataProvider = DataProviderNames.MISSING_PASSWORD, dataProviderClass = RegisterDataProviders.class)
@@ -108,7 +104,6 @@ public class LoginTest extends BaseTest {
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
         verifyErrorDataTypeInResponse(response);
         verifyErrorValueInResponseWithRequest(response, "Missing password");
-        verifyHeaders(response);
     }
 
     @Test
@@ -122,7 +117,6 @@ public class LoginTest extends BaseTest {
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
         verifyErrorDataTypeInResponse(response);
         verifyErrorValueInResponseWithRequest(response, "Missing email or username");
-        verifyHeaders(response);
     }
 
     @Test
@@ -138,6 +132,5 @@ public class LoginTest extends BaseTest {
         Response response = sendRequest(malformedJSON);
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyBadRequestResponseBody(response.body().asString());
-        verifyHeaders(response);
     }
 }

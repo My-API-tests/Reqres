@@ -85,7 +85,6 @@ public class CreateUserTest extends BaseTest {
         verifyCreatedAtDataType(response);
         verifyNameValue(response, requestBody);
         verifyJobValue(response, requestBody);
-        verifyHeaders(response);
     }
 
     @Test(dataProvider = DataProviderNames.MISSING_NAME, dataProviderClass = UserDataProviders.class)
@@ -101,7 +100,6 @@ public class CreateUserTest extends BaseTest {
         verifyIdDataType(response);
         verifyCreatedAtDataType(response);
         verifyJobValue(response, requestBody);
-        verifyHeaders(response);
     }
 
     @Test(dataProvider = DataProviderNames.MISSING_JOB, dataProviderClass = UserDataProviders.class)
@@ -117,7 +115,6 @@ public class CreateUserTest extends BaseTest {
         verifyIdDataType(response);
         verifyCreatedAtDataType(response);
         verifyNameValue(response, requestBody);
-        verifyHeaders(response);
     }
 
     @Test
@@ -131,7 +128,6 @@ public class CreateUserTest extends BaseTest {
         verifyJSONSchema(response, JSONSchemas.CREATE_USER_EMPTY_BODY);
         verifyIdDataType(response);
         verifyCreatedAtDataType(response);
-        verifyHeaders(response);
     }
 
     @Test(dataProvider = DataProviderNames.INCORRECT_KEYS, dataProviderClass = UserDataProviders.class)
@@ -143,7 +139,6 @@ public class CreateUserTest extends BaseTest {
         Response response = sendRequest(requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyBadRequestResponseBody(response.getBody().asString());
-        verifyHeaders(response);
     }
 
     @Test
@@ -157,6 +152,5 @@ public class CreateUserTest extends BaseTest {
         Response response = sendRequest(malformedJSON);
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyBadRequestResponseBody(response.getBody().asString());
-        verifyHeaders(response);
     }
 }

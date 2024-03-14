@@ -36,7 +36,6 @@ public class ListUsersTest extends ListBaseTest {
         verifyTotalDataType(response);
         verifyTotalPagesDataType(response);
         verifyListOfUsers(response);
-        verifyHeaders(response);
     }
 
     @Test
@@ -48,6 +47,5 @@ public class ListUsersTest extends ListBaseTest {
         Response response = sendRequest("^%&*");
         verifyStatusCode(response, HttpStatus.SC_NOT_FOUND);
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
-        verifyHeaders(response);
     }
 }

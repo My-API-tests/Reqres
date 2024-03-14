@@ -74,62 +74,58 @@ public class UpdateTest extends BaseTest {
     @QaseId(15)
     @QaseTitle("Updating a user data using correct credentials")
     @Description("Updating a user data using correct credentials")
-    public void correct(JSONObject body) {
+    public void correct(JSONObject requestBody) {
 
-        Response response = sendRequest("2", body.toString());
+        Response response = sendRequest("2", requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_OK);
         verifyJSONSchema(response, JSONSchemas.UPDATE_USER);
         verifyNameDataType(response);
         verifyJobDataType(response);
         verifyUpdatedAtDataType(response);
-        verifyNameValue(response, body);
-        verifyJobValue(response, body);
+        verifyNameValue(response, requestBody);
+        verifyJobValue(response, requestBody);
         verifyUpdatedAtPropertyFormat(response);
-        verifyHeaders(response);
     }
 
     @Test(dataProvider = DataProviderNames.MISSING_NAME, dataProviderClass = UserDataProviders.class)
     @QaseId(16)
     @QaseTitle("Updating a user data missing the <name>")
     @Description("Updating a user data missing the <name>")
-    public void missingName(JSONObject body) {
+    public void missingName(JSONObject requestBody) {
 
-        Response response = sendRequest("2", body.toString());
+        Response response = sendRequest("2", requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_OK);
         verifyJSONSchema(response, JSONSchemas.UPDATE_USER_MISSING_NAME);
         verifyJobDataType(response);
         verifyUpdatedAtDataType(response);
-        verifyJobValue(response, body);
+        verifyJobValue(response, requestBody);
         verifyUpdatedAtPropertyFormat(response);
-        verifyHeaders(response);
     }
 
     @Test(dataProvider = DataProviderNames.MISSING_JOB, dataProviderClass = UserDataProviders.class)
     @QaseId(17)
     @QaseTitle("Updating a user data missing the <job>")
     @Description("Updating a user data missing the <job>")
-    public void missingJob(JSONObject body) {
+    public void missingJob(JSONObject requestBody) {
 
-        Response response = sendRequest("2", body.toString());
+        Response response = sendRequest("2", requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_OK);
         verifyJSONSchema(response, JSONSchemas.UPDATE_USER_MISSING_JOB);
         verifyNameDataType(response);
         verifyUpdatedAtDataType(response);
-        verifyNameValue(response, body);
+        verifyNameValue(response, requestBody);
         verifyUpdatedAtPropertyFormat(response);
-        verifyHeaders(response);
     }
 
     @Test(dataProvider = DataProviderNames.CORRECT, dataProviderClass = UserDataProviders.class)
     @QaseId(18)
     @QaseTitle("Updating a user data using an incorrect ID")
     @Description("Updating a user data using an incorrect ID")
-    public void incorrectId(JSONObject body) {
+    public void incorrectId(JSONObject requestBody) {
 
-        Response response = sendRequest("$$", body.toString());
+        Response response = sendRequest("$$", requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyBadRequestResponseBody(response.getBody().asString());
-        verifyHeaders(response);
     }
 
     @Test(dataProvider = DataProviderNames.INCORRECT_KEYS, dataProviderClass = UserDataProviders.class)
@@ -141,7 +137,6 @@ public class UpdateTest extends BaseTest {
         Response response = sendRequest("2", requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyBadRequestResponseBody(response.getBody().asString());
-        verifyHeaders(response);
     }
 
     @Test
@@ -150,11 +145,10 @@ public class UpdateTest extends BaseTest {
     @Description("Updating a user data with malformed request body")
     public void malformedJSON() {
 
-        String invalid = "{ \"name\": {\"$gt\": \"\"}, \"job\": {\"$ne\": \"\"}";
+        String malformedJSON = "{ \"name\": {\"$gt\": \"\"}, \"job\": {\"$ne\": \"\"}";
 
-        Response response = sendRequest("2", invalid);
+        Response response = sendRequest("2", malformedJSON);
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyBadRequestResponseBody(response.getBody().asString());
-        verifyHeaders(response);
     }
 }

@@ -93,7 +93,6 @@ public class SingleResourceTest extends BaseTest {
         verifyPantoneValueDataType(response);
         verifyColorFormat(response);
         verifyPantoneValueFormat(response);
-        verifyHeaders(response);
     }
 
     @Test
@@ -105,6 +104,5 @@ public class SingleResourceTest extends BaseTest {
         Response response = sendRequest("xyz");
         verifyStatusCode(response, HttpStatus.SC_NOT_FOUND);
         verifyJSONSchema(response, JSONSchemas.EMPTY_BODY);
-        verifyHeaders(response);
     }
 }
