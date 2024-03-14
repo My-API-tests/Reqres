@@ -1,5 +1,7 @@
 import base.BaseTest;
 import io.qameta.allure.*;
+import io.qase.api.annotation.QaseId;
+import io.qase.api.annotation.QaseTitle;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
@@ -10,13 +12,12 @@ import org.qa.support.JSONSchemas;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.isA;
 
 @Epic("E2E")
 @Feature("Register")
 public class RegisterTest extends BaseTest {
 
-    private Response set(String responseBody) {
+    private Response sendRequest(String responseBody) {
 
         return given()
                 .contentType(ContentType.JSON)
@@ -24,71 +25,81 @@ public class RegisterTest extends BaseTest {
                 .post("/api/register");
     }
 
-    @Step("Verify {id, token} data types")
-    private void verifyDataTypesInResponse(Response response) {
+    @io.qameta.allure.Step("Verify the <id> data type")
+    @io.qase.api.annotation.Step("Verify the <id> data type")
+    private void verifyIdDataType(Response response) {
 
-        response
-                .then()
-                .assertThat()
-                .body("id", isA(Integer.class))
-                .body("token", isA(String.class));
+        checkDataType(response, "id", Integer.class);
     }
 
-    @Description("Verify that a user can be registered using correct credentials")
-    @Story("As a user, I want to be able to register successfully using correct credentials")
+    @io.qameta.allure.Step("Verify the <token> data type")
+    @io.qase.api.annotation.Step("Verify the <token> data type")
+    private void verifyTokenDataType(Response response) {
+
+        checkDataType(response, "token", String.class);
+    }
+
     @Test(dataProvider = DataProviderNames.USER_NOT_DEFINED, dataProviderClass = RegisterDataProviders.class)
+    @QaseId(21)
+    @QaseTitle("Register using correct credentials")
+    @Description("Register using correct credentials")
     public void correct(JSONObject body) {
 
-        Response response = set(body.toString());
+        Response response = sendRequest(body.toString());
         verifyStatusCode(response, HttpStatus.SC_OK);
         verifyJSONSchema(response, JSONSchemas.REGISTER);
-        verifyDataTypesInResponse(response);
+        verifyIdDataType(response);
+        verifyTokenDataType(response);
     }
 
-    @Description("Verify that a new user cannot register if the user is not defined")
-    @Story("As a user, I want to see an error message when I am an undefined user")
     @Test(dataProvider = DataProviderNames.USER_NOT_DEFINED, dataProviderClass = RegisterDataProviders.class)
+    @QaseId(22)
+    @QaseTitle("Register when a user is not defined")
+    @Description("Register when a user is not defined")
     public void userNotDefined(JSONObject body) {
 
-        Response response = set(body.toString());
+        Response response = sendRequest(body.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
         verifyErrorDataTypeInResponse(response);
         verifyErrorValueInResponseWithRequest(response, "Only defined users succeed registration");
     }
 
-    @Description("Verify that a new user cannot register when an email is missing")
-    @Story("As a user, I want to see an error message if I do not provide an email during registration")
     @Test(dataProvider = DataProviderNames.MISSING_EMAIL, dataProviderClass = RegisterDataProviders.class)
+    @QaseId(23)
+    @QaseTitle("Register missing email")
+    @Description("Register missing email")
     public void missingEmail(JSONObject body) {
 
-        Response response = set(body.toString());
+        Response response = sendRequest(body.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
         verifyErrorDataTypeInResponse(response);
         verifyErrorValueInResponseWithRequest(response, "Missing email or username");
     }
 
-    @Description("Verify that a new user cannot register when an email is missing")
-    @Story("As a user, I want to see an error message if I do not provide an email during registration")
     @Test(dataProvider = DataProviderNames.MISSING_PASSWORD, dataProviderClass = RegisterDataProviders.class)
+    @QaseId(24)
+    @QaseTitle("Register missing password")
+    @Description("Register missing password")
     public void missingPassword(JSONObject body) {
 
-        Response response = set(body.toString());
+        Response response = sendRequest(body.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
         verifyErrorDataTypeInResponse(response);
         verifyErrorValueInResponseWithRequest(response, "Missing password");
     }
 
-    @Description("Verify that an error message appears when sending a malformed JSON request body")
-    @Story("As a user, I want to see an error message when I provide an incorrect request body format")
     @Test
+    @QaseId(25)
+    @QaseTitle("Register with malformed request body")
+    @Description("Register with malformed request body")
     public void malformedJSON() {
 
         String invalid = "{" + "  \"email\": \"example@example.com\"," + "  \"password\": \"password123\"";
 
-        Response response = set(invalid);
+        Response response = sendRequest(invalid);
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyBadRequestResponseBody(response.getBody().asString());
     }
