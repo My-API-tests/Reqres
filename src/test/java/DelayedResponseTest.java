@@ -26,7 +26,7 @@ public class DelayedResponseTest extends ListBaseTest {
     @QaseId(8)
     @QaseTitle("Getting a list of users with a delayed response")
     @Description("Getting a list of users with a delayed response")
-    public void check() {
+    public void getList() {
 
         Response response = sendRequest();
         verifyStatusCode(response, HttpStatus.SC_OK);
