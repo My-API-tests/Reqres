@@ -28,35 +28,31 @@ public class CreateUserTest extends BaseTest {
                 .post("/api/users/");
     }
 
-    @Step("Verify {name, job, id, createdAt} data types")
-    private void verifyDataTypesInResponse(Response response) {
+    @io.qameta.allure.Step("Verify the <name> data type")
+    @io.qase.api.annotation.Step("Verify the <name> data type")
+    private void verifyNameDataType(Response response) {
 
         checkDataType(response, "name", String.class);
-        checkDataType(response, "job", String.class);
-        checkDataType(response, "id", String.class);
-        checkDataType(response, "createdAt", String.class);
     }
 
-    @Step("Verify {job, id, createdAt} data type")
-    private void verifyDataTypesWhenMissingName(Response response) {
+    @io.qameta.allure.Step("Verify the <job> data type")
+    @io.qase.api.annotation.Step("Verify the <job> data type")
+    private void verifyJobDataType(Response response) {
 
         checkDataType(response, "job", String.class);
-        checkDataType(response, "id", String.class);
-        checkDataType(response, "createdAt", String.class);
     }
 
-    @Step("Verify {name, id, createdAt} data type")
-    private void verifyDataTypesWhenMissingJob(Response response) {
+    @io.qameta.allure.Step("Verify the <id> data type")
+    @io.qase.api.annotation.Step("Verify the <id> data type")
+    private void verifyIdDataType(Response response) {
 
-        checkDataType(response, "name", String.class);
         checkDataType(response, "id", String.class);
-        checkDataType(response, "createdAt", String.class);
     }
 
-    @Step("Verify {id, createdAt} data type")
-    private void verifyDataTypesWhenEmptyRequestBody(Response response) {
+    @io.qameta.allure.Step("Verify the <createdAt> data type")
+    @io.qase.api.annotation.Step("Verify the <createdAt> data type")
+    private void verifyCreatedAtDataType(Response response) {
 
-        checkDataType(response, "id", String.class);
         checkDataType(response, "createdAt", String.class);
     }
 
@@ -69,22 +65,18 @@ public class CreateUserTest extends BaseTest {
                 .body("job", equalTo(requestBody.getString("job")));
     }
 
-    @Step("Verify the {job} value")
-    private void verifyJobValueInResponseWithRequest(Response response, JSONObject requestBody) {
+    @io.qameta.allure.Step("Verify the <name> value")
+    @io.qase.api.annotation.Step("Verify the <name> value")
+    private void verifyNameValue(Response response, JSONObject requestBody) {
 
-        response
-                .then()
-                .assertThat()
-                .body("job", equalTo(requestBody.getString("job")));
+        response.then().assertThat().body("name", equalTo(requestBody.getString("name")));
     }
 
-    @Step("Verify the {name} value")
-    private void verifyNameValueInResponseWithRequest(Response response, JSONObject requestBody) {
+    @io.qameta.allure.Step("Verify the {job} value")
+    @io.qase.api.annotation.Step("Verify the {job} value")
+    private void verifyJobValue(Response response, JSONObject requestBody) {
 
-        response
-                .then()
-                .assertThat()
-                .body("name", equalTo(requestBody.get("name")));
+        response.then().assertThat().body("job", equalTo(requestBody.getString("job")));
     }
 
     @Test(dataProvider = DataProviderNames.CORRECT, dataProviderClass = UserDataProviders.class)
@@ -96,8 +88,13 @@ public class CreateUserTest extends BaseTest {
         Response response = sendRequest(requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_CREATED);
         verifyJSONSchema(response, JSONSchemas.CREATE_USER);
-        verifyDataTypesInResponse(response);
-        verifyValuesInResponseWithRequest(response, requestBody);
+        verifyNameDataType(response);
+        verifyJobDataType(response);
+        verifyIdDataType(response);
+        verifyCreatedAtDataType(response);
+        verifyNameValue(response, requestBody);
+        verifyJobValue(response, requestBody);
+        verifyHeaders(response);
     }
 
     @Test(dataProvider = DataProviderNames.MISSING_NAME, dataProviderClass = UserDataProviders.class)
@@ -108,10 +105,13 @@ public class CreateUserTest extends BaseTest {
 
         Response response = sendRequest(requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_CREATED);
-        verifyJSONSchema(response, JSONSchemas.MISSING_NAME);
-        verifyDataTypesWhenMissingName(response);
-        verifyJobValueInResponseWithRequest(response, requestBody);
-        verifyHeaders(response);
+        verifyJSONSchema(response, JSONSchemas.CREATE_USER_MISSING_NAME);
+        verifyJobDataType(response);
+        verifyIdDataType(response);
+        verifyCreatedAtDataType(response);
+        verifyNameValue(response, requestBody);
+        verifyJobValue(response, requestBody);
+        verifyValuesInResponseWithRequest(response, requestBody);
     }
 
     @Test(dataProvider = DataProviderNames.MISSING_JOB, dataProviderClass = UserDataProviders.class)
@@ -122,10 +122,13 @@ public class CreateUserTest extends BaseTest {
 
         Response response = sendRequest(requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_CREATED);
-        verifyJSONSchema(response, JSONSchemas.MISSING_JOB);
-        verifyDataTypesWhenMissingJob(response);
-        verifyNameValueInResponseWithRequest(response, requestBody);
-        verifyHeaders(response);
+        verifyJSONSchema(response, JSONSchemas.CREATE_USER_MISSING_JOB);
+        verifyNameDataType(response);
+        verifyIdDataType(response);
+        verifyCreatedAtDataType(response);
+        verifyNameValue(response, requestBody);
+        verifyJobValue(response, requestBody);
+        verifyValuesInResponseWithRequest(response, requestBody);
     }
 
     @Test
@@ -135,7 +138,10 @@ public class CreateUserTest extends BaseTest {
     public void emptyRequestBody() {
 
         Response response = sendRequest("{}");
-        verifyDataTypesWhenEmptyRequestBody(response);
+        verifyStatusCode(response, HttpStatus.SC_CREATED);
+        verifyJSONSchema(response, JSONSchemas.CREATE_USER_EMPTY_BODY);
+        verifyIdDataType(response);
+        verifyCreatedAtDataType(response);
         verifyHeaders(response);
     }
 
@@ -157,12 +163,7 @@ public class CreateUserTest extends BaseTest {
     @Description("Creating a user with malformed request body")
     public void malformedRequestBody() {
 
-        String JSON = """
-                {
-                    "name": "morpheus",
-                    "salary": ,
-                }
-                """;
+        String JSON = "{\"name\": \"morpheus\", \"salary\": ,}";
 
         Response response = sendRequest(JSON);
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
