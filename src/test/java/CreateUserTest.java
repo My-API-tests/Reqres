@@ -63,8 +63,8 @@ public class CreateUserTest extends BaseTest {
         response.then().assertThat().body("name", equalTo(requestBody.getString("name")));
     }
 
-    @io.qameta.allure.Step("Verify the {job} value")
-    @io.qase.api.annotation.Step("Verify the {job} value")
+    @io.qameta.allure.Step("Verify the <job> value")
+    @io.qase.api.annotation.Step("Verify the <job> value")
     private void verifyJobValue(Response response, JSONObject requestBody) {
 
         response.then().assertThat().body("job", equalTo(requestBody.getString("job")));
@@ -90,8 +90,8 @@ public class CreateUserTest extends BaseTest {
 
     @Test(dataProvider = DataProviderNames.MISSING_NAME, dataProviderClass = UserDataProviders.class)
     @QaseId(10)
-    @QaseTitle("Creating a user missing the {name}")
-    @Description("Creating a user missing the {name}")
+    @QaseTitle("Creating a user missing the <name>")
+    @Description("Creating a user missing the <name>")
     public void missingName(JSONObject requestBody) {
 
         Response response = sendRequest(requestBody.toString());
@@ -107,8 +107,8 @@ public class CreateUserTest extends BaseTest {
 
     @Test(dataProvider = DataProviderNames.MISSING_JOB, dataProviderClass = UserDataProviders.class)
     @QaseId(11)
-    @QaseTitle("Creating a user missing the {job}")
-    @Description("Creating a user missing the {job}")
+    @QaseTitle("Creating a user missing the <job>")
+    @Description("Creating a user missing the <job>")
     public void missingJob(JSONObject requestBody) {
 
         Response response = sendRequest(requestBody.toString());
