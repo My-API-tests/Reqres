@@ -8,7 +8,34 @@
 
     <parameter name="fileName" value="REQ_User.json"/>
 
-    <test name="Tests creating an user providing name and job">
+    <test name="Creating a user using correct credentials">
+        <classes>
+            <class name="CreateUserTest">
+                <methods>
+                    <include name="correct"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Creating a user missing the name">
+        <classes>
+            <class name="CreateUserTest">
+                <methods>
+                    <include name="missingName"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Creating a user missing the job">
+        <classes>
+            <class name="CreateUserTest">
+                <methods>
+                    <include name="missingJob"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Creating a user with empty request body">
         <classes>
             <class name="CreateUserTest">
                 <methods>
@@ -17,5 +44,22 @@
             </class>
         </classes>
     </test>
-
+    <test name="Creating a user with incorrect keys in the request body">
+        <classes>
+            <class name="CreateUserTest">
+                <methods>
+                    <include name="incorrectKeysInRequestBody"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Creating a user with malformed request body">
+        <classes>
+            <class name="CreateUserTest">
+                <methods>
+                    <include name="Creating a user with malformed request body"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
