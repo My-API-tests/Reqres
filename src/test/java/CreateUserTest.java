@@ -100,7 +100,6 @@ public class CreateUserTest extends BaseTest {
         verifyJobDataType(response);
         verifyIdDataType(response);
         verifyCreatedAtDataType(response);
-        verifyNameValue(response, requestBody);
         verifyJobValue(response, requestBody);
         verifyHeaders(response);
     }
@@ -118,7 +117,6 @@ public class CreateUserTest extends BaseTest {
         verifyIdDataType(response);
         verifyCreatedAtDataType(response);
         verifyNameValue(response, requestBody);
-        verifyJobValue(response, requestBody);
         verifyHeaders(response);
     }
 
@@ -140,7 +138,7 @@ public class CreateUserTest extends BaseTest {
     @QaseId(13)
     @QaseTitle("Creating a user with incorrect keys in the request body")
     @Description("Creating a user with incorrect keys in the request body")
-    public void incorrectKeyInRequestBody(JSONObject requestBody) {
+    public void incorrectKeysInRequestBody(JSONObject requestBody) {
 
         Response response = sendRequest(requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
@@ -154,9 +152,9 @@ public class CreateUserTest extends BaseTest {
     @Description("Creating a user with malformed request body")
     public void malformedRequestBody() {
 
-        String JSON = "{\"name\": \"morpheus\", \"salary\": ,}";
+        String malformedJSON = "{\"name\": \"morpheus\", \"salary\": ,}";
 
-        Response response = sendRequest(JSON);
+        Response response = sendRequest(malformedJSON);
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyBadRequestResponseBody(response.getBody().asString());
         verifyHeaders(response);
