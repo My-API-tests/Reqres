@@ -9,7 +9,43 @@
 
     <parameter name="fileName" value="REQ_Update.json"/>
 
-    <test name="test">
+    <test name="Updating a user data using correct credentials">
+        <classes>
+            <class name="UpdateTest">
+                <methods>
+                    <include name="correct"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Updating a user data missing the name">
+        <classes>
+            <class name="UpdateTest">
+                <methods>
+                    <include name="missingName"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Updating a user data missing the job">
+        <classes>
+            <class name="UpdateTest">
+                <methods>
+                    <include name="missingJob"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Updating a user data using an incorrect ID">
+        <classes>
+            <class name="UpdateTest">
+                <methods>
+                    <include name="incorrectId"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Creating a user with incorrect keys in the request body">
         <classes>
             <class name="UpdateTest">
                 <methods>
@@ -18,5 +54,13 @@
             </class>
         </classes>
     </test>
-
+    <test name="Updating a user data with malformed request body">
+        <classes>
+            <class name="UpdateTest">
+                <methods>
+                    <include name="malformedJSON"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
