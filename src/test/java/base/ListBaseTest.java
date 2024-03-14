@@ -5,20 +5,34 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.testng.Assert;
 
-import static org.hamcrest.Matchers.isA;
-
 public class ListBaseTest extends BaseTest {
 
-    @io.qameta.allure.Step("Verify {page, per_page, total, total_pages} data types")
-    @io.qase.api.annotation.Step("Verify {page, per_page, total, total_pages} data types")
-    protected void verifyDataTypesInResponse(Response response) {
+    @io.qameta.allure.Step("Verify the <page> data type")
+    @io.qase.api.annotation.Step("Verify the <page> data type")
+    protected void verifyPageDataType(Response response) {
 
-        response
-                .then()
-                .body("page", isA(Integer.class))
-                .body("per_page", isA(Integer.class))
-                .body("total", isA(Integer.class))
-                .body("total_pages", isA(Integer.class));
+        checkDataType(response, "page", Integer.class);
+    }
+
+    @io.qameta.allure.Step("Verify the <per_page> data type")
+    @io.qase.api.annotation.Step("Verify the <per_page> data type")
+    protected void verifyPerPageDataType(Response response) {
+
+        checkDataType(response, "per_page", Integer.class);
+    }
+
+    @io.qameta.allure.Step("Verify the <total> data type")
+    @io.qase.api.annotation.Step("Verify the <total> data type")
+    protected void verifyTotalDataType(Response response) {
+
+        checkDataType(response, "total", Integer.class);
+    }
+
+    @io.qameta.allure.Step("Verify the <total_pages> data type")
+    @io.qase.api.annotation.Step("Verify the <total_pages> data type")
+    protected void verifyTotalPagesDataType(Response response) {
+
+        checkDataType(response, "total_pages", Integer.class);
     }
 
     @io.qameta.allure.Step("Verify list of users")

@@ -31,7 +31,10 @@ public class DelayedResponseTest extends ListBaseTest {
         Response response = sendRequest();
         verifyStatusCode(response, HttpStatus.SC_OK);
         verifyJSONSchema(response, JSONSchemas.DELAYED_RESPONSE);
-        verifyDataTypesInResponse(response);
+        verifyPageDataType(response);
+        verifyPerPageDataType(response);
+        verifyTotalDataType(response);
+        verifyTotalPagesDataType(response);
         verifyListOfUsers(response);
         verifyHeaders(response);
     }

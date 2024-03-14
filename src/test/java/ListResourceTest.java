@@ -31,7 +31,10 @@ public class ListResourceTest extends ListBaseTest {
         Response response = sendRequest();
         verifyStatusCode(response, HttpStatus.SC_OK);
         verifyJSONSchema(response, JSONSchemas.LIST_USERS);
-        verifyDataTypesInResponse(response);
+        verifyPageDataType(response);
+        verifyPerPageDataType(response);
+        verifyTotalDataType(response);
+        verifyTotalPagesDataType(response);
         verifyListOfUsers(response);
         verifyHeaders(response);
     }
