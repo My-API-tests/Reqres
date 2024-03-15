@@ -65,7 +65,7 @@ public class BaseTest {
                 .body(JsonSchemaValidator.matchesJsonSchema(JSONDataTransformer.getJsonSchema(jsonSchemaKey)));
     }
 
-    @Step("Verify the {error} data type")
+    @Step("Verify the <error> data type")
     protected void verifyErrorDataTypeInResponse(Response response) {
 
         response
@@ -83,7 +83,7 @@ public class BaseTest {
                 .body("error", equalTo(expectedMessage));
     }
 
-    @Step("Verify {Bad Request} response body")
+    @Step("Verify the <Bad Request> response body")
     protected void verifyBadRequestResponseBody(String responseHTML) {
 
         Document document = Jsoup.parse(responseHTML);
