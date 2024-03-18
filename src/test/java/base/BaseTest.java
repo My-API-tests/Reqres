@@ -66,7 +66,7 @@ public class BaseTest {
     }
 
     @Step("Verify the <error> data type")
-    protected void verifyErrorDataTypeInResponse(Response response) {
+    protected void verifyErrorDataType(Response response) {
 
         response
                 .then()
@@ -74,8 +74,8 @@ public class BaseTest {
                 .body("error", isA(String.class));
     }
 
-    @Step("Verify the {error} value")
-    protected void verifyErrorValueInResponseWithRequest(Response response, String expectedMessage) {
+    @Step("Verify the <error> message")
+    protected void verifyErrorMessage(Response response, String expectedMessage) {
 
         response
                 .then()
@@ -83,8 +83,8 @@ public class BaseTest {
                 .body("error", equalTo(expectedMessage));
     }
 
-    @Step("Verify the <Bad Request> response body")
-    protected void verifyBadRequestResponseBody(String responseHTML) {
+    @Step("Verify the <Bad Request> message")
+    protected void verifyBadRequestMessage(String responseHTML) {
 
         Document document = Jsoup.parse(responseHTML);
         String preContent = document.select("pre").text();
