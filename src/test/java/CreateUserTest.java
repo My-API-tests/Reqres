@@ -138,7 +138,7 @@ public class CreateUserTest extends BaseTest {
 
         Response response = sendRequest(requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
-        verifyBadRequestResponseBody(response.getBody().asString());
+        verifyBadRequestMessage(response.getBody().asString());
     }
 
     @Test
@@ -151,6 +151,6 @@ public class CreateUserTest extends BaseTest {
 
         Response response = sendRequest(malformedJSON);
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
-        verifyBadRequestResponseBody(response.getBody().asString());
+        verifyBadRequestMessage(response.getBody().asString());
     }
 }
