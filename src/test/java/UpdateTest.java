@@ -125,7 +125,7 @@ public class UpdateTest extends BaseTest {
 
         Response response = sendRequest("$$", requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
-        verifyBadRequestResponseBody(response.getBody().asString());
+        verifyBadRequestMessage(response.getBody().asString());
     }
 
     @Test(dataProvider = DataProviderNames.INCORRECT_KEYS, dataProviderClass = UserDataProviders.class)
@@ -136,7 +136,7 @@ public class UpdateTest extends BaseTest {
 
         Response response = sendRequest("2", requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
-        verifyBadRequestResponseBody(response.getBody().asString());
+        verifyBadRequestMessage(response.getBody().asString());
     }
 
     @Test
@@ -149,6 +149,6 @@ public class UpdateTest extends BaseTest {
 
         Response response = sendRequest("2", malformedJSON);
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
-        verifyBadRequestResponseBody(response.getBody().asString());
+        verifyBadRequestMessage(response.getBody().asString());
     }
 }
