@@ -63,8 +63,8 @@ public class LoginTest extends BaseTest {
         Response response = sendRequest(requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
-        verifyErrorDataTypeInResponse(response);
-        verifyErrorValueInResponseWithRequest(response, "user not found");
+        verifyErrorDataType(response);
+        verifyErrorMessage(response, "user not found");
     }
 
     @Test(dataProvider = DataProviderNames.INCORRECT_PASSWORD, dataProviderClass = RegisterDataProviders.class)
@@ -76,8 +76,8 @@ public class LoginTest extends BaseTest {
         Response response = sendRequest(requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
-        verifyErrorDataTypeInResponse(response);
-        verifyErrorValueInResponseWithRequest(response, "user not found");
+        verifyErrorDataType(response);
+        verifyErrorMessage(response, "user not found");
     }
 
     @Test(dataProvider = DataProviderNames.MISSING_EMAIL, dataProviderClass = RegisterDataProviders.class)
@@ -89,8 +89,8 @@ public class LoginTest extends BaseTest {
         Response response = sendRequest(requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
-        verifyErrorDataTypeInResponse(response);
-        verifyErrorValueInResponseWithRequest(response, "Missing email or username");
+        verifyErrorDataType(response);
+        verifyErrorMessage(response, "Missing email or username");
     }
 
     @Test(dataProvider = DataProviderNames.MISSING_PASSWORD, dataProviderClass = RegisterDataProviders.class)
@@ -102,8 +102,8 @@ public class LoginTest extends BaseTest {
         Response response = sendRequest(requestBody.toString());
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
-        verifyErrorDataTypeInResponse(response);
-        verifyErrorValueInResponseWithRequest(response, "Missing password");
+        verifyErrorDataType(response);
+        verifyErrorMessage(response, "Missing password");
     }
 
     @Test
@@ -115,8 +115,8 @@ public class LoginTest extends BaseTest {
         Response response = sendRequest("{}");
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
         verifyJSONSchema(response, JSONSchemas.ERROR_RESPONSE);
-        verifyErrorDataTypeInResponse(response);
-        verifyErrorValueInResponseWithRequest(response, "Missing email or username");
+        verifyErrorDataType(response);
+        verifyErrorMessage(response, "Missing email or username");
     }
 
     @Test
@@ -131,6 +131,6 @@ public class LoginTest extends BaseTest {
 
         Response response = sendRequest(malformedJSON);
         verifyStatusCode(response, HttpStatus.SC_BAD_REQUEST);
-        verifyBadRequestResponseBody(response.body().asString());
+        verifyBadRequestMessage(response.body().asString());
     }
 }
